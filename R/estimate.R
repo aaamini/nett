@@ -1,0 +1,115 @@
+# The idea behind this function is due to Aiyou Chen
+# require A to be a sparse matrix
+# This is faster than looping over [K] x [K].
+#' @export
+computeBlockSums <- function(A, z) {
+  # A: a sparse adjacency matrix
+  # z: a label vector
+  # Outputs the matrix B[k,l] = sum_{i,j} A[i,j] 1{z_i = k, z_j = l}
+  sA = Matrix::summary(A)
+  return(as.matrix(Matrix::sparseMatrix(i = z[sA$i], j = z[sA$j], x = sA$x)))
+}
+
+# This is only for testing
+computeBlockSums2 <- function(A, z) {
+  K <- length(unique(z))
+  Bsum <- matrix(0, K, K)
+  idx <- sapply(1:K, function(k) z==k) # potentially probelmatic if K >= n
+
+  for (i in 1:K) {
+    Bsum[i,i] <- sum(A[idx[,i],idx[,i]])
+  }
+  if (K > 1){
+    for (i in 1:(K-1)) {
+      for (j in (i+1):K) {
+        Bsum[j,i] <- Bsum[i,j] <- sum(A[idx[,i],idx[,j]])
+      }
+    }
+  }
+  return(Bsum)
+}
+
+# estimate parameters of the block model -- can be removed since estim_dcsbm is enough
+# in fact estim_sbm = function(A,z) estim_dcsbm(A,z)$B
+#' @export
+estim_sbm <- function(A,z) estim_dcsbm(A,z)$B
+# estim_sbm <- function(A, z) {
+#   ns <- as.vector(table(z))
+#   if (length(ns) == 1) { # number of clusters == 1
+#     return(as.matrix(max(sum(A),1)/(ns*(ns-1))))
+#   }
+#   # pmax(computeBlockSums(A, z),1) / (outer(ns,ns) - diag(ns))
+#   # computeBlockSums(A, z) / (outer(ns,ns) - diag(ns))
+#   Bsum = computeBlockSums(A, z)
+#   Bsum[Bsum == 0] = 1 # avoid estimating 0
+#   Bsum / (ns %*% t(ns) - diag(ns))
+# }
+
+# estimate parameters of the degree-corrected block model
+# fast implementation
+#' @export
+estim_dcsbm <- function(A,z) {
+  ns <- as.vector(table(z)) # nk = tabulate(z)
+  degs = Matrix::rowSums(A)
+
+  if (length(ns) == 1) { # number of clusters == 1
+    Bsum = sum(A)
+    B = as.matrix(max(Bsum,1)/(ns*(ns-1)))
+    theta = degs*ns/Bsum
+
+  } else {  # number of clusters > 1
+    Bsum = computeBlockSums(A, z)
+    Bsum[Bsum == 0] = 1
+    B = Bsum / (ns %*% t(ns) - diag(ns))
+
+    total_clust_degs = rowSums(Bsum)  # sum of degrees within each cluster
+    theta = degs*ns[z]/total_clust_degs[z]
+  }
+
+  return(list(B=B, theta=theta))
+}
+
+#' @export
+estimSBM <- function(A, z) {
+  K <- length(unique(z))
+  B <- matrix(0, K, K)
+  idx <- sapply(1:K, function(k) z==k) # potentially probelmatic if K >= n
+  # ns <- colSums(idx)
+  ns <- as.vector(table(z))
+  for (i in 1:K) {
+    B[i,i] <- max( sum(A[idx[,i],idx[,i]]), 1) / (ns[i]*(ns[i]-1))
+  }
+  if (K > 1){
+    for (i in 1:(K-1)) {
+      for (j in (i+1):K) {
+        B[j,i] <- B[i,j] <- max( sum(A[idx[,i],idx[,j]]), 1) / (ns[i]*ns[j])
+      }
+    }
+  }
+  B[B>1] <- 1
+  return(B)
+}
+
+# estimate parameters of the degree-corrected block model
+#' @export
+estimDCSBM <- function(A, z) {
+  B = estimSBM(A, z)
+  nk = tabulate(z)
+  # tmp = B %*% nk
+  degs = Matrix::rowSums(A)
+  # theta = degs / tmp[z]
+  #
+  total_clust_degs = aggregate(degs, list(label=z), sum)$x
+  # total_clust_degs = aggregate(degs, list(label=z), mean)$x
+  # theta2 = degs / total_clust_degs[z]
+
+  theta = degs*nk[z]/total_clust_degs[z]
+
+  # total_clust_degs = aggregate(degs, list(label=z), mean)$x
+  # # K = unique(z)
+  # # total_clust_degs = sapply(1:K, function(k) mean(degs[z==k]))
+  # theta2 = degs / total_clust_degs[z]
+
+
+  return(list(B=B, theta=theta))
+}
