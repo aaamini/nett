@@ -1,3 +1,6 @@
+
+# Parameter estimation ----------------------------------------------------
+
 # The idea behind this function is due to Aiyou Chen
 # require A to be a sparse matrix
 # This is faster than looping over [K] x [K].
@@ -10,24 +13,6 @@ computeBlockSums <- function(A, z) {
   return(as.matrix(Matrix::sparseMatrix(i = z[sA$i], j = z[sA$j], x = sA$x)))
 }
 
-# This is only for testing
-computeBlockSums2 <- function(A, z) {
-  K <- length(unique(z))
-  Bsum <- matrix(0, K, K)
-  idx <- sapply(1:K, function(k) z==k) # potentially probelmatic if K >= n
-
-  for (i in 1:K) {
-    Bsum[i,i] <- sum(A[idx[,i],idx[,i]])
-  }
-  if (K > 1){
-    for (i in 1:(K-1)) {
-      for (j in (i+1):K) {
-        Bsum[j,i] <- Bsum[i,j] <- sum(A[idx[,i],idx[,j]])
-      }
-    }
-  }
-  return(Bsum)
-}
 
 # estimate parameters of the block model -- can be removed since estim_dcsbm is enough
 # in fact estim_sbm = function(A,z) estim_dcsbm(A,z)$B
@@ -67,6 +52,85 @@ estim_dcsbm <- function(A,z) {
   }
 
   return(list(B=B, theta=theta))
+}
+
+
+
+# Likelihood computations -------------------------------------------------
+#' @export
+eval_dcsbm_like <- function(A, z, poi = F, eps = 1e-6) {
+  Bsum = computeBlockSums(A,z)
+  degs = Matrix::rowSums(A)
+  total_clust_degs = Matrix::rowSums(Bsum)
+  theta = degs/total_clust_degs[z] # unit normalization for theta
+
+  Z = label_vec2mat(z)
+  Zth = Z * as.numeric(theta)
+
+  sA = Matrix::summary(A)
+  ii = sA$i
+  jj = sA$j
+  xx = sA$x # xx could still contain 0s
+  nz_idx = (xx > 0) & (jj > ii) # pick the upper triangular part
+  ix = ii[nz_idx]
+  jx = jj[nz_idx]
+  aa = xx[nz_idx]
+
+  zi = z[ix]
+  zj = z[jx]
+  pp =  truncate_to_ab(theta[ix] * theta[jx] * Bsum[(zi-1)*ncol(Bsum)+zj], eps, 1-eps)
+
+  if (!poi) { # Bernoulli, slow computation, high mem
+    term1 = sum(aa * log(pp/(1-pp)))
+    mm = truncate_to_ab(Zth %*% Bsum %*% t(Zth), eps, 1-eps) # mean matrix
+    term2 = sum( log(1-mm[which(upper.tri(mm))]) )
+
+  } else { # Poisson
+    term1 = sum(aa * log(pp))
+    # The next line computes \sum_{i < j} Phat_{ij} where Phat_{ij} = \theta_i \theta_j Bsum_{z_i, z_j}
+    # assuming unit theta-normalization
+    # that is, \theta \sum_{z_i = k} \theta_i = 1
+    term2 = sum( (1-colSums(Zth^2))*diag(Bsum)/2 ) + (sum(Bsum) - sum(diag(Bsum)))/2  # fast
+    term2 = -term2
+
+    # # slow, high mem approach
+    # mm = truncate_to_ab(Zth %*% Bsum %*% t(Zth), eps, 1-eps) # mean matrix
+    # term2 = - sum( mm[which(upper.tri(mm))] )
+  }
+
+  n = nrow(A)
+  ns = as.vector(table(z))
+  ns[ns == 0] = 1
+  term3 = sum(ns * log(ns/n))
+  return(term1 + term2 + term3)
+}
+
+# computes likelihood of labels[ , 2]-model w.r.t. labels[ , 1]-model
+eval_dcsbm_lr = function(A, labels, poi = F, eps = 1e-6) {
+  eval_dcsbm_like(A, labels[ , 2], poi = poi, eps = eps) / eval_dcsbm_like(A, labels[ , 1], poi = poi, eps = eps)
+}
+
+
+
+
+# Old functions -----------------------------------------------------------
+# This is only for testing
+computeBlockSums2 <- function(A, z) {
+  K <- length(unique(z))
+  Bsum <- matrix(0, K, K)
+  idx <- sapply(1:K, function(k) z==k) # potentially probelmatic if K >= n
+
+  for (i in 1:K) {
+    Bsum[i,i] <- sum(A[idx[,i],idx[,i]])
+  }
+  if (K > 1){
+    for (i in 1:(K-1)) {
+      for (j in (i+1):K) {
+        Bsum[j,i] <- Bsum[i,j] <- sum(A[idx[,i],idx[,j]])
+      }
+    }
+  }
+  return(Bsum)
 }
 
 #' @export

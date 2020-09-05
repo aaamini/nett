@@ -136,7 +136,7 @@ fastDCSBM.internal <- function(csizes, Pmat, theta) {
   jj <- jj[upOnes]
   xx <- xx[upOnes]
   flip1s <- as.numeric(runif(length(ii)) < theta[ii] * theta[jj])
-  xx <- xx * flip1s
+  xx <- xx * flip1s # TODO: xx could still contain 0s
   B <- Matrix::sparseMatrix(c(ii, jj, n),
                     c(jj, ii, n),
                     x = c(xx, xx, 0))

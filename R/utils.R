@@ -66,7 +66,7 @@ compute_mutual_info  <- function(z,y) {
 lin2sub <- function(index, nr, sym=F) {
   # traslate linear index to row and column indices
   # nr is the number of rows
-  # index is the linear index assuming columns are concatinated into a vector
+  # index is the linear index assuming columns are concatenated into a vector
   if (sym) {
     kk = 1 : (nr-1)
     ss = c(.5, kk * (kk + 1)/2 + .5)
@@ -79,5 +79,9 @@ lin2sub <- function(index, nr, sym=F) {
     rr = index - (cc-1) * nr
   }
   return(cbind(rr,cc))
+}
+
+truncate_to_ab = function(x, a, b) {
+  pmin(pmax(x, a), b)
 }
 
