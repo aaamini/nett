@@ -85,3 +85,4 @@ truncate_to_ab = function(x, a, b) {
   pmin(pmax(x, a), b)
 }
 
+printf <- function(...) invisible(cat(sprintf(...)))

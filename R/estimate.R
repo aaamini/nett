@@ -1,7 +1,7 @@
 
 # Parameter estimation ----------------------------------------------------
 
-# The idea behind this function is due to Aiyou Chen
+# The idea behind the following function is due to Aiyou Chen
 # require A to be a sparse matrix
 # This is faster than looping over [K] x [K].
 #' @export
@@ -105,9 +105,10 @@ eval_dcsbm_like <- function(A, z, poi = F, eps = 1e-6) {
   return(term1 + term2 + term3)
 }
 
-# computes likelihood of labels[ , 2]-model w.r.t. labels[ , 1]-model
+# computes likelihood ratio of labels[ , 2]-model w.r.t. labels[ , 1]-model
+#' @export
 eval_dcsbm_lr = function(A, labels, poi = F, eps = 1e-6) {
-  eval_dcsbm_like(A, labels[ , 2], poi = poi, eps = eps) / eval_dcsbm_like(A, labels[ , 1], poi = poi, eps = eps)
+  eval_dcsbm_like(A, labels[ , 2], poi = poi, eps = eps) - eval_dcsbm_like(A, labels[ , 1], poi = poi, eps = eps)
 }
 
 
