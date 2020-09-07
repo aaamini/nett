@@ -1,43 +1,43 @@
 # function to compute the rejection rates
-get_reject_freq <- function(Tstat, th_vec, twosided=T) {
+get_reject_freq <- function(Tstat, th_vec, twosided = T) {
+  # if (twosided) cat('twosided\n') else cat('onesided\n')
   # Tstat is a vector, th could be a vector of thresholds threshold
   if (twosided) Tstat <- abs(Tstat)
   sapply(th_vec, function(th) mean(Tstat > th))
 }
 
 # function to compute the ROC
-get_roc <- function(T0, T1, twosided=T) {
+get_roc <- function(T0, T1, twosided = T) {
   T0_sorted <- sort(unique(T0), decreasing = T)
   data.frame(FPR = get_reject_freq(T0, T0_sorted, twosided = twosided),
              TPR = get_reject_freq(T1, T0_sorted, twosided = twosided))
 }
 
-# methods is a named list of functions
+# apply_methods is a function that returns a data.frame with columns "method", "tstat" and "twosided"
 # gen_null_data and gen_null_data are functions that generate data under the null and alternative
 #' @export
-simulate_roc = function(methods, gen_null_data, gen_alt_data, nruns = 100,
-                        twosided = T,
-                        core_count = parallel::detectCores() - 1) {
-  # method_names <- gsub("p","+",names(methods))
-  method_names <- names(methods)
-  n_methods <- length(methods)
-  if (length(twosided) == 1) {
-    twosided = rep(twosided, n_methods)
-  }
+simulate_roc = function(apply_methods, gen_null_data, gen_alt_data,
+                        nruns = 100,
+                        core_count = parallel::detectCores() - 1,
+                        seed = NULL) {
 
   simulate_roc_run = function(j) {
     null_data = gen_null_data()
     alt_data = gen_alt_data()
 
-    result = NULL
-    for (r in 1:n_methods) {
-      mtd_name = method_names[r]
-      mtd_fun = methods[[r]]
-      result = dplyr::bind_rows(result, tibble::tibble(method = mtd_name, H=0, tstat=mtd_fun(null_data)) )
-      result = dplyr::bind_rows(result, tibble::tibble(method = mtd_name, H=1, tstat=mtd_fun(alt_data)) )
-    }
-    result
+    dplyr::bind_rows(
+      apply_methods(null_data) %>%  tibble::add_column(H=0),
+      apply_methods(alt_data) %>%  tibble::add_column(H=1)
+    #   tibble::enframe(apply_methods(null_data), name="method", value = "tstat") %>% # turns a named list into a two-column tibble
+    #     tidyr::unnest(tstat) %>%
+    #     tibble::add_column(H=0),
+    #   tibble::enframe(apply_methods(alt_data), name="method", value = "tstat") %>%
+    #     tidyr::unnest(tstat) %>%
+    #     tibble::add_column(H=1)
+    )
   }
+
+  if (!is.null(seed)) set.seed(seed)
 
   elapsed_time <- as.numeric(
     system.time(
@@ -45,19 +45,76 @@ simulate_roc = function(methods, gen_null_data, gen_alt_data, nruns = 100,
     )["elapsed"]
   )
 
-  roc_results <- NULL
-  for (r in 1:n_methods) {
-    mtd_name <- method_names[r]
-    curr_result <- dplyr::filter(result, method == mtd_name)
-    T0 <- dplyr::filter(curr_result, H==0)$tstat
-    T1 <- dplyr::filter(curr_result, H==1)$tstat
 
-    roc_results <- rbind(roc_results,
-                         get_roc(T0, T1, twosided = twosided[r]) %>%
-                           tibble::add_column(method=mtd_name) )
-  }
-  list(roc=roc_results, raw=result, elapsed_time=elapsed_time)
+  roc_results = result %>%
+                  dplyr::group_by(method, H) %>%
+                  tidyr::nest(tstat_all = tstat)  %>%
+                  tidyr::pivot_wider(names_from = H, values_from = tstat_all, names_prefix="H") %>%
+                  dplyr::mutate(res = purrr::map2(H0, H1, ~get_roc(unlist(.x), unlist(.y), twosided = twosided))) %>%
+                  tidyr::unnest(res) %>%
+                  dplyr::select(-c(H0, H1)) %>%
+                  dplyr::ungroup()
+
+  # method_names = unique(result$method)
+  # n_methods = length(method_names)
+  # roc_results <- NULL
+  # for (r in 1:n_methods) {
+  #   mtd_name <- method_names[r]
+  #   curr_result <- dplyr::filter(result, method == mtd_name)
+  #   T0 <- dplyr::filter(curr_result, H==0)$tstat
+  #   twosided <- curr_result$twosided[1] # all elements should be the same
+  #   T1 <- dplyr::filter(curr_result, H==1)$tstat
+  #
+  #   roc_results <- rbind(roc_results,
+  #                        get_roc(T0, T1, twosided = twosided) %>%
+  #                          tibble::add_column(method=mtd_name) )
+  # }
+  list(roc = roc_results, raw = result, elapsed_time = elapsed_time)
 }
+
+# simulate_roc = function(methods, gen_null_data, gen_alt_data, nruns = 100,
+#                         twosided = T,
+#                         core_count = parallel::detectCores() - 1) {
+#   # method_names <- gsub("p","+",names(methods))
+#   method_names <- names(methods)
+#   n_methods <- length(methods)
+#   if (length(twosided) == 1) {
+#     twosided = rep(twosided, n_methods)
+#   }
+#
+#   simulate_roc_run = function(j) {
+#     null_data = gen_null_data()
+#     alt_data = gen_alt_data()
+#
+#     result = NULL
+#     for (r in 1:n_methods) {
+#       mtd_name = method_names[r]
+#       mtd_fun = methods[[r]]
+#       result = dplyr::bind_rows(result, tibble::tibble(method = mtd_name, H=0, tstat=mtd_fun(null_data)) )
+#       result = dplyr::bind_rows(result, tibble::tibble(method = mtd_name, H=1, tstat=mtd_fun(alt_data)) )
+#     }
+#     result
+#   }
+#
+#   elapsed_time <- as.numeric(
+#     system.time(
+#       result <- do.call(rbind, parallel::mclapply(1:nruns, simulate_roc_run, mc.cores = core_count))
+#     )["elapsed"]
+#   )
+#
+#   roc_results <- NULL
+#   for (r in 1:n_methods) {
+#     mtd_name <- method_names[r]
+#     curr_result <- dplyr::filter(result, method == mtd_name)
+#     T0 <- dplyr::filter(curr_result, H==0)$tstat
+#     T1 <- dplyr::filter(curr_result, H==1)$tstat
+#
+#     roc_results <- rbind(roc_results,
+#                          get_roc(T0, T1, twosided = twosided) %>%
+#                            tibble::add_column(method=mtd_name) )
+#   }
+#   list(roc=roc_results, raw=result, elapsed_time=elapsed_time)
+# }
 
 #' @export
 plot_roc <- function(roc_results, method_names=NULL) {

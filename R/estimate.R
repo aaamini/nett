@@ -107,7 +107,7 @@ eval_dcsbm_like <- function(A, z, poi = F, eps = 1e-6) {
 
 # computes likelihood ratio of labels[ , 2]-model w.r.t. labels[ , 1]-model
 #' @export
-eval_dcsbm_lr = function(A, labels, poi = F, eps = 1e-6) {
+eval_dcsbm_loglr = function(A, labels, poi = F, eps = 1e-6) {
   eval_dcsbm_like(A, labels[ , 2], poi = poi, eps = eps) - eval_dcsbm_like(A, labels[ , 1], poi = poi, eps = eps)
 }
 
