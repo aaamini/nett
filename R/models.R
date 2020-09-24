@@ -23,6 +23,9 @@ pp_conn <- function(n, oir, lambda, pri, theta, normalize_theta = F) {
   # the B matrix : block density
   # lambda is the desired avg degree, n is size, oir is cout/cint, pri is the class prior
   K = length(pri)
+  if (sum(pri) != 1) {
+    pri = pri/sum(pri)
+  }
   B0 = oir + diag(rep(1 - oir, K))
   if (normalize_theta) theta = theta / max(theta)
   # scale = get_sbm_exav_deg(n, theta %*% label_vec2mat(z) / n, B0)

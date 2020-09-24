@@ -9,7 +9,7 @@ oir = 0.1
 set.seed(1)
 theta <- EnvStats::rpareto(n, 2/3, 3)
 #n*mean(theta/max(theta))^2
-temp = quickDCSBM(n, lambda,  Ktru, oir = oir, theta, normalize_theta = F)
+temp = quickDCSBM(n, lambda,  Ktru, oir = oir, theta, pri=1:Ktru, normalize_theta = F)
 A = temp$adj
 z = temp$labels
 B = temp$B
