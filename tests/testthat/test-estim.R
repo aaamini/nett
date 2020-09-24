@@ -7,11 +7,20 @@ lambda = 10
 oir = 0.1
 
 set.seed(1)
-theta <- rpareto(n, 2/3, 3)
-temp = quickDCSBM(n, lambda,  Ktru, oir = oir, theta)
+theta <- EnvStats::rpareto(n, 2/3, 3)
+#n*mean(theta/max(theta))^2
+temp = quickDCSBM(n, lambda,  Ktru, oir = oir, theta, normalize_theta = F)
 A = temp$adj
 z = temp$labels
 B = temp$B
+#theta = temp$theta
+mean(rowSums(A))
+
+# Z = label_vec2mat(z)
+# P = diag(theta) %*% Z %*% B %*% t(Z) %*% diag(theta)
+# A = Matrix(matrix(runif(n^2),n) < P)
+# mean(rowSums(A))
+
 
 test_that("spectral clustering works", {
   zh = spec_clust(A,4)

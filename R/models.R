@@ -2,31 +2,75 @@
 # AA: Functions are mostly provided by Aiyou Chen (most likely!)
 
 #' @export
-pp_conn <- function(n, p, lambda, csizes) {
-  # create a planted partition connectivity matrix
-  # the P matrix : block density
-  # lambda is the desired avg degree, n is size, p is cout/cint, csizes is pi
-  if (sum(csizes) != 1) {
-    csizes = csizes/sum(csizes)
-  }
-  csizes = csizes * n
-  Kc = length(csizes)
-  P0 = p + diag(rep(1 - p, Kc))
-  # cat('cout/cin = ', p, '\n')
-  P0 = round(pmax(P0, t(P0))/max(P0), 2)
-  scale = sum(diag(csizes) %*% P0 %*% diag(csizes)/sum(csizes))
-  Pmat = pmin(P0 * lambda/scale, 1)
-  return(Pmat)
+get_dcsbm_exav_deg <- function(n, pri, B, ex_theta = 1) {
+  # Calculate the expected average degree of a DCSBM
+  # pri: class prior
+  # ex_theta: expected theta
+  pri = as.vector(pri)
+  as.numeric( (n-1) * t(pri) %*% B %*% pri * (ex_theta^2) )
 }
+# get_sbm_exav_deg <- function(n, pri, B) {
+#   # Calculate the expected average degree of a DCSBM
+#   # pri: class prior
+#   # ex_theta: expected theta
+#   pri = as.vector(pri)
+#   as.numeric( (n-1) * t(pri) %*% B %*% pri )
+# }
 
 #' @export
-quickDCSBM <- function(n, lambda, K, oir,  theta=NULL) {
-  pr <- (1:K)/K
-  B <- pp_conn(n, oir, lambda, pr)
-  if (is.null(theta)) theta <- EnvStats::rpareto(n, 2/3, 3)
-  z <- sample(K, n, replace=T, prob=pr)
+pp_conn <- function(n, oir, lambda, pri, theta, normalize_theta = F) {
+  # create a planted partition connectivity matrix
+  # the B matrix : block density
+  # lambda is the desired avg degree, n is size, oir is cout/cint, pri is the class prior
+  K = length(pri)
+  B0 = oir + diag(rep(1 - oir, K))
+  if (normalize_theta) theta = theta / max(theta)
+  # scale = get_sbm_exav_deg(n, theta %*% label_vec2mat(z) / n, B0)
+  scale = get_dcsbm_exav_deg(n, pri, B0, mean(theta))
+  B = B0*lambda/scale
+  if (max(B) > 1) {
+    warning("Probabilities truncated at 1.")
+    B = pmin(B,1)
+  }
+  list(B=B, theta=theta)
+}
+# pp_conn <- function(n, p, lambda, csizes) {
+#   # create a planted partition connectivity matrix
+#   # the P matrix : block density
+#   # lambda is the desired avg degree, n is size, p is cout/cint, csizes is pi
+#   if (sum(csizes) != 1) {
+#     csizes = csizes/sum(csizes)
+#   }
+#   csizes = csizes * n
+#   Kc = length(csizes)
+#   P0 = p + diag(rep(1 - p, Kc))
+#   # cat('cout/cin = ', p, '\n')
+#   P0 = round(pmax(P0, t(P0))/max(P0), 2)
+#   scale = sum(diag(csizes) %*% P0 %*% diag(csizes)/sum(csizes))
+#   Pmat = pmin(P0 * lambda/scale, 1)
+#   return(Pmat)
+# }
 
-  list(adj=fastDCSBM(z, B, theta=theta), labels=z, B=B)
+#' @export
+quickDCSBM <- function(n, lambda, K, oir, theta = NULL,
+                       pri = rep(1,K)/K, normalize_theta = F) {
+  # pri <- (1:K)/K
+  # B0 = oir + diag(rep(1 - oir, K))
+  # # B <- pp_conn(n, oir, lambda, pr)
+  if (is.null(theta)) theta = EnvStats::rpareto(n, 2/3, 3)
+  out = pp_conn(n, oir, lambda, pri, theta, normalize_theta = normalize_theta)
+  # if (normalize_theta) theta = theta / max(theta)
+  # # scale = get_sbm_exav_deg(n, theta %*% label_vec2mat(z) / n, B0)
+  # # scale = get_dcsbm_exav_deg(n, pri, B0, mean(theta))
+  # scale = get_dcsbm_exav_deg(n, pri, B0, mean(theta))
+  # B = B0*lambda/scale
+  # if (max(B) > 1) {
+  #   warning("Probabilities truncated at 1.")
+  #   B = pmin(B,1)
+  # }
+  z <- sample(K, n, replace=T, prob=pri)
+
+  list(adj=fastDCSBM(z, out$B, theta = out$theta), labels = z, B = out$B, theta=out$theta)
 }
 
 fastDCSBM <- function(z, Pmat, theta=1) {
