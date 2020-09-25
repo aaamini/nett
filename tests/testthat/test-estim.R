@@ -16,6 +16,7 @@ B = temp$B
 #theta = temp$theta
 mean(rowSums(A))
 
+# fastDCSBM(z, B, theta)
 # Z = label_vec2mat(z)
 # P = diag(theta) %*% Z %*% B %*% t(Z) %*% diag(theta)
 # A = Matrix(matrix(runif(n^2),n) < P)

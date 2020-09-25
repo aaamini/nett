@@ -18,14 +18,13 @@ get_dcsbm_exav_deg <- function(n, pri, B, ex_theta = 1) {
 # }
 
 #' @export
-pp_conn <- function(n, oir, lambda, pri, theta, normalize_theta = F) {
+pp_conn <- function(n, oir, lambda, pri, theta = rep(1,n), normalize_theta = F) {
   # create a planted partition connectivity matrix
   # the B matrix : block density
   # lambda is the desired avg degree, n is size, oir is cout/cint, pri is the class prior
   K = length(pri)
-  if (sum(pri) != 1) {
-    pri = pri/sum(pri)
-  }
+  if (sum(pri) != 1)  pri = pri/sum(pri)
+  #if (length(theta) == 1) theta = rep(theta,n)
   B0 = oir + diag(rep(1 - oir, K))
   if (normalize_theta) theta = theta / max(theta)
   # scale = get_sbm_exav_deg(n, theta %*% label_vec2mat(z) / n, B0)
@@ -76,6 +75,7 @@ quickDCSBM <- function(n, lambda, K, oir, theta = NULL,
   list(adj=fastDCSBM(z, out$B, theta = out$theta), labels = z, B = out$B, theta=out$theta)
 }
 
+#' @export
 fastDCSBM <- function(z, Pmat, theta=1) {
   csizes = tabulate(z)
   n = length(z)
@@ -88,6 +88,7 @@ fastDCSBM <- function(z, Pmat, theta=1) {
   return(A[siginv,siginv]) # E[A_{siginv[i], siginv[j]}] = B_{z[i], z[j]}
 }
 
+#' @export
 fastSBM <- function(z, Pmat){
   csizes = tabulate(z)
   A <- fastSBM.internal(csizes, Pmat)
