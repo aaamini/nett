@@ -16,6 +16,19 @@ B = temp$B
 #theta = temp$theta
 mean(rowSums(A))
 
+# gen_rand_conn = function(n, K, lambda, gamma, pri = rep(1,K)/K) {
+#   B = matrix(runif(K^2),K)
+#   B = (B + t(B))/2
+#   rand_perm_mat = diag(K)[, sample(K)]
+#   B = (1-gamma)*rand_perm_mat + gamma*B
+#   scale = get_dcsbm_exav_deg(n, pri, B)
+#   B*lambda/scale
+# }
+#
+# B = gen_rand_conn(n, Ktru, lambda, gamma)
+# A <- fastDCSBM(z, B, theta = theta)
+# compute_mutual_info(z, spec_clust(A, Ktru))
+
 # fastDCSBM(z, B, theta)
 # Z = label_vec2mat(z)
 # P = diag(theta) %*% Z %*% B %*% t(Z) %*% diag(theta)
