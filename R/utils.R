@@ -80,7 +80,7 @@ lin2sub <- function(index, nr, sym=F) {
   }
   return(cbind(rr,cc))
 }
-
+#' @export
 truncate_to_ab = function(x, a, b) {
   pmin(pmax(x, a), b)
 }

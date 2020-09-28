@@ -29,11 +29,11 @@ quickDCSBM <- function(n, lambda, K, oir,  theta=NULL) {
   list(adj=fastDCSBM(z, B, theta=theta), labels=z, B=B)
 }
 
+#' @export
 fastDCSBM <- function(z, Pmat, theta=1) {
   csizes = tabulate(z)
   n = length(z)
   if (length(theta) == 1) theta = rep(theta,n)
-  # A = fastDCSBM.internal(csizes, Pmat, theta)
   A <- fastDCSBM.internal(csizes, Pmat, theta)
   #A = fastSBM.internal(csizes, Pmat)  # E[A_{ij}] = B_{z[sig[i]], z[sig[j]]}
   sig = order(z) # z[sig] = 1 1 1 ... 2 2 2 ... 3 3 3 3 ...
@@ -41,6 +41,7 @@ fastDCSBM <- function(z, Pmat, theta=1) {
   return(A[siginv,siginv]) # E[A_{siginv[i], siginv[j]}] = B_{z[i], z[j]}
 }
 
+#' @export
 fastSBM <- function(z, Pmat){
   csizes = tabulate(z)
   A <- fastSBM.internal(csizes, Pmat)
