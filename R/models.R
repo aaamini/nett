@@ -80,7 +80,6 @@ fastDCSBM <- function(z, Pmat, theta=1) {
   csizes = tabulate(z)
   n = length(z)
   if (length(theta) == 1) theta = rep(theta,n)
-  # A = fastDCSBM.internal(csizes, Pmat, theta)
   A <- fastDCSBM.internal(csizes, Pmat, theta)
   #A = fastSBM.internal(csizes, Pmat)  # E[A_{ij}] = B_{z[sig[i]], z[sig[j]]}
   sig = order(z) # z[sig] = 1 1 1 ... 2 2 2 ... 3 3 3 3 ...

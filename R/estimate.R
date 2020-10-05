@@ -91,7 +91,9 @@ eval_dcsbm_like <- function(A, z, poi = T, eps = 1e-6) {
     # The next line computes \sum_{i < j} Phat_{ij} where Phat_{ij} = \theta_i \theta_j Bsum_{z_i, z_j}
     # assuming unit theta-normalization
     # that is, \theta \sum_{z_i = k} \theta_i = 1
-    term2 = sum( (1-colSums(Zth^2))*diag(Bsum)/2 ) + (sum(Bsum) - sum(diag(Bsum)))/2  # fast
+    #term2 = sum( (1-colSums(Zth^2))*diag(Bsum)/2 ) + (sum(Bsum) - sum(diag(Bsum)))/2  # fast
+    # so that n is hided
+    term2 = sum(Bsum)/2 - sum(colSums(Zth^2)*diag(Bsum)/2)
     term2 = -term2
 
     # # slow, high mem approach
