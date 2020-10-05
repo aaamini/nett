@@ -1,16 +1,23 @@
 # Spectral clustering -----------------------------------------------------
 # Spectral clustering with perturbation
 #' @export
-spec_clust <- function(A, K, type="lap", tau=0.25, nstart=20) {
+spec_clust <- function(A, K, type="lap", tau=0.25, nstart=20, ignore_first_col = F) {
   # A should be a sparse matrix
 
+  if (ignore_first_col && K > 1) {
+    Uidx = 2:K
+  } else {
+    Uidx = 1:K
+  }
   if (type =="adj") {
     eig_res <- RSpectra::eigs_sym(A, K)
-    U <- eig_res$vectors[,1:K]
+    U <- eig_res$vectors[ , Uidx]
 
-  } else if (type== "adj2") {
+  } else if (type == "adj2") {
     eig_res <- RSpectra::eigs_sym(A, K)
-    U <- eig_res$vectors[,1:K] %*% diag(abs(eig_res$values))
+    # U <- eig_res$vectors[ , 1:K] %*% diag(abs(eig_res$values))
+    U <- eig_res$vectors %*% diag(abs(eig_res$values))
+    U <- U[ , Uidx]
 
   } else { # Laplacian-based
     n <- dim(A)[1]
@@ -43,7 +50,7 @@ spec_clust <- function(A, K, type="lap", tau=0.25, nstart=20) {
     # require(RSpectra)
     # eig_res <- igraph::arpack(Ax_fun, sym = T, options = list(n=dim(A)[1], nev=K, ncv=K+3, which="LM", maxiter=10000))
     eig_res <- RSpectra::eigs_sym(Ax_fun, K, n = n)
-    U <- as.matrix(eig_res$vectors[,1:K])
+    U <- as.matrix(eig_res$vectors[ , Uidx])
     # U <- as.matrix(eig_res$vectors)
   }
 

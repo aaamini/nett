@@ -36,9 +36,15 @@ mean(rowSums(A))
 # mean(rowSums(A))
 
 
+
 test_that("spectral clustering works", {
-  zh = spec_clust(A,4)
-  expect_equal(round(compute_mutual_info(z, zh),2), 0.59)
+  zh = spec_clust(A, 4, ignore_first_col = F)
+  zh2 = fastCPL(A, 4, ilabels = zh)
+
+  expect_equal(round(compute_mutual_info(z, zh),2), 0.55)
+  expect_equal(round(compute_mutual_info(z, zh2),2), 0.63)
+
+  eval_dcsbm_bic(A, zh, 4)
 })
 
 test_that("spectral test", {

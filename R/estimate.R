@@ -54,11 +54,11 @@ estim_dcsbm <- function(A,z) {
   return(list(B=B, theta=theta))
 }
 
-
-
+# TODO: check dimensions
+# TODO: extend to non-consequential labels, and automatically detect max. label
 # Likelihood computations -------------------------------------------------
 #' @export
-eval_dcsbm_like <- function(A, z, poi = F, eps = 1e-6) {
+eval_dcsbm_like <- function(A, z, poi = T, eps = 1e-6) {
   Bsum = computeBlockSums(A,z)
   degs = Matrix::rowSums(A)
   total_clust_degs = Matrix::rowSums(Bsum)
@@ -81,6 +81,7 @@ eval_dcsbm_like <- function(A, z, poi = F, eps = 1e-6) {
   pp =  truncate_to_ab(theta[ix] * theta[jx] * Bsum[(zi-1)*ncol(Bsum)+zj], eps, 1-eps)
 
   if (!poi) { # Bernoulli, slow computation, high mem
+    warning('Bernoulli likelihood computation is slow. Try "poi = T" option.')
     term1 = sum(aa * log(pp/(1-pp)))
     mm = truncate_to_ab(Zth %*% Bsum %*% t(Zth), eps, 1-eps) # mean matrix
     term2 = sum( log(1-mm[which(upper.tri(mm))]) )
@@ -107,8 +108,15 @@ eval_dcsbm_like <- function(A, z, poi = F, eps = 1e-6) {
 
 # computes likelihood ratio of labels[ , 2]-model w.r.t. labels[ , 1]-model
 #' @export
-eval_dcsbm_loglr = function(A, labels, poi = F, eps = 1e-6) {
+eval_dcsbm_loglr = function(A, labels, poi = T, eps = 1e-6) {
   eval_dcsbm_like(A, labels[ , 2], poi = poi, eps = eps) - eval_dcsbm_like(A, labels[ , 1], poi = poi, eps = eps)
+}
+
+# compute BIC score
+#' @export
+eval_dcsbm_bic = function(A, z, K, poi = T) {
+  n = length(labels)
+  eval_dcsbm_like(A, z = z, poi = poi) - K*(K + 1)*log(n)/2
 }
 
 
