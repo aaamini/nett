@@ -1,7 +1,9 @@
 # Spectral clustering -----------------------------------------------------
 # Spectral clustering with perturbation
 #' @export
-spec_clust <- function(A, K, type="lap", tau=0.25, nstart=20, ignore_first_col = F) {
+spec_clust <- function(A, K, type="lap",
+                       tau = 0.25, nstart = 20, niter = 10,
+                       ignore_first_col = F) {
   # A should be a sparse matrix
 
   if (ignore_first_col && K > 1) {
@@ -61,7 +63,7 @@ spec_clust <- function(A, K, type="lap", tau=0.25, nstart=20, ignore_first_col =
   # kclust$cluster
 
   #return(ClusterR::KMeans_rcpp(U, K, num_init = nstart)$clusters)
-  return(kmeans(U, K, nstart = nstart)$cluster)
+  return(kmeans(U, K, nstart = nstart, iter.max = niter)$cluster)
 }
 
 # Spectral test based on Jing Lei's paper ---------------------------------
