@@ -106,13 +106,7 @@ customSampleFun <- function(m, n) {
 # MySampleFun <- function(m,n) sample.int(m, n, useHash = TRUE) # gives error when n > m/2
 MySampleFun <- function(m,n) igraph::sample_seq(1,m,n)
 
-# Extract the largest connected component of a graph
-#' @export
-extract_largest_cc = function(gr, mode = "weak") {
-  cc = igraph::components(gr, mode = mode)
-  max_cc_idx = which.max(cc$csize)
-  igraph::induced_subgraph(gr, cc$membership == max_cc_idx)
-}
+
 
 # check MySampleFun
 # MySampleFun <- sample
