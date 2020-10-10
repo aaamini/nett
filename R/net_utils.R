@@ -5,8 +5,7 @@ extract_low_deg_comp = function(g, deg_prec = 0.75) {
   degs = degree(g)
   g %>%
     induced_subgraph(degs <= quantile(degs, deg_prec))%>%
-    extract_largest_cc() %>%
-    as_adj
+    extract_largest_cc()
 }
 
 
