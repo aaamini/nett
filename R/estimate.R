@@ -144,7 +144,7 @@ computeBlockSums2 <- function(A, z) {
   return(Bsum)
 }
 
-#' @export
+
 estimSBM <- function(A, z) {
   K <- length(unique(z))
   B <- matrix(0, K, K)
@@ -166,7 +166,6 @@ estimSBM <- function(A, z) {
 }
 
 # estimate parameters of the degree-corrected block model
-#' @export
 estimDCSBM <- function(A, z) {
   B = estimSBM(A, z)
   nk = tabulate(z)
