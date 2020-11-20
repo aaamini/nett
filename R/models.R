@@ -76,6 +76,13 @@ quickDCSBM <- function(n, lambda, K, oir, theta = NULL,
 }
 
 #' @export
+sample_dcsbm = function(z, Pmat, theta=1) {
+  n = length(z)
+  if (length(theta) == 1) theta = rep(theta,n)
+  sample_dcsbm_cpp(z-1, Pmat, theta)
+}
+
+#' @export
 fastDCSBM <- function(z, Pmat, theta=1) {
   csizes = tabulate(z)
   n = length(z)

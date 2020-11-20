@@ -19,4 +19,8 @@ Suggests:
 Depends: 
     R (>= 2.10)
 Imports: 
-    magrittr
+    magrittr,
+    Rcpp
+LinkingTo: 
+    Rcpp,
+    RcppArmadillo

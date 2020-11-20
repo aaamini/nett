@@ -15,6 +15,15 @@ z = temp$labels
 B = temp$B
 #theta = temp$theta
 mean(rowSums(A))
+A2 = sample_dcsbm(z, B, theta)
+mean(rowSums(A2))
+Matrix::image(A2)
+
+idx = order(theta, decreasing = T)
+head(cbind(rowSums(A2)[idx], theta[idx]), 20)
+
+# microbenchmark::microbenchmark(quickDCSBM(n, lambda,  Ktru, oir = oir, theta, pri=1:Ktru, normalize_theta = F),
+#                                sample_dcsbm(z, B, theta), times = 10)
 
 # gen_rand_conn = function(n, K, lambda, gamma, pri = rep(1,K)/K) {
 #   B = matrix(runif(K^2),K)
