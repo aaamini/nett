@@ -2,20 +2,23 @@ Package: nett
 Title: Network Analysis and Community Detection
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "Arash A.",
+    c(person(given = "Arash A.",
            family = "Amini",
-           role = c("aut", "cre"),
-           email = "aaamini@ucla.edu",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+           role = c("aut","cre"),
+           email = "aaamini@ucla.edu"),
+      person(given = "Linfan",
+           family = "Zhang",
+           role = c("aut")))
 Description: Functions for community detection, random network generation, etc.
-License: `use_mit_license()`, `use_gpl3_license()` or friends to
-    pick a license
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Suggests: 
-    testthat
+    testthat,
+    knitr,
+    rmarkdown
 Depends: 
     R (>= 2.10)
 Imports: 
@@ -24,3 +27,4 @@ Imports:
 LinkingTo: 
     Rcpp,
     RcppArmadillo
+VignetteBuilder: knitr

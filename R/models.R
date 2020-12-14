@@ -17,11 +17,18 @@ get_dcsbm_exav_deg <- function(n, pri, B, ex_theta = 1) {
 #   as.numeric( (n-1) * t(pri) %*% B %*% pri )
 # }
 
+#' Planted partition connectivity matrix
+#'
+#' Create a degree-corrected planted partition connectivity matrix with a given average expected degree.
+#' @param n the number of nodes
+#' @param oir out-in-ratio
+#' @param lambda the expected average degree
+#' @param pri the prior on community labels
+#' @param theta node connection propensity parameter of DCSBM
+#' @param normalize_theta whether to nomramlize theta so that max(theta) == 1
+#' @return The connectivity matrix B of the desired DCSBM.
 #' @export
 pp_conn <- function(n, oir, lambda, pri, theta = rep(1,n), normalize_theta = F) {
-  # create a planted partition connectivity matrix
-  # the B matrix : block density
-  # lambda is the desired avg degree, n is size, oir is cout/cint, pri is the class prior
   K = length(pri)
   if (sum(pri) != 1)  pri = pri/sum(pri)
   #if (length(theta) == 1) theta = rep(theta,n)

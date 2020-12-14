@@ -3,9 +3,11 @@ library(EnvStats)
 
 n = 1000
 Ktru = 4
-lambda = 10
+lambda = 15
 oir = 0.1
 
+
+pp_conn(n, oir=0.1, pri=1:Ktru)
 set.seed(1)
 theta <- EnvStats::rpareto(n, 2/3, 3)
 #n*mean(theta/max(theta))^2
@@ -21,6 +23,15 @@ Matrix::image(A2)
 
 idx = order(theta, decreasing = T)
 head(cbind(rowSums(A2)[idx], theta[idx]), 20)
+
+
+tstat = snac_resample(A2, nrep = 10, ncores = 3)
+plot_smooth_profile(tstat, "temp", trunc_type = "none", spar=0.3, plot_null_spar = T)
+
+
+A = igraph::as_adj(igraph::as.undirected(polblogs))
+tstat = snac_resample(A, nrep = 30, ncores = 3)
+plot_smooth_profile(tstat, "temp", trunc_type = "none", spar=0.3, plot_null_spar = T)
 
 # microbenchmark::microbenchmark(quickDCSBM(n, lambda,  Ktru, oir = oir, theta, pri=1:Ktru, normalize_theta = F),
 #                                sample_dcsbm(z, B, theta), times = 10)
