@@ -33,12 +33,12 @@ B = pp_conn(n, oir, lambda, pri, theta)$B  # create connectivity matrix
 z =  sample(Ktru, n, replace=T, prob=pri)  # sample node labels
 A = sample_dcsbm(z, B, theta) # sample the adjacency matrix
 ```
-Check to see if the expected average degree matches the target
+Check to see if the average degree matches the target
 ```{r}
 mean(rowSums(A))
 ```
 Compute and plot the community profile based on SNAC+ test statistic
 ```{r}
 tstat = snac_resample(A, nrep = 10, ncores = 3)
-plot_smooth_profile(tstat, "Simpe DCPP network", trunc_type = "none", spar=0.3, plot_null_spar = T)
+plot_smooth_profile(tstat, "Simple DCPP network", trunc_type = "none", spar=0.3, plot_null_spar = T)
 ```
