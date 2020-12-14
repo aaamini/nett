@@ -40,5 +40,5 @@ mean(rowSums(A))
 Compute and plot the community profile based on SNAC+ test statistic:
 ```{r}
 tstat = snac_resample(A, nrep = 10, ncores = 3)
-plot_smooth_profile(tstat, "A DCPP network", trunc_type = "none", spar=0.3, plot_null_spar = T)
+plot_smooth_profile(tstat, "A DCPP network")
 ```
