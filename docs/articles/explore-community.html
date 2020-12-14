@@ -93,14 +93,14 @@
 <span class="va">B</span> <span class="op">=</span> <span class="fu"><a href="../reference/pp_conn.html">pp_conn</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">oir</span>, <span class="va">lambda</span>, <span class="va">pri</span>, <span class="va">theta</span><span class="op">)</span><span class="op">$</span><span class="va">B</span>  <span class="co"># create connectivity matrix</span>
 <span class="va">z</span> <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">Ktru</span>, <span class="va">n</span>, replace<span class="op">=</span><span class="cn">T</span>, prob<span class="op">=</span><span class="va">pri</span><span class="op">)</span>  <span class="co"># sample node labels</span>
 <span class="va">A</span> <span class="op">=</span> <span class="fu">sample_dcsbm</span><span class="op">(</span><span class="va">z</span>, <span class="va">B</span>, <span class="va">theta</span><span class="op">)</span> <span class="co"># sample the adjacency matrix</span></pre></div>
-<p>Check to see if the average degree matches the target</p>
+<p>Check to see if the average degree matches the target:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/colSums.html">rowSums</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [1] 15.118</span></pre></div>
-<p>Compute and plot the community profile based on SNAC+ test statistic</p>
+<p>Compute and plot the community profile based on SNAC+ test statistic:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit">
 <span class="va">tstat</span> <span class="op">=</span> <span class="fu">snac_resample</span><span class="op">(</span><span class="va">A</span>, nrep <span class="op">=</span> <span class="fl">10</span>, ncores <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
-<span class="fu">plot_smooth_profile</span><span class="op">(</span><span class="va">tstat</span>, <span class="st">"Simple DCPP network"</span>, trunc_type <span class="op">=</span> <span class="st">"none"</span>, spar<span class="op">=</span><span class="fl">0.3</span>, plot_null_spar <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></pre></div>
+<span class="fu">plot_smooth_profile</span><span class="op">(</span><span class="va">tstat</span>, <span class="st">"A DCPP network"</span>, trunc_type <span class="op">=</span> <span class="st">"none"</span>, spar<span class="op">=</span><span class="fl">0.3</span>, plot_null_spar <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></pre></div>
 <p><img src="explore-community_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
   </div>
 

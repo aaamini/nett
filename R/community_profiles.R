@@ -51,7 +51,7 @@ fit_ss = function(x, y, xx, spar = NULL, trunc_type = "none") {
 #' @export
 plot_smooth_profile = function(
     tstat, net_name = "", trunc_type = "none",
-    spar=NULL, plot_null_spar = F,
+    spar=0.3, plot_null_spar = T,
     alpha = 0.3, # transparency
     base_font_size = 12
 ) {
