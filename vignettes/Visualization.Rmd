@@ -20,6 +20,10 @@ library(igraph)
 library(Matrix)
 ```
 
+In this article, we go through some of the basic visualization functionality in the `nett` package. 
+
+## Visualizing a DCSBM
+
 Let us sample a network from a DCSBM: 
 ```{r }
 n = 1500
