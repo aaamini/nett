@@ -1,3 +1,6 @@
+#' Resampled SNAC+
+#'
+#' Compute SNAC+ with resampling
 #' @export
 snac_resample = function(A, nrep = 20, Kmin = 1, Kmax = 13, ncores = 10, seed = 1234) {
     Ks = Kmin:Kmax
@@ -48,6 +51,9 @@ fit_ss = function(x, y, xx, spar = NULL, trunc_type = "none") {
          fxx = fxx_ss)
 }
 
+#' Plot community profiles
+#'
+#' Plot the smooth community profiles based on a resampled statistic
 #' @export
 plot_smooth_profile = function(
     tstat, net_name = "", trunc_type = "none",

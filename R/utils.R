@@ -110,3 +110,16 @@ MySampleFun <- function(m,n) igraph::sample_seq(1,m,n)
 
 # check MySampleFun
 # MySampleFun <- sample
+
+
+check_pkg_and_stop = function(pkg, func_name = NULL) {
+  if (is.null(func_name)) {
+    func_name = "this function"
+  } else {
+    func_name = paste0(func_name, "()")
+  }
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    stop(sprintf("Package \"%s\" needed for %s. Please install it.", pkg, func_name),
+      call. = FALSE)
+  }
+}

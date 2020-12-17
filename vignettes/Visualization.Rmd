@@ -1,0 +1,62 @@
+---
+title: "Visualization"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Visualization}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, message = FALSE}
+library(nett)
+library(igraph)
+library(Matrix)
+```
+
+Let us sample a network from a DCSBM: 
+```{r }
+n = 1500
+Ktru = 4
+lambda = 15 # expected average degree
+oir = 0.1
+pri = 1:Ktru
+
+set.seed(1234)
+theta <- EnvStats::rpareto(n, 2/3, 3)
+B = pp_conn(n, oir, lambda, pri=pri, theta)$B
+z = sample(Ktru, n, replace=T, prob=pri)
+
+# sample the adjacency matrix
+A = sample_dcsbm(z, B, theta)
+```
+
+We can plot the network using community labels $z$ to color the nodes:
+```{r}
+gr = igraph::graph_from_adjacency_matrix(A, "undirected") # convert to igraph object 
+
+par(mar = c(0,0,0,0))
+out = nett::plot_net(gr, community = z)
+```
+
+We can also plot the degree distribution:
+```{r}
+nett::plot_deg_dist(gr)
+summary(igraph::degree(out$gr))
+```
+
+## Comparing with a real network
+Let us compare with *Political Blogs* network accessable via `polblogs`.
+
+```{r}
+par(mar = c(0,0,0,0))
+out = nett::plot_net(polblogs, community = igraph::V(polblogs)$community)
+nett::plot_deg_dist(polblogs)
+summary(igraph::degree(polblogs))
+```

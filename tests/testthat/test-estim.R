@@ -1,25 +1,36 @@
 library(Matrix)
 library(EnvStats)
 
-n = 1000
+n = 2500
 Ktru = 4
 lambda = 15
 oir = 0.1
 
-
-pp_conn(n, oir=0.1, pri=1:Ktru)
 set.seed(1)
+pri = 1:Ktru
 theta <- EnvStats::rpareto(n, 2/3, 3)
+B = pp_conn(n, oir, lambda, pri=pri, theta)$B
+z = sample(Ktru, n, replace=T, prob=pri)
 #n*mean(theta/max(theta))^2
-temp = quickDCSBM(n, lambda,  Ktru, oir = oir, theta, pri=1:Ktru, normalize_theta = F)
-A = temp$adj
-z = temp$labels
-B = temp$B
+# temp = quickDCSBM(n, lambda,  Ktru, oir = oir, theta, pri=1:Ktru, normalize_theta = F)
+# A = temp$adj
+# z = temp$labels
+# B = temp$B
 #theta = temp$theta
+# mean(rowSums(A))
+A = sample_dcsbm(z, B, theta)
 mean(rowSums(A))
-A2 = sample_dcsbm(z, B, theta)
-mean(rowSums(A2))
-Matrix::image(A2)
+Matrix::image(A)
+gr = igraph::graph_from_adjacency_matrix(A, "undirected")
+out = plot_net(gr, community = z)
+
+plot_deg_dist(gr)
+summary(igraph::degree(out$gr))
+
+plot_net(polblogs, community = igraph::V(polblogs)$community)
+plot_deg_dist(polblogs)
+
+check_pkg_and_stop("ig")
 
 idx = order(theta, decreasing = T)
 head(cbind(rowSums(A2)[idx], theta[idx]), 20)

@@ -48,6 +48,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/Visualization.html">Visualization</a>
+    </li>
+    <li>
       <a href="../articles/explore-community.html">Exploring community structure</a>
     </li>
   </ul>
@@ -99,8 +102,8 @@
 <span class="co">#&gt; [1] 15.118</span></pre></div>
 <p>Compute and plot the community profile based on SNAC+ test statistic:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="va">tstat</span> <span class="op">=</span> <span class="fu">snac_resample</span><span class="op">(</span><span class="va">A</span>, nrep <span class="op">=</span> <span class="fl">10</span>, ncores <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
-<span class="fu">plot_smooth_profile</span><span class="op">(</span><span class="va">tstat</span>, <span class="st">"A DCPP network"</span><span class="op">)</span></pre></div>
+<span class="va">tstat</span> <span class="op">=</span> <span class="fu"><a href="../reference/snac_resample.html">snac_resample</a></span><span class="op">(</span><span class="va">A</span>, nrep <span class="op">=</span> <span class="fl">10</span>, ncores <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
+<span class="fu"><a href="../reference/plot_smooth_profile.html">plot_smooth_profile</a></span><span class="op">(</span><span class="va">tstat</span>, <span class="st">"A DCPP network"</span><span class="op">)</span></pre></div>
 <p><img src="explore-community_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
   </div>
 

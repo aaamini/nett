@@ -18,12 +18,15 @@ RoxygenNote: 7.1.1
 Suggests: 
     testthat,
     knitr,
-    rmarkdown
+    rmarkdown,
+    igraph,
+    ggplot2
 Depends: 
     R (>= 2.10)
 Imports: 
     magrittr,
-    Rcpp
+    Rcpp,
+    Matrix
 LinkingTo: 
     Rcpp,
     RcppArmadillo
