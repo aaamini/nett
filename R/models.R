@@ -32,7 +32,12 @@ pp_conn <- function(n, oir, lambda, pri, theta = rep(1,n), normalize_theta = F) 
   K = length(pri)
   if (sum(pri) != 1)  pri = pri/sum(pri)
   #if (length(theta) == 1) theta = rep(theta,n)
-  B0 = oir + diag(rep(1 - oir, K))
+  if (K > 1) {
+    B0 = oir + diag(rep(1 - oir, K))  # diag(scalar) returns an empty matrix if scalar is < 1
+  } else {
+    B0 = as.matrix(1)
+  }
+
   if (normalize_theta) theta = theta / max(theta)
   # scale = get_sbm_exav_deg(n, theta %*% label_vec2mat(z) / n, B0)
   scale = get_dcsbm_exav_deg(n, pri, B0, mean(theta))

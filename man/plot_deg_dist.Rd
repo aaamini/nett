@@ -4,7 +4,7 @@
 \alias{plot_deg_dist}
 \title{Plot digree distribution}
 \usage{
-plot_deg_dist(gr)
+plot_deg_dist(gr, logx = T)
 }
 \arguments{
 \item{gr}{the network as an igraph object}

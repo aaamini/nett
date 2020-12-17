@@ -91,18 +91,50 @@ plot_net = function(gr,
 #'
 #' @param gr the network as an igraph object
 #' @export
-plot_deg_dist = function(gr) {
+plot_deg_dist = function(gr, logx = T) {
   check_pkg_and_stop("igraph", "plot_deg_dist")
 
-  y = igraph::degree_distribution(gr)
+  deg_dist = igraph::degree_distribution(gr) # first element is the density of 0-degree nodes
+  max_deg = length(deg_dist) - 1
 
+  if (logx) {
+    if (deg_dist[1] > 0) warning("There are 0-degree nodes. Omitting them on log scale.")
+    x = 1:max_deg
+    y = deg_dist[-1]
+    xlabel = "Degree (log scale)"
+    trans = "log10"
+  } else {
+    x = 0:max_deg
+    y = deg_dist
+    xlabel = "Degree"
+    trans = "identity"
+  }
 
-  ggplot2::ggplot(data.frame(x=1:length(y), y = y)) +
+  ggplot2::ggplot(data.frame(x = x, y = y)) +
     ggplot2::geom_segment(ggplot2::aes(x, y, xend=x, yend=0), color="slateblue") +
-    # ggplot2::scale_y_continuous(expand=c(0,0), trans="sqrt") +
-    ggplot2::scale_x_continuous(trans='log10') +
-    # ggplot2::labs(x="Degree (log scale)", y="Density (sqrt scale)", title="Degree Distribution") +
-    ggplot2::labs(x="Degree (log scale)", y="Density", title="Degree Distribution") +
+    ggplot2::scale_x_continuous(trans=trans) +
+    ggplot2::labs(x=xlabel, y="Density", title="Degree Distribution") +
     ggplot2::theme_bw() +
     ggplot2::theme(panel.border = ggplot2::element_blank())
+    # ggplot2::scale_y_continuous(expand=c(0,0), trans="sqrt") +
+    # ggplot2::scale_x_continuous(trans='log10') +
+    # ggplot2::labs(x="Degree (log scale)", y="Density (sqrt scale)", title="Degree Distribution") +
 }
+
+# hist(theta)
+# lambda = 20
+# b =  lambda / (n*(mean(theta)^2))
+# dd = rpois(n, b*theta*sum(theta))
+# summary(dd)
+# max(dd)
+# (hcount = hist(dd, seq(-0.5, max(dd)+0.5, by=1))$counts)
+# ggplot2::ggplot(data.frame(x = 0:max(dd), y = hcount)) +
+#   ggplot2::geom_segment(ggplot2::aes(x, y, xend=x, yend=0), color="slateblue") +
+#   ggplot2::scale_x_continuous(trans="identity") +
+#   ggplot2::labs(x="Degree", y="Density", title="Degree Distribution") +
+#   ggplot2::theme_bw() +
+#   ggplot2::theme(panel.border = ggplot2::element_blank())
+#
+# summary(dd)
+
+
