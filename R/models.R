@@ -65,6 +65,20 @@ pp_conn <- function(n, oir, lambda, pri, theta = rep(1,n), normalize_theta = F) 
 #   return(Pmat)
 # }
 
+#' @export 
+sample_dcpp <- function(n, lambda, K, oir, theta = NULL,
+                       pri = rep(1,K)/K, normalize_theta = F) {
+  # pri <- (1:K)/K
+  # B0 = oir + diag(rep(1 - oir, K))
+  # # B <- pp_conn(n, oir, lambda, pr)
+  if (is.null(theta)) theta = EnvStats::rpareto(n, 2/3, 3)
+  out = pp_conn(n, oir, lambda, pri, theta, normalize_theta = normalize_theta)
+  z = sample(K, n, replace=T, prob=pri)
+
+  list(adj = sample_dcsbm(z, out$B, theta = out$theta), labels = z, B = out$B, theta=out$theta)
+}
+
+
 #' @export
 quickDCSBM <- function(n, lambda, K, oir, theta = NULL,
                        pri = rep(1,K)/K, normalize_theta = F) {

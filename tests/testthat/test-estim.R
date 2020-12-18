@@ -28,7 +28,6 @@ Matrix::image(A)
 gr = igraph::graph_from_adjacency_matrix(A, "undirected")
 out = plot_net(gr, community = z)
 
-
 plot_deg_dist(gr, log=T)
 summary(igraph::degree(out$gr))
 
@@ -39,7 +38,6 @@ check_pkg_and_stop("ig")
 
 idx = order(theta, decreasing = T)
 head(cbind(rowSums(A2)[idx], theta[idx]), 20)
-
 
 tstat = snac_resample(A2, nrep = 10, ncores = 3)
 plot_smooth_profile(tstat, "temp", trunc_type = "none", spar=0.3, plot_null_spar = T)
