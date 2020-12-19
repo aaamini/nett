@@ -65,6 +65,9 @@ pp_conn <- function(n, oir, lambda, pri, theta = rep(1,n), normalize_theta = F) 
 #   return(Pmat)
 # }
 
+#' Sample from a DCPP
+#' 
+#' Sample from a degree-corrected planted parition model
 #' @export 
 sample_dcpp <- function(n, lambda, K, oir, theta = NULL,
                        pri = rep(1,K)/K, normalize_theta = F) {
@@ -77,6 +80,30 @@ sample_dcpp <- function(n, lambda, K, oir, theta = NULL,
 
   list(adj = sample_dcsbm(z, out$B, theta = out$theta), labels = z, B = out$B, theta=out$theta)
 }
+
+gkern = function(x,y) exp(-sum((x-y)^2))
+
+#' Sample from a DCLVM
+#' 
+#' Sample form a degree-corrected latent variable model with Gaussian kernel
+#' @export 
+sample_dclvm = function(z, lambda, theta, npairs = NULL) {
+  n = nrow(z)
+  if (is.null(npairs)) npairs = n*log10(n)/2
+  
+  ex_theta = mean(theta)
+
+  # Approximate computation of E[K(z_i,z_j)] for i \neq j assuming {z_i} are i.i.d.
+  # Generate random npairs {z_i, z_j} and average over them
+  pidx = unique(matrix(sample(n, 2*npairs, T), ncol=2))
+  pidx[apply(pidx, 1, function(x) x[1] != x[2]),]
+  ex_kern = mean( sapply(1:nrow(pidx), function(i) gkern(z[pidx[i,1],], z[pidx[i,2],])) )
+
+  scale = lambda/((n-1)*(ex_theta)^2*ex_kern)
+
+  return( sample_dclvm_cpp(z, scale, theta) )
+}
+
 
 
 #' @export
@@ -101,6 +128,12 @@ quickDCSBM <- function(n, lambda, K, oir, theta = NULL,
   list(adj=fastDCSBM(z, out$B, theta = out$theta), labels = z, B = out$B, theta=out$theta)
 }
 
+#' Sample DCSBM
+#' 
+#' Sample an adjacency matrix from a degree-corrected block model (DCSBM)
+#' @param z Node labels (n x 1)
+#' @param Pmat Connectivity matrix (K x K)
+#' @param theta Node connectivity propensity vector (n x 1)
 #' @export
 sample_dcsbm = function(z, Pmat, theta=1) {
   n = length(z)

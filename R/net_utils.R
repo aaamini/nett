@@ -1,4 +1,10 @@
-# Extract a low degree connected component of a graph
+#' Extract low-degree component
+#' 
+#' Extract a low-degree connected component of a network
+#' @param g The network as an igraph object
+#' @param deg_prec The cut-off degree percentile 
+#' @param verb Whether to be verbose (TRUE|FALSE)
+#' @return An igraph object 
 #' @export
 extract_low_deg_comp = function(g, deg_prec = 0.75, verb =F) {
   g = extract_largest_cc(g)
@@ -23,7 +29,12 @@ reduction in mean deg. = %dx',
 }
 
 
-# Extract the largest connected component of a graph
+#' Extract largest component
+#' 
+#' Extract the largest connected component of a network
+#' @param gr The network as an igraph object
+#' @param mode Type of connected component ("weak"|"strong")
+#' @return An igraph object 
 #' @export
 extract_largest_cc = function(gr, mode = "weak") {
   cc = igraph::components(gr, mode = mode)

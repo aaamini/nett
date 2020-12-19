@@ -4,6 +4,71 @@
 using namespace Rcpp;
 // using namespace arma;
 
+// [[Rcpp::export]]
+double pair_dist2(arma::vec x, arma::vec y) {
+  return( arma::sum(arma::square(x-y)) );
+}
+
+// [[Rcpp::export]]
+arma::mat pair_dist2_mat(arma::mat z) {
+  int n = z.n_rows;
+  arma::mat D(n, n, arma::fill::zeros);
+
+  for (int i = 0; i < n; i++) {
+    for (int j = i+1; j < n; j++) {
+      D(i,j) = pair_dist2(z.row(i).t(), z.row(j).t());
+      D(j,i) = D(i,j);
+    }
+  }
+
+  return(D);
+}
+
+
+// 
+// [[Rcpp::export]]
+arma::sp_mat sample_dclvm_cpp(arma::mat z, double scale, arma::vec theta) {
+  int n = z.n_rows;
+  int locs_len = 2*n;
+  int loc_idx = 0;
+
+  // theta.print();
+  arma::umat locs(2, locs_len);
+
+  for (int i = 0; i < n; i++) {
+    for (int j = i+1; j < n; j++) {
+      // Rcout << locs_len << "\n";
+      // Rcout << z(i) << z(j) << "\n";
+      // Rcout << loc_idx << " " << locs_len << "\n";
+      double kern_sim = exp(-pair_dist2(z.row(i).t(), z.row(j).t()));
+      double p = scale*kern_sim*theta(i)*theta(j);
+      // Rcout << i+1 << ", " << j+1 << ": " << p;
+
+      if (R::runif(0,1) < p) {
+        //Rcout << "+";
+        if (loc_idx >= locs_len) {
+          locs_len = round(locs_len*1.5);
+          // Rcout << locs_len << "\n";
+          locs.resize(2, locs_len);
+        }
+        locs(0, loc_idx) = i;
+        locs(1, loc_idx) = j;
+        //Rcout << "\n";
+        //locs.t().print();
+        loc_idx++;
+      }
+      // Rcout << "\n";
+    }
+  }
+  locs.resize(2, loc_idx);
+
+  locs = arma::join_horiz(locs, arma::join_vert(locs.row(1),locs.row(0)));
+  //locs.print();
+  arma::sp_mat A(locs, arma::ones<arma::vec>(locs.n_cols), n, n);
+  return A;
+}
+
+
 // arma::sp_mat sample_dcsbm(arma::uvec z, arma::mat Pmat, arma::vec theta) {
 // [[Rcpp::export]]
 arma::sp_mat sample_dcsbm_cpp(arma::uvec z, arma::mat Pmat, arma::vec theta) {

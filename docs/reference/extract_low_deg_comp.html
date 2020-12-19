@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot a network — plot_net • nett</title>
+<title>Extract low-degree component — extract_low_deg_comp • nett</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Plot a network — plot_net" />
-<meta property="og:description" content="Plot a network using degree-modulated node sizes, community colors and other enhancements" />
+<meta property="og:title" content="Extract low-degree component — extract_low_deg_comp" />
+<meta property="og:description" content="Extract a low-degree connected component of a network" />
 
 
 
@@ -112,45 +112,37 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plot a network</h1>
+    <h1>Extract low-degree component</h1>
     
-    <div class="hidden name"><code>plot_net.Rd</code></div>
+    <div class="hidden name"><code>extract_low_deg_comp.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Plot a network using degree-modulated node sizes, community colors and other enhancements</p>
+    <p>Extract a low-degree connected component of a network</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_net</span><span class='op'>(</span>
-  <span class='va'>gr</span>,
-  community <span class='op'>=</span> <span class='cn'>NULL</span>,
-  color_map <span class='op'>=</span> <span class='cn'>NULL</span>,
-  extract_lcc <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  heavy_edge_deg_perc <span class='op'>=</span> <span class='fl'>0.97</span>,
-  coord <span class='op'>=</span> <span class='cn'>NULL</span>,
-  vsize_func <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>deg</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>deg</span> <span class='op'>+</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>1</span>,
-  vertex_border <span class='op'>=</span> <span class='cn'>F</span>,
-  niter <span class='op'>=</span> <span class='fl'>1000</span>,
-  vertex_alpha <span class='op'>=</span> <span class='fl'>0.4</span>,
-  remove_loops <span class='op'>=</span> <span class='cn'>T</span>,
-  make_simple <span class='op'>=</span> <span class='cn'>F</span>,
-  show_legend <span class='op'>=</span> <span class='cn'>F</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>extract_low_deg_comp</span><span class='op'>(</span><span class='va'>g</span>, deg_prec <span class='op'>=</span> <span class='fl'>0.75</span>, verb <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>gr</th>
-      <td><p>the network as an igraph object</p></td>
+      <th>g</th>
+      <td><p>The network as an igraph object</p></td>
     </tr>
     <tr>
-      <th>community</th>
-      <td><p>community assgiment; vector of node labels</p></td>
+      <th>deg_prec</th>
+      <td><p>The cut-off degree percentile</p></td>
+    </tr>
+    <tr>
+      <th>verb</th>
+      <td><p>Whether to be verbose (TRUE|FALSE)</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>An igraph object</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

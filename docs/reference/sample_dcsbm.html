@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot a network — plot_net • nett</title>
+<title>Sample DCSBM — sample_dcsbm • nett</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Plot a network — plot_net" />
-<meta property="og:description" content="Plot a network using degree-modulated node sizes, community colors and other enhancements" />
+<meta property="og:title" content="Sample DCSBM — sample_dcsbm" />
+<meta property="og:description" content="Sample an adjacency matrix from a degree-corrected block model (DCSBM)" />
 
 
 
@@ -112,42 +112,31 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plot a network</h1>
+    <h1>Sample DCSBM</h1>
     
-    <div class="hidden name"><code>plot_net.Rd</code></div>
+    <div class="hidden name"><code>sample_dcsbm.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Plot a network using degree-modulated node sizes, community colors and other enhancements</p>
+    <p>Sample an adjacency matrix from a degree-corrected block model (DCSBM)</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_net</span><span class='op'>(</span>
-  <span class='va'>gr</span>,
-  community <span class='op'>=</span> <span class='cn'>NULL</span>,
-  color_map <span class='op'>=</span> <span class='cn'>NULL</span>,
-  extract_lcc <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  heavy_edge_deg_perc <span class='op'>=</span> <span class='fl'>0.97</span>,
-  coord <span class='op'>=</span> <span class='cn'>NULL</span>,
-  vsize_func <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>deg</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>deg</span> <span class='op'>+</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>1</span>,
-  vertex_border <span class='op'>=</span> <span class='cn'>F</span>,
-  niter <span class='op'>=</span> <span class='fl'>1000</span>,
-  vertex_alpha <span class='op'>=</span> <span class='fl'>0.4</span>,
-  remove_loops <span class='op'>=</span> <span class='cn'>T</span>,
-  make_simple <span class='op'>=</span> <span class='cn'>F</span>,
-  show_legend <span class='op'>=</span> <span class='cn'>F</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>sample_dcsbm</span><span class='op'>(</span><span class='va'>z</span>, <span class='va'>Pmat</span>, theta <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>gr</th>
-      <td><p>the network as an igraph object</p></td>
+      <th>z</th>
+      <td><p>Node labels (n x 1)</p></td>
     </tr>
     <tr>
-      <th>community</th>
-      <td><p>community assgiment; vector of node labels</p></td>
+      <th>Pmat</th>
+      <td><p>Connectivity matrix (K x K)</p></td>
+    </tr>
+    <tr>
+      <th>theta</th>
+      <td><p>Node connectivity propensity vector (n x 1)</p></td>
     </tr>
     </table>
 

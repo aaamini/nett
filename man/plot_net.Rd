@@ -8,6 +8,7 @@ plot_net(
   gr,
   community = NULL,
   color_map = NULL,
+  extract_lcc = TRUE,
   heavy_edge_deg_perc = 0.97,
   coord = NULL,
   vsize_func = function(deg) log(deg + 3) * 1,

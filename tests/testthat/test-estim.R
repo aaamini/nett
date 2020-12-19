@@ -47,6 +47,42 @@ A = igraph::as_adj(igraph::as.undirected(polblogs))
 tstat = snac_resample(A, nrep = 30, ncores = 3)
 plot_smooth_profile(tstat, "temp", trunc_type = "none", spar=0.3, plot_null_spar = T)
 
+
+n = 1000
+Ktru = 4
+lambda = 20
+d = Ktru
+labels = sample(Ktru, n, replace=T, prob=rep(1,Ktru))
+labels = sort(labels)
+mu = diag(Ktru)
+z = 2*mu[labels, ] + 0.75*matrix(rnorm(n*d), n)
+
+
+plot(z[,1],z[,2])
+
+theta =  EnvStats::rpareto(n, 3/4, 4)
+
+# theta = rep(1,n)
+# cbind(pair_dist2_mat(z)[1,], labels)
+
+A = sample_dclvm(z, lambda, theta)
+
+Matrix::image(A)
+gr = igraph::graph_from_adjacency_matrix(A, "undirected")
+summary(igraph::degree(gr))
+plot_deg_dist(gr)
+plot_net(gr, extract_lcc = T, community = labels)
+igraph::components(gr)$csize
+
+
+# library(Matrix)
+# A = Matrix(matrix(runif(n^2),n) <  0.1*outer(theta,theta)*exp(-as.matrix(dist(z))^2))*1
+# A[upper.tri(A)] = 0
+# diag(A) = 0
+# A = (A + t(A))
+# image(A)
+# isSymmetric(A)
+
 # microbenchmark::microbenchmark(quickDCSBM(n, lambda,  Ktru, oir = oir, theta, pri=1:Ktru, normalize_theta = F),
 #                                sample_dcsbm(z, B, theta), times = 10)
 

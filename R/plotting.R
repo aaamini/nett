@@ -9,12 +9,15 @@ plot_net = function(gr,
                     community = NULL,
                     color_map = NULL,
                     #deg_perc = 0.997,
+                    extract_lcc = TRUE,
                     heavy_edge_deg_perc = 0.97,
                     coord = NULL,
                     vsize_func = function(deg) log(deg+3)*1, vertex_border = F,
                     niter = 1000, # number of iteration for FR layout computation
                     vertex_alpha = 0.4,
-                    remove_loops = T, make_simple = F, show_legend = F, ...) {
+                    remove_loops = T,
+                    make_simple = F,
+                    show_legend = F, ...) {
 
   check_pkg_and_stop("igraph", "plot_net")
 
@@ -34,8 +37,10 @@ plot_net = function(gr,
     igraph::V(gr)$color =  adjustcolor(color_map[community], vertex_alpha)
   }
 
-  # Extract largest connected component after setting community colors to avoid losing community information
-  gr = extract_largest_cc(gr)
+  if (extract_lcc) {
+    # Extract largest connected component after setting community colors to avoid losing community information
+    gr = extract_largest_cc(gr)
+  }
   degs = igraph::degree(gr)
 
   heavy_edge_thresh = quantile(degs, heavy_edge_deg_perc)
