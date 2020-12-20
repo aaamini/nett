@@ -17,7 +17,6 @@ knitr::opts_chunk$set(
 ```{r setup, message = FALSE}
 library(nett)
 library(igraph)
-library(Matrix)
 ```
 
 In this article, we go through some of the basic visualization functionality in the `nett` package. 
@@ -44,7 +43,6 @@ A = sample_dcsbm(z, B, theta)
 We can plot the network using community labels $z$ to color the nodes:
 ```{r}
 gr = igraph::graph_from_adjacency_matrix(A, "undirected") # convert to igraph object 
-
 par(mar = c(0,0,0,0))
 out = nett::plot_net(gr, community = z)
 ```
@@ -54,13 +52,47 @@ We can also plot the degree distribution:
 nett::plot_deg_dist(gr)
 summary(igraph::degree(out$gr))
 ```
+## A latent variable model
+Now consider a latent variable model with $K$ communities as follows: The adjacency matrix $A = (A_{ij})$ is generated as a symmetric matrix, with independent Bernoulli entries above the diagonal with
+\begin{align}\label{eq:dclvm:def}
+	\mathbb E [\,A_{ij} \mid x, \theta\,] \; \propto \; \theta_i \theta_j e^{- \|x_i - x_j\|^2} \quad  \text{and}         \quad
+	x_i = 2 e_{z_i} + \frac34 w_i
+\end{align}
+where $e_k$ is the $k$th basis vector of $\mathbb R^d$, $w_i \sim N(0, I_d)$, $\{z_i\} \subset [K]^n$ are multinomial labels (similar to the DCSBM labels) and $d = K$. The proportionality constant in~\eqref{eq:dclvm:def} is chosen such that the overall network has expected average degree $\lambda$
 
-## Comparing with a real network
+We can generate from this model using the `nett::sample_dclvm()` function as follows:
+```{r}
+d = Ktru
+labels = sample(Ktru, n, replace = T, prob = pri)
+labels = sort(labels)
+mu = diag(Ktru)
+x = 2*mu[labels, ] + 0.75*matrix(rnorm(n*d), n)
+
+A = sample_dclvm(x, lambda, theta)
+```
+
+Visualizing the network and its degree distribution goes as before:
+```{r}
+gr = igraph::graph_from_adjacency_matrix(A, "undirected") # convert to igraph object 
+par(mar = c(0,0,0,0))
+out = nett::plot_net(gr, community = labels)
+```
+
+```{r}
+nett::plot_deg_dist(gr)
+summary(igraph::degree(out$gr))
+```
+
+
+## Visualizing *Political Blogs* network
 Let us compare with *Political Blogs* network accessable via `polblogs`.
 
 ```{r}
 par(mar = c(0,0,0,0))
 out = nett::plot_net(polblogs, community = igraph::V(polblogs)$community)
+```
+
+```{r}
 nett::plot_deg_dist(polblogs)
 summary(igraph::degree(polblogs))
 ```

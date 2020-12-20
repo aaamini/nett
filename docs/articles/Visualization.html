@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">nett</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9002</span>
       </span>
     </div>
 
@@ -82,8 +82,7 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit">
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">nett</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://igraph.org">igraph</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://Matrix.R-forge.R-project.org/">Matrix</a></span><span class="op">)</span></pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://igraph.org">igraph</a></span><span class="op">)</span></pre></div>
 <p>In this article, we go through some of the basic visualization functionality in the <code>nett</code> package.</p>
 <div id="visualizing-a-dcsbm" class="section level2">
 <h2 class="hasAnchor">
@@ -102,11 +101,10 @@
 <span class="va">z</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">Ktru</span>, <span class="va">n</span>, replace<span class="op">=</span><span class="cn">T</span>, prob<span class="op">=</span><span class="va">pri</span><span class="op">)</span>
 
 <span class="co"># sample the adjacency matrix</span>
-<span class="va">A</span> <span class="op">=</span> <span class="fu">sample_dcsbm</span><span class="op">(</span><span class="va">z</span>, <span class="va">B</span>, <span class="va">theta</span><span class="op">)</span></pre></div>
+<span class="va">A</span> <span class="op">=</span> <span class="fu"><a href="../reference/sample_dcsbm.html">sample_dcsbm</a></span><span class="op">(</span><span class="va">z</span>, <span class="va">B</span>, <span class="va">theta</span><span class="op">)</span></pre></div>
 <p>We can plot the network using community labels <span class="math inline">\(z\)</span> to color the nodes:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit">
 <span class="va">gr</span> <span class="op">=</span> <span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/igraph/man/graph_from_adjacency_matrix.html">graph_from_adjacency_matrix</a></span><span class="op">(</span><span class="va">A</span>, <span class="st">"undirected"</span><span class="op">)</span> <span class="co"># convert to igraph object </span>
-
 <span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span>
 <span class="va">out</span> <span class="op">=</span> <span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/plot_net.html">plot_net</a></span><span class="op">(</span><span class="va">gr</span>, community <span class="op">=</span> <span class="va">z</span><span class="op">)</span></pre></div>
 <p><img src="Visualization_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
@@ -119,18 +117,52 @@
 <span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
 <span class="co">#&gt;    1.00   10.00   13.00   14.81   17.00  131.00</span></pre></div>
 </div>
-<div id="comparing-with-a-real-network" class="section level2">
+<div id="a-latent-variable-model" class="section level2">
 <h2 class="hasAnchor">
-<a href="#comparing-with-a-real-network" class="anchor"></a>Comparing with a real network</h2>
-<p>Let us compare with <em>Political Blogs</em> network accessable via <code>polblogs</code>.</p>
+<a href="#a-latent-variable-model" class="anchor"></a>A latent variable model</h2>
+<p>Now consider a latent variable model with <span class="math inline">\(K\)</span> communities as follows: The adjacency matrix <span class="math inline">\(A = (A_{ij})\)</span> is generated as a symmetric matrix, with independent Bernoulli entries above the diagonal with <span class="math display">\[\begin{align}\label{eq:dclvm:def}
+    \mathbb E [\,A_{ij} \mid x, \theta\,] \; \propto \; \theta_i \theta_j e^{- \|x_i - x_j\|^2} \quad  \text{and}         \quad
+    x_i = 2 e_{z_i} + \frac34 w_i
+\end{align}\]</span> where <span class="math inline">\(e_k\)</span> is the <span class="math inline">\(k\)</span>th basis vector of <span class="math inline">\(\mathbb R^d\)</span>, <span class="math inline">\(w_i \sim N(0, I_d)\)</span>, <span class="math inline">\(\{z_i\} \subset [K]^n\)</span> are multinomial labels (similar to the DCSBM labels) and <span class="math inline">\(d = K\)</span>. The proportionality constant in~ is chosen such that the overall network has expected average degree <span class="math inline">\(\lambda\)</span></p>
+<p>We can generate from this model using the <code><a href="../reference/sample_dclvm.html">nett::sample_dclvm()</a></code> function as follows:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="va">d</span> <span class="op">=</span> <span class="va">Ktru</span>
+<span class="va">labels</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">Ktru</span>, <span class="va">n</span>, replace <span class="op">=</span> <span class="cn">T</span>, prob <span class="op">=</span> <span class="va">pri</span><span class="op">)</span>
+<span class="va">labels</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="va">labels</span><span class="op">)</span>
+<span class="va">mu</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="va">Ktru</span><span class="op">)</span>
+<span class="va">x</span> <span class="op">=</span> <span class="fl">2</span><span class="op">*</span><span class="va">mu</span><span class="op">[</span><span class="va">labels</span>, <span class="op">]</span> <span class="op">+</span> <span class="fl">0.75</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n</span><span class="op">*</span><span class="va">d</span><span class="op">)</span>, <span class="va">n</span><span class="op">)</span>
+
+<span class="va">A</span> <span class="op">=</span> <span class="fu"><a href="../reference/sample_dclvm.html">sample_dclvm</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">lambda</span>, <span class="va">theta</span><span class="op">)</span></pre></div>
+<p>Visualizing the network and its degree distribution goes as before:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="va">gr</span> <span class="op">=</span> <span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/igraph/man/graph_from_adjacency_matrix.html">graph_from_adjacency_matrix</a></span><span class="op">(</span><span class="va">A</span>, <span class="st">"undirected"</span><span class="op">)</span> <span class="co"># convert to igraph object </span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span>
+<span class="va">out</span> <span class="op">=</span> <span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/plot_net.html">plot_net</a></span><span class="op">(</span><span class="va">gr</span>, community <span class="op">=</span> <span class="va">labels</span><span class="op">)</span></pre></div>
+<p><img src="Visualization_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/plot_deg_dist.html">plot_deg_dist</a></span><span class="op">(</span><span class="va">gr</span><span class="op">)</span>
+<span class="co">#&gt; Warning in nett::plot_deg_dist(gr): There are 0-degree nodes. Omitting them on</span>
+<span class="co">#&gt; log scale.</span></pre></div>
+<p><img src="Visualization_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+<div class="sourceCode" id="cb9"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/igraph/man/degree.html">degree</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">gr</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
+<span class="co">#&gt;    1.00    6.00   11.00   13.61   18.00  198.00</span></pre></div>
+</div>
+<div id="visualizing-political-blogs-network" class="section level2">
+<h2 class="hasAnchor">
+<a href="#visualizing-political-blogs-network" class="anchor"></a>Visualizing <em>Political Blogs</em> network</h2>
+<p>Let us compare with <em>Political Blogs</em> network accessable via <code>polblogs</code>.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span>
 <span class="va">out</span> <span class="op">=</span> <span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/plot_net.html">plot_net</a></span><span class="op">(</span><span class="va">polblogs</span>, community <span class="op">=</span> <span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/igraph/man/V.html">V</a></span><span class="op">(</span><span class="va">polblogs</span><span class="op">)</span><span class="op">$</span><span class="va">community</span><span class="op">)</span></pre></div>
-<p><img src="Visualization_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/plot_deg_dist.html">plot_deg_dist</a></span><span class="op">(</span><span class="va">polblogs</span><span class="op">)</span></pre></div>
-<p><img src="Visualization_files/figure-html/unnamed-chunk-5-2.png" width="700"></p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
+<p><img src="Visualization_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+<div class="sourceCode" id="cb11"><pre class="downlit">
+<span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/plot_deg_dist.html">plot_deg_dist</a></span><span class="op">(</span><span class="va">polblogs</span><span class="op">)</span>
+<span class="co">#&gt; Warning in nett::plot_deg_dist(polblogs): There are 0-degree nodes. Omitting</span>
+<span class="co">#&gt; them on log scale.</span></pre></div>
+<p><img src="Visualization_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
+<div class="sourceCode" id="cb12"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/igraph/man/degree.html">degree</a></span><span class="op">(</span><span class="va">polblogs</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
 <span class="co">#&gt;    0.00    1.00    8.00   25.62   33.00  468.00</span></pre></div>
