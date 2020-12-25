@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">nett</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9004</span>
       </span>
     </div>
 
@@ -48,6 +48,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/Community_Detection.html">Community detection</a>
+    </li>
+    <li>
       <a href="../articles/Visualization.html">Visualization</a>
     </li>
     <li>
@@ -95,7 +98,7 @@
 
 <span class="va">B</span> <span class="op">=</span> <span class="fu"><a href="../reference/pp_conn.html">pp_conn</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">oir</span>, <span class="va">lambda</span>, <span class="va">pri</span>, <span class="va">theta</span><span class="op">)</span><span class="op">$</span><span class="va">B</span>  <span class="co"># create connectivity matrix</span>
 <span class="va">z</span> <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">Ktru</span>, <span class="va">n</span>, replace<span class="op">=</span><span class="cn">T</span>, prob<span class="op">=</span><span class="va">pri</span><span class="op">)</span>  <span class="co"># sample node labels</span>
-<span class="va">A</span> <span class="op">=</span> <span class="fu">sample_dcsbm</span><span class="op">(</span><span class="va">z</span>, <span class="va">B</span>, <span class="va">theta</span><span class="op">)</span> <span class="co"># sample the adjacency matrix</span></pre></div>
+<span class="va">A</span> <span class="op">=</span> <span class="fu"><a href="../reference/sample_dcsbm.html">sample_dcsbm</a></span><span class="op">(</span><span class="va">z</span>, <span class="va">B</span>, <span class="va">theta</span><span class="op">)</span> <span class="co"># sample the adjacency matrix</span></pre></div>
 <p>Check to see if the average degree matches the target:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/colSums.html">rowSums</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span><span class="op">)</span>

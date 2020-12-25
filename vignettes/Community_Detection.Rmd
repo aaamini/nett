@@ -1,0 +1,79 @@
+---
+title: "Community detection"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Community detection}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, message = FALSE}
+library(nett)
+library(igraph)
+library(ggplot2)
+```
+
+## Spectral clustering
+Let us sample a network from a DCSBM: 
+```{r }
+n = 1500
+Ktru = 4
+lambda = 15 # expected average degree
+oir = 0.1
+pri = 1:Ktru
+
+set.seed(1234)
+theta <- EnvStats::rpareto(n, 2/3, 3)
+B = pp_conn(n, oir, lambda, pri=pri, theta)$B
+z = sample(Ktru, n, replace=T, prob=pri) # randomly smaple "true community labels" 
+A = sample_dcsbm(z, B, theta) # sample the adjacency matrix
+```
+
+We can apply the (Laplacian-based) regularized spectral clustering for community detection:
+
+```{r }
+zh = spec_clust(A, K=4)
+```
+
+We can evaluate the performance by computing the normalized mutual information (NMI) to a true label vector:
+```{r}
+compute_mutual_info(z, zh)
+```
+NMI is in $[0,1]$ and the closer to 1 it is the closer the mathc between the two labels.
+
+## Performance as a function of the expected degree
+
+Let us now consider the effect of the expected average degree $\lambda$ on the performance of spectral clustering:
+```{r,  message = FALSE, warning= FALSE}
+nrep = 5
+nlam = 12
+lamvec = 10^seq(log10(1), log10(50), length.out = nlam)  # the vector of logarithmically spaced lambda
+runs = expand.grid( rep =1:nrep, lambda = lamvec)
+
+res = do.call(rbind, lapply(1:nrow(runs), function(j) {
+ lambda = runs[j,"lambda"]
+ B = pp_conn(n, oir, lambda, pri=pri, theta)$B
+ A = sample_dcsbm(z, B, theta)
+ zh = spec_clust(A, K=4)
+ data.frame(rep = runs[j,"rep"], lambda = lambda, nmi = compute_mutual_info(z, zh))
+}))
+
+agg_nmi = aggregate(res, by = list(res$lambda), FUN = mean)
+```
+
+The resulting plot looks like this:
+```{r fig.width=6, fig.height=5, fig.align="center"}
+plot(agg_nmi$lambda, agg_nmi$nmi, log="x",
+     type = "l", col = "blue", ylab = "NMI", xlab = "lambda",
+     main="Specral clustering performance")
+points(agg_nmi$lambda, agg_nmi$nmi, col="blue", pch=16)
+```
+
+This shows that increasing $\lambda$ makes the community detection problem easier.
