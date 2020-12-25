@@ -16,8 +16,6 @@ knitr::opts_chunk$set(
 
 ```{r setup, message = FALSE}
 library(nett)
-library(igraph)
-library(ggplot2)
 ```
 
 ## Spectral clustering
