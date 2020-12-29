@@ -4,7 +4,15 @@
 \alias{pp_conn}
 \title{Planted partition connectivity matrix}
 \usage{
-pp_conn(n, oir, lambda, pri, theta = rep(1, n), normalize_theta = F)
+pp_conn(
+  n,
+  oir,
+  lambda,
+  pri,
+  theta = rep(1, n),
+  normalize_theta = F,
+  d = rep(1, length(pri))
+)
 }
 \arguments{
 \item{n}{the number of nodes}
@@ -17,7 +25,9 @@ pp_conn(n, oir, lambda, pri, theta = rep(1, n), normalize_theta = F)
 
 \item{theta}{node connection propensity parameter of DCSBM}
 
-\item{normalize_theta}{whether to nomramlize theta so that max(theta) == 1}
+\item{normalize_theta}{whether to normalize theta so that max(theta) == 1}
+
+\item{d}{diagonal of the connectivity matrix. An all-one vector by default.}
 }
 \value{
 The connectivity matrix B of the desired DCSBM.

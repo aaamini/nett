@@ -1,6 +1,5 @@
-
+# simulation functions
 # AA: Functions are mostly provided by Aiyou Chen (most likely!)
-
 #' @export
 get_dcsbm_exav_deg <- function(n, pri, B, ex_theta = 1) {
   # Calculate the expected average degree of a DCSBM
@@ -9,6 +8,7 @@ get_dcsbm_exav_deg <- function(n, pri, B, ex_theta = 1) {
   pri = as.vector(pri)
   as.numeric( (n-1) * t(pri) %*% B %*% pri * (ex_theta^2) )
 }
+
 # get_sbm_exav_deg <- function(n, pri, B) {
 #   # Calculate the expected average degree of a DCSBM
 #   # pri: class prior
@@ -25,15 +25,16 @@ get_dcsbm_exav_deg <- function(n, pri, B, ex_theta = 1) {
 #' @param lambda the expected average degree
 #' @param pri the prior on community labels
 #' @param theta node connection propensity parameter of DCSBM
-#' @param normalize_theta whether to nomramlize theta so that max(theta) == 1
+#' @param normalize_theta whether to normalize theta so that max(theta) == 1
+#' @param d diagonal of the connectivity matrix. An all-one vector by default.
 #' @return The connectivity matrix B of the desired DCSBM.
 #' @export
-pp_conn <- function(n, oir, lambda, pri, theta = rep(1,n), normalize_theta = F) {
+pp_conn <- function(n, oir, lambda, pri, theta = rep(1,n), normalize_theta = F, d = rep(1, length(pri))) {
   K = length(pri)
   if (sum(pri) != 1)  pri = pri/sum(pri)
   #if (length(theta) == 1) theta = rep(theta,n)
   if (K > 1) {
-    B0 = oir + diag(rep(1 - oir, K))  # diag(scalar) returns an empty matrix if scalar is < 1
+    B0 = oir + diag(d-oir)  # diag(scalar) returns an empty matrix if scalar is < 1
   } else {
     B0 = as.matrix(1)
   }
@@ -66,14 +67,11 @@ pp_conn <- function(n, oir, lambda, pri, theta = rep(1,n), normalize_theta = F) 
 # }
 
 #' Sample from a DCPP
-#' 
+#'
 #' Sample from a degree-corrected planted parition model
-#' @export 
+#' @export
 sample_dcpp <- function(n, lambda, K, oir, theta = NULL,
                        pri = rep(1,K)/K, normalize_theta = F) {
-  # pri <- (1:K)/K
-  # B0 = oir + diag(rep(1 - oir, K))
-  # # B <- pp_conn(n, oir, lambda, pr)
   if (is.null(theta)) theta = EnvStats::rpareto(n, 2/3, 3)
   out = pp_conn(n, oir, lambda, pri, theta, normalize_theta = normalize_theta)
   z = sample(K, n, replace=T, prob=pri)
@@ -84,13 +82,13 @@ sample_dcpp <- function(n, lambda, K, oir, theta = NULL,
 gkern = function(x,y) exp(-sum((x-y)^2))
 
 #' Sample from a DCLVM
-#' 
+#'
 #' Sample form a degree-corrected latent variable model with Gaussian kernel
-#' @export 
+#' @export
 sample_dclvm = function(z, lambda, theta, npairs = NULL) {
   n = nrow(z)
   if (is.null(npairs)) npairs = n*log10(n)/2
-  
+
   ex_theta = mean(theta)
 
   # Approximate computation of E[K(z_i,z_j)] for i \neq j assuming {z_i} are i.i.d.
@@ -104,32 +102,8 @@ sample_dclvm = function(z, lambda, theta, npairs = NULL) {
   return( sample_dclvm_cpp(z, scale, theta) )
 }
 
-
-
-#' @export
-quickDCSBM <- function(n, lambda, K, oir, theta = NULL,
-                       pri = rep(1,K)/K, normalize_theta = F) {
-  # pri <- (1:K)/K
-  # B0 = oir + diag(rep(1 - oir, K))
-  # # B <- pp_conn(n, oir, lambda, pr)
-  if (is.null(theta)) theta = EnvStats::rpareto(n, 2/3, 3)
-  out = pp_conn(n, oir, lambda, pri, theta, normalize_theta = normalize_theta)
-  # if (normalize_theta) theta = theta / max(theta)
-  # # scale = get_sbm_exav_deg(n, theta %*% label_vec2mat(z) / n, B0)
-  # # scale = get_dcsbm_exav_deg(n, pri, B0, mean(theta))
-  # scale = get_dcsbm_exav_deg(n, pri, B0, mean(theta))
-  # B = B0*lambda/scale
-  # if (max(B) > 1) {
-  #   warning("Probabilities truncated at 1.")
-  #   B = pmin(B,1)
-  # }
-  z <- sample(K, n, replace=T, prob=pri)
-
-  list(adj=fastDCSBM(z, out$B, theta = out$theta), labels = z, B = out$B, theta=out$theta)
-}
-
 #' Sample DCSBM
-#' 
+#'
 #' Sample an adjacency matrix from a degree-corrected block model (DCSBM)
 #' @param z Node labels (n x 1)
 #' @param Pmat Connectivity matrix (K x K)
@@ -141,18 +115,11 @@ sample_dcsbm = function(z, Pmat, theta=1) {
   sample_dcsbm_cpp(z-1, Pmat, theta)
 }
 
-#' @export
-fastDCSBM <- function(z, Pmat, theta=1) {
-  csizes = tabulate(z)
-  n = length(z)
-  if (length(theta) == 1) theta = rep(theta,n)
-  A <- fastDCSBM.internal(csizes, Pmat, theta)
-  #A = fastSBM.internal(csizes, Pmat)  # E[A_{ij}] = B_{z[sig[i]], z[sig[j]]}
-  sig = order(z) # z[sig] = 1 1 1 ... 2 2 2 ... 3 3 3 3 ...
-  siginv = Matrix::invPerm(sig) # or order(sig)
-  return(A[siginv,siginv]) # E[A_{siginv[i], siginv[j]}] = B_{z[i], z[j]}
-}
-
+#' Sample SBM
+#'
+#' Sample an adjacency matrix from a stochastic block model (SBM)
+#' @param z Node labels (n x 1)
+#' @param Pmat Connectivity matrix (K x K)
 #' @export
 fastSBM <- function(z, Pmat){
   csizes = tabulate(z)
@@ -161,7 +128,6 @@ fastSBM <- function(z, Pmat){
   siginv = Matrix::invPerm(sig)
   return(A[siginv,siginv])
 }
-
 
 # generate a K-block random graph
 fastSBM.internal <- function(csizes, Pmat) {
@@ -232,6 +198,45 @@ fastSBM.internal <- function(csizes, Pmat) {
   # return(sparseMatrix(subs[,1], subs[,2], x = 1, dims=c(n,n))) # this causes speed loss
 }
 
+# Previous model simulation code ---------------------------------------------------------
+
+
+quickDCSBM <- function(n, lambda, K, oir, theta = NULL,
+                       pri = rep(1,K)/K, normalize_theta = F) {
+  # pri <- (1:K)/K
+  # B0 = oir + diag(rep(1 - oir, K))
+  # # B <- pp_conn(n, oir, lambda, pr)
+  if (is.null(theta)) theta = EnvStats::rpareto(n, 2/3, 3)
+  out = pp_conn(n, oir, lambda, pri, theta, normalize_theta = normalize_theta)
+  # if (normalize_theta) theta = theta / max(theta)
+  # # scale = get_sbm_exav_deg(n, theta %*% label_vec2mat(z) / n, B0)
+  # # scale = get_dcsbm_exav_deg(n, pri, B0, mean(theta))
+  # scale = get_dcsbm_exav_deg(n, pri, B0, mean(theta))
+  # B = B0*lambda/scale
+  # if (max(B) > 1) {
+  #   warning("Probabilities truncated at 1.")
+  #   B = pmin(B,1)
+  # }
+  z <- sample(K, n, replace=T, prob=pri)
+
+  list(adj=fastDCSBM(z, out$B, theta = out$theta), labels = z, B = out$B, theta=out$theta)
+}
+
+
+
+fastDCSBM <- function(z, Pmat, theta=1) {
+  csizes = tabulate(z)
+  n = length(z)
+  if (length(theta) == 1) theta = rep(theta,n)
+  A <- fastDCSBM.internal(csizes, Pmat, theta)
+  #A = fastSBM.internal(csizes, Pmat)  # E[A_{ij}] = B_{z[sig[i]], z[sig[j]]}
+  sig = order(z) # z[sig] = 1 1 1 ... 2 2 2 ... 3 3 3 3 ...
+  siginv = Matrix::invPerm(sig) # or order(sig)
+  return(A[siginv,siginv]) # E[A_{siginv[i], siginv[j]}] = B_{z[i], z[j]}
+}
+
+
+
 fastDCSBM.internal <- function(csizes, Pmat, theta) {
   # generate a degree-corrected block model
   # P(Aij = 1|ci=k,cj=l,theta) = theta_i * theta_j * P_kl
@@ -273,6 +278,7 @@ fastDCSBM.internal <- function(csizes, Pmat, theta) {
 #   }
 #   return(as(A, "sparseMatrix"))
 # }
+
 Poi_DCSBM <- function(z, B, theta){
   n = length(z)
   csizes <- as.vector(table(z))

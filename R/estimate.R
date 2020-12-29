@@ -114,9 +114,9 @@ eval_dcsbm_loglr = function(A, labels, poi = T, eps = 1e-6) {
   eval_dcsbm_like(A, labels[ , 2], poi = poi, eps = eps) - eval_dcsbm_like(A, labels[ , 1], poi = poi, eps = eps)
 }
 
-# compute BIC score
+# compute BIC score, based on poisson distr
 #' @export
-eval_dcsbm_bic = function(A, z, K, poi = T) {
+eval_dcsbm_bic = function(A, z, K, poi) {
   n = length(labels)
   eval_dcsbm_like(A, z = z, poi = poi) - K*(K + 1)*log(n)/2
 }

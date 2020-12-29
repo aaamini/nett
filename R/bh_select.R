@@ -1,0 +1,28 @@
+#' Estimate the community number using the Beth Hessian matrix
+#'
+#' Estimates the number of communities under block models by using the spectral
+#' properties of network Beth-Hessian matrix with moment correction.
+
+#' @param A adjacency matrix.
+#' @param Kmax the maximum number of communities to check.
+#' @return A list of result
+#' \item{K}{estimated community number}
+#' \item{rho}{eigenvalues of the Beth-Hessian matrix}
+
+
+#' @export
+bethe_hessian_select <- function(A, Kmax){
+  require(RSpectra)
+  if (Kmax <= 2)
+    Kmax <- 2
+
+  d <- Matrix::colSums(A)
+  n <- nrow(A)
+  I <- as(diag(rep(1, n)), "dgCMatrix")
+  D <- as(diag(d), "dgCMatrix")
+  r <- sqrt(mean(d))
+  BH <- (r^2 - 1) * I - r * A + D
+  rho <- sort(eigs_sym(BH, Kmax, which = "SA")$values)
+  diff <- rho[2:Kmax] - 5 * rho[1:(Kmax - 1)]
+  return(list(K = max(which(diff > 0)), values = rho))
+}

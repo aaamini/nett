@@ -67,15 +67,30 @@ spec_clust <- function(A, K, type="lap",
 }
 
 # Spectral test based on Jing Lei's paper ---------------------------------
-# new fast spectral test
+
+#' Adjusted spectral test
+#'
+#' @description  Adjusted spectral test
+#' @param A adjacency matrix
+#' @param K number of communities
+#' @param z label vector for rows of adjacency matrix. If not given, will be calculated by
+#' the spectral clustering
+#' @param DC whether or not include degree correction in the parameter estimation
+#' @param theta give the propensity parameter directly
+#' @param B give the connectivity matrix directly
+#' @param ... parameters for spectral clustering.
+#' @return A list of result
+#' \item{stat}{NAC or NAC+ test statistic.}
+#' \item{z}{row label vector.}
+#' \item{y}{column label vector.}
 #' @export
-spec_test <- function(A, K, z = NULL, theta = NULL, B = NULL, DCSBM = T) {
+adj_spec_test <- function(A, K, z = NULL, DC = T, theta = NULL, B = NULL, ...) {
   if (is.null(z)) {
-    z <- spec_clust(A, K)
+    z <- spec_clust(A, K, ...)
   }
 
   if(is.null(theta) | is.null(B)){
-    if(DCSBM){
+    if(DC){
       out <-  estimDCSBM(A,z)
       if(is.null(theta))
         theta <- out$theta
@@ -121,40 +136,7 @@ spec_test <- function(A, K, z = NULL, theta = NULL, B = NULL, DCSBM = T) {
     # as.numeric( A_over_stdA %*% x -  ThetaSqrtZBstd %*% (t(ThetaSqrtZ) %*% x) )
     as.numeric( A_over_stdA %*% x - ThetaSqrtZBstd %*% t(t(sqrt_theta*x) %*% Z) )
   }
-  # ThetaZ <- diag(theta) %*% Z
-  # P  <- ThetaZ %*% (B %*% t(ThetaZ))
-  # L <- (A-P)/sqrt(P)
 
-  # AoverSqrtP <- A/sqrt(P)
-  # mean(abs(A_over_stdA -AoverSqrtP))
-  # mean(abs(ThetaSqrtZ %*% (Bstd %*% (t(ThetaSqrtZ))) - sqrt(P)))
-  # vecloss(L %*%x, Lx_fun(x))
-
-  # } else {
-  #   #Bstd <- sqrt(B)
-  #   sqrt_theta <- sqrt(theta)
-  #   sqrtThetaB <- sqrt(theta*B[z,])
-  #   #sqrtThetaB <- sqrt_theta * Bstd[z,]
-  #   Lx_fun <- function(x, args=NULL) {
-  #     # as.numeric( A_over_stdA %*% x - (sqrt_theta * Bstd[z,]) %*% aggregate(x*sqrt_theta, list(label=z), sum)$x )
-  #     as.numeric( A_over_stdA %*% x - sqrtThetaB %*% aggregate(x*sqrt_theta, list(label=z), sum)$x )
-  #   }
-  #
-  # }
-
-  # need to be careful determining the variance of A
-  # it is likely to get estimated P greater than 1
-  # which can be a problem when variance is p*(1-p)
-  # L <- (A-P)/sqrt(n*(1-P)*P)
-
-  # # require(RSpectra)
-  # # don't forget to divide sqrt(n)
-  # lam1 <- eigs_sym(Lx_fun, 1, n = n, which="LA")$values/sqrt(n)
-  # lamn <- eigs_sym(Lx_fun, 1, n = n, which="SA")$values/sqrt(n)
-  # sig <- max(abs(lam1), abs(lamn))
-  # return(c(lam1, lamn, n^(2/3) *(sig - 2)))
-
-  # lam1 <- eigs_sym(L, 1, which="LM")$values
   lam1 <- RSpectra::eigs_sym(Lx_fun, 1, n = n, which="LM")$values
   tstat <- n^(2/3)*(abs(lam1)/sqrt(n) - 2)
   return(tstat)
