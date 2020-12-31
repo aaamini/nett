@@ -2,7 +2,7 @@
 % Please edit documentation in R/models.R
 \name{pp_conn}
 \alias{pp_conn}
-\title{Planted partition connectivity matrix}
+\title{Generate planted partition (PP) connectivity matrix}
 \usage{
 pp_conn(
   n,
@@ -35,3 +35,4 @@ The connectivity matrix B of the desired DCSBM.
 \description{
 Create a degree-corrected planted partition connectivity matrix with a given average expected degree.
 }
+\keyword{models}

@@ -8,7 +8,7 @@
 #' @return A list of result
 #' \item{K}{estimated the number of communities}
 #' \item{rho}{eigenvalues of the Beth-Hessian matrix}
-
+#' @keywords mod_sel
 
 #' @export
 bethe_hessian_select <- function(A, Kmax){

@@ -6,12 +6,16 @@
 #   Diagonal(K)[z,]
 # }
 
+#' Convert label matrix to vector
 #' @export
+#' @keywords utils
 label_mat2vec <- function(Z){
   max.col(Z)
 }
 
+#' Compute confusion matrix
 #' @export
+#' @keywords utils
 compute_confusion_matrix <- function (z, y, K=NULL) {
   # Compute the confusion matrix between labels "y" and "z"
   # z,y Two sets of labels
@@ -23,7 +27,9 @@ compute_confusion_matrix <- function (z, y, K=NULL) {
 
 # M = label_vec2mat(c,K)'*label_vec2mat(e,K);
 
+#' Convert label vector to matrix
 #' @export
+#' @keywords utils
 label_vec2mat <- function(z, K=NULL, sparse=F) {
   if (is.null(K)) K <- max(z)
 
@@ -38,7 +44,9 @@ label_vec2mat <- function(z, K=NULL, sparse=F) {
   }
 }
 
+#' Compute normalized mutual information (NMI)
 #' @export
+#' @keywords utils
 compute_mutual_info  <- function(z,y) {
   # normMUI Computes the normalized mutual information between two clusters
   #  Labels should be either vectors or n x k matrices
@@ -85,8 +93,11 @@ truncate_to_ab = function(x, a, b) {
   pmin(pmax(x, a), b)
 }
 
+#' The usual "printf" function
+#'
+#' @keywords utils
 #' @export
-printf <- function(...) invisible(cat(sprintf(...)))
+printf <- function(...) cat(sprintf(...))
 
 
 customSampleFun <- function(m, n) {
@@ -122,4 +133,25 @@ check_pkg_and_stop = function(pkg, func_name = NULL) {
     stop(sprintf("Package \"%s\" needed for %s. Please install it.", pkg, func_name),
       call. = FALSE)
   }
+}
+
+#' Generate random symmetric permutation matrix
+#'
+#' Generate a random symmetric permutation matrix (recursively)
+#'
+#' @param K size of the matrix
+#' @returns A random K x K symmetric permutation matrix
+#' @keywords utils
+#' @export
+rsymperm = function(K) {
+  if (K == 1) return(1)
+  B = matrix(0, K, K)
+  r = sample(1:K, 1)
+  B[1,r] = B[r,1] = 1
+  idx = setdiff(1:K, c(1,r))
+  nidx = length(idx)
+  if (nidx > 0) {
+    B[idx, idx] = rsymperm(nidx)
+  }
+  B
 }

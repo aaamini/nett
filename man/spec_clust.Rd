@@ -29,3 +29,4 @@ A vector of size n x 1 with elements in {1,2,...,K}
 \description{
 Perform spectral clustering (with regularization) to estimate communities
 }
+\keyword{comm_detect}

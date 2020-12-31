@@ -48,19 +48,29 @@ NMI is in $[0,1]$ and the closer to 1 it is the closer the mathc between the two
 
 ## Performance as a function of the expected degree
 
-Let us now consider the effect of the expected average degree $\lambda$ on the performance of spectral clustering:
+Let us now consider the effect of the expected average degree $\lambda$ on the performance of spectral clustering.
+
+### Simple planted partition model 
+
+We first generate from a simple planted partition model, with connectivity matrix,
+\[B_1 \propto (1-\beta)I_{K}+ \beta\mathbf{1}\mathbf{1}^{T}\]
+where $\beta$ is the out-in-ratio.
+
 ```{r,  message = FALSE, warning= FALSE}
-nrep = 5
+set.seed(1234)
+nrep = 20
 nlam = 12
 lamvec = 10^seq(log10(1), log10(50), length.out = nlam)  # the vector of logarithmically spaced lambda
-runs = expand.grid( rep =1:nrep, lambda = lamvec)
+runs = expand.grid(rep = 1:nrep, lambda = lamvec)
 
 res = do.call(rbind, lapply(1:nrow(runs), function(j) {
  lambda = runs[j,"lambda"]
  B = pp_conn(n, oir, lambda, pri=pri, theta)$B
  A = sample_dcsbm(z, B, theta)
- zh = spec_clust(A, K=4)
- data.frame(rep = runs[j,"rep"], lambda = lambda, nmi = compute_mutual_info(z, zh))
+ zh = spec_clust(A, K = Ktru) # defaults to tau = 0.25 for the  regularization parameter
+ zh_noreg = spec_clust(A, K = Ktru, tau = 0)
+ data.frame(rep = runs[j,"rep"], lambda = lambda, 
+            nmi = compute_mutual_info(z, zh), nmi_noreg = compute_mutual_info(z, zh_noreg))
 }))
 
 agg_nmi = aggregate(res, by = list(res$lambda), FUN = mean)
@@ -69,9 +79,56 @@ agg_nmi = aggregate(res, by = list(res$lambda), FUN = mean)
 The resulting plot looks like this:
 ```{r fig.width=6, fig.height=5, fig.align="center"}
 plot(agg_nmi$lambda, agg_nmi$nmi, log="x",
-     type = "l", col = "blue", ylab = "NMI", xlab = "lambda",
+     type = "b", col = "blue", ylab = "NMI", xlab = "lambda", pch=19,
      main="Specral clustering performance")
-points(agg_nmi$lambda, agg_nmi$nmi, col="blue", pch=16)
+lines(agg_nmi$lambda, agg_nmi$nmi_noreg, col="red", lty=2, pch=18, type = "b")
+legend(1, 1, legend = c("0.25 regularization","No regularization"), 
+       col = c("blue","red"), lty=1:2, box.lty=0)
 ```
 
 This shows that increasing $\lambda$ makes the community detection problem easier.
+
+### Randomly permuted connectivty matrix
+
+Let us now generate the connectivity matrix randomly as follows
+\[B_2 \propto \gamma R + (1-\gamma) Q \] 
+where
+
+- $\gamma \in (0, 1)$, 
+- $R$ is a random symmetric permutation matrix (see function `rsymperm()`), and 
+- $Q$ a symmetric matrix with i.i.d. Unif$(0,1)$ entries on and above diagonal. 
+
+The function `gen_rand_conn()` generates such connectivity matrices. 
+
+```{r,  message = FALSE, warning= FALSE}
+set.seed(1234)
+nrep = 20
+nlam = 12
+lamvec = 10^seq(log10(1), log10(200), length.out = nlam)  # the vector of logarithmically spaced lambda
+runs = expand.grid(rep = 1:nrep, lambda = lamvec)
+
+res = do.call(rbind, lapply(1:nrow(runs), function(j) {
+ lambda = runs[j,"lambda"]
+ B = gen_rand_conn(n, Ktru, lambda = lambda, gamma = 0.1, pri=pri)
+ A = sample_dcsbm(z, B, theta)
+ zh = spec_clust(A, K = Ktru) # defaults to tau = 0.25 for the  regularization parameter
+ zh_noreg = spec_clust(A, K = Ktru, tau = 0)
+ data.frame(rep = runs[j,"rep"], lambda = lambda, 
+            nmi = compute_mutual_info(z, zh), nmi_noreg = compute_mutual_info(z, zh_noreg))
+}))
+
+agg_nmi = aggregate(res, by = list(res$lambda), FUN = mean)
+```
+
+The resulting plot looks like the following:
+
+```{r fig.width=6, fig.height=5, fig.align="center"}
+plot(agg_nmi$lambda, agg_nmi$nmi, log="x",
+     type = "b", col = "blue", ylab = "NMI", xlab = "lambda", pch=19,
+     main="Specral clustering performance")
+lines(agg_nmi$lambda, agg_nmi$nmi_noreg, col="red", lty=2, pch=18, type = "b")
+legend(1, max(agg_nmi$nmi), legend = c("0.25 regularization","No regularization"), 
+       col = c("blue","red"), lty=1:2, box.lty=0)
+```
+
+Comparing with the result for the simple planted partition, we see that the problem based on $B_2$ is much harder for the spectral clustering. Note that the community structure of $B_2$ is not necessarily assortative.

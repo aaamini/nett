@@ -20,3 +20,4 @@ A list of result
 Estimate the number of communities under block models by using the spectral
 properties of network Beth-Hessian matrix with moment correction.
 }
+\keyword{mod_sel}

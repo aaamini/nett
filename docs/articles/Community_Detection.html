@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">nett</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9004</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9006</span>
       </span>
     </div>
 
@@ -103,40 +103,92 @@
 <span class="va">A</span> <span class="op">=</span> <span class="fu"><a href="../reference/sample_dcsbm.html">sample_dcsbm</a></span><span class="op">(</span><span class="va">z</span>, <span class="va">B</span>, <span class="va">theta</span><span class="op">)</span> <span class="co"># sample the adjacency matrix</span></pre></div>
 <p>We can apply the (Laplacian-based) regularized spectral clustering for community detection:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="va">zh</span> <span class="op">=</span> <span class="fu">spec_clust</span><span class="op">(</span><span class="va">A</span>, K<span class="op">=</span><span class="fl">4</span><span class="op">)</span></pre></div>
+<span class="va">zh</span> <span class="op">=</span> <span class="fu"><a href="../reference/spec_clust.html">spec_clust</a></span><span class="op">(</span><span class="va">A</span>, K<span class="op">=</span><span class="fl">4</span><span class="op">)</span></pre></div>
 <p>We can evaluate the performance by computing the normalized mutual information (NMI) to a true label vector:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="fu">compute_mutual_info</span><span class="op">(</span><span class="va">z</span>, <span class="va">zh</span><span class="op">)</span>
+<span class="fu"><a href="../reference/compute_mutual_info.html">compute_mutual_info</a></span><span class="op">(</span><span class="va">z</span>, <span class="va">zh</span><span class="op">)</span>
 <span class="co">#&gt; [1] 0.8459515</span></pre></div>
 <p>NMI is in <span class="math inline">\([0,1]\)</span> and the closer to 1 it is the closer the mathc between the two labels.</p>
 </div>
 <div id="performance-as-a-function-of-the-expected-degree" class="section level2">
 <h2 class="hasAnchor">
 <a href="#performance-as-a-function-of-the-expected-degree" class="anchor"></a>Performance as a function of the expected degree</h2>
-<p>Let us now consider the effect of the expected average degree <span class="math inline">\(\lambda\)</span> on the performance of spectral clustering:</p>
+<p>Let us now consider the effect of the expected average degree <span class="math inline">\(\lambda\)</span> on the performance of spectral clustering.</p>
+<div id="simple-planted-partition-model" class="section level3">
+<h3 class="hasAnchor">
+<a href="#simple-planted-partition-model" class="anchor"></a>Simple planted partition model</h3>
+<p>We first generate from a simple planted partition model, with connectivity matrix, <span class="math display">\[B_1 \propto (1-\beta)I_{K}+ \beta\mathbf{1}\mathbf{1}^{T}\]</span> where <span class="math inline">\(\beta\)</span> is the out-in-ratio.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="va">nrep</span> <span class="op">=</span> <span class="fl">5</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span>
+<span class="va">nrep</span> <span class="op">=</span> <span class="fl">20</span>
 <span class="va">nlam</span> <span class="op">=</span> <span class="fl">12</span>
 <span class="va">lamvec</span> <span class="op">=</span> <span class="fl">10</span><span class="op">^</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log10</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log10</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span>, length.out <span class="op">=</span> <span class="va">nlam</span><span class="op">)</span>  <span class="co"># the vector of logarithmically spaced lambda</span>
-<span class="va">runs</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html">expand.grid</a></span><span class="op">(</span> rep <span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="va">nrep</span>, lambda <span class="op">=</span> <span class="va">lamvec</span><span class="op">)</span>
+<span class="va">runs</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html">expand.grid</a></span><span class="op">(</span>rep <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">nrep</span>, lambda <span class="op">=</span> <span class="va">lamvec</span><span class="op">)</span>
 
 <span class="va">res</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">runs</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">j</span><span class="op">)</span> <span class="op">{</span>
  <span class="va">lambda</span> <span class="op">=</span> <span class="va">runs</span><span class="op">[</span><span class="va">j</span>,<span class="st">"lambda"</span><span class="op">]</span>
  <span class="va">B</span> <span class="op">=</span> <span class="fu"><a href="../reference/pp_conn.html">pp_conn</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">oir</span>, <span class="va">lambda</span>, pri<span class="op">=</span><span class="va">pri</span>, <span class="va">theta</span><span class="op">)</span><span class="op">$</span><span class="va">B</span>
  <span class="va">A</span> <span class="op">=</span> <span class="fu"><a href="../reference/sample_dcsbm.html">sample_dcsbm</a></span><span class="op">(</span><span class="va">z</span>, <span class="va">B</span>, <span class="va">theta</span><span class="op">)</span>
- <span class="va">zh</span> <span class="op">=</span> <span class="fu">spec_clust</span><span class="op">(</span><span class="va">A</span>, K<span class="op">=</span><span class="fl">4</span><span class="op">)</span>
- <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>rep <span class="op">=</span> <span class="va">runs</span><span class="op">[</span><span class="va">j</span>,<span class="st">"rep"</span><span class="op">]</span>, lambda <span class="op">=</span> <span class="va">lambda</span>, nmi <span class="op">=</span> <span class="fu">compute_mutual_info</span><span class="op">(</span><span class="va">z</span>, <span class="va">zh</span><span class="op">)</span><span class="op">)</span>
+ <span class="va">zh</span> <span class="op">=</span> <span class="fu"><a href="../reference/spec_clust.html">spec_clust</a></span><span class="op">(</span><span class="va">A</span>, K <span class="op">=</span> <span class="va">Ktru</span><span class="op">)</span> <span class="co"># defaults to tau = 0.25 for the  regularization parameter</span>
+ <span class="va">zh_noreg</span> <span class="op">=</span> <span class="fu"><a href="../reference/spec_clust.html">spec_clust</a></span><span class="op">(</span><span class="va">A</span>, K <span class="op">=</span> <span class="va">Ktru</span>, tau <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
+ <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>rep <span class="op">=</span> <span class="va">runs</span><span class="op">[</span><span class="va">j</span>,<span class="st">"rep"</span><span class="op">]</span>, lambda <span class="op">=</span> <span class="va">lambda</span>, 
+            nmi <span class="op">=</span> <span class="fu"><a href="../reference/compute_mutual_info.html">compute_mutual_info</a></span><span class="op">(</span><span class="va">z</span>, <span class="va">zh</span><span class="op">)</span>, nmi_noreg <span class="op">=</span> <span class="fu"><a href="../reference/compute_mutual_info.html">compute_mutual_info</a></span><span class="op">(</span><span class="va">z</span>, <span class="va">zh_noreg</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span><span class="op">)</span>
 
 <span class="va">agg_nmi</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span><span class="op">(</span><span class="va">res</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">lambda</span><span class="op">)</span>, FUN <span class="op">=</span> <span class="va">mean</span><span class="op">)</span></pre></div>
 <p>The resulting plot looks like this:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">agg_nmi</span><span class="op">$</span><span class="va">lambda</span>, <span class="va">agg_nmi</span><span class="op">$</span><span class="va">nmi</span>, log<span class="op">=</span><span class="st">"x"</span>,
-     type <span class="op">=</span> <span class="st">"l"</span>, col <span class="op">=</span> <span class="st">"blue"</span>, ylab <span class="op">=</span> <span class="st">"NMI"</span>, xlab <span class="op">=</span> <span class="st">"lambda"</span>,
+     type <span class="op">=</span> <span class="st">"b"</span>, col <span class="op">=</span> <span class="st">"blue"</span>, ylab <span class="op">=</span> <span class="st">"NMI"</span>, xlab <span class="op">=</span> <span class="st">"lambda"</span>, pch<span class="op">=</span><span class="fl">19</span>,
      main<span class="op">=</span><span class="st">"Specral clustering performance"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/points.html">points</a></span><span class="op">(</span><span class="va">agg_nmi</span><span class="op">$</span><span class="va">lambda</span>, <span class="va">agg_nmi</span><span class="op">$</span><span class="va">nmi</span>, col<span class="op">=</span><span class="st">"blue"</span>, pch<span class="op">=</span><span class="fl">16</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">agg_nmi</span><span class="op">$</span><span class="va">lambda</span>, <span class="va">agg_nmi</span><span class="op">$</span><span class="va">nmi_noreg</span>, col<span class="op">=</span><span class="st">"red"</span>, lty<span class="op">=</span><span class="fl">2</span>, pch<span class="op">=</span><span class="fl">18</span>, type <span class="op">=</span> <span class="st">"b"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"0.25 regularization"</span>,<span class="st">"No regularization"</span><span class="op">)</span>, 
+       col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"blue"</span>,<span class="st">"red"</span><span class="op">)</span>, lty<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, box.lty<span class="op">=</span><span class="fl">0</span><span class="op">)</span></pre></div>
 <p><img src="Community_Detection_files/figure-html/unnamed-chunk-6-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>This shows that increasing <span class="math inline">\(\lambda\)</span> makes the community detection problem easier.</p>
+</div>
+<div id="randomly-permuted-connectivty-matrix" class="section level3">
+<h3 class="hasAnchor">
+<a href="#randomly-permuted-connectivty-matrix" class="anchor"></a>Randomly permuted connectivty matrix</h3>
+<p>Let us now generate the connectivity matrix randomly as follows <span class="math display">\[B_2 \propto \gamma R + (1-\gamma) Q \]</span> where</p>
+<ul>
+<li>
+<span class="math inline">\(\gamma \in (0, 1)\)</span>,</li>
+<li>
+<span class="math inline">\(R\)</span> is a random symmetric permutation matrix (see function <code><a href="../reference/rsymperm.html">rsymperm()</a></code>), and</li>
+<li>
+<span class="math inline">\(Q\)</span> a symmetric matrix with i.i.d. Unif<span class="math inline">\((0,1)\)</span> entries on and above diagonal.</li>
+</ul>
+<p>The function <code><a href="../reference/gen_rand_conn.html">gen_rand_conn()</a></code> generates such connectivity matrices.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span>
+<span class="va">nrep</span> <span class="op">=</span> <span class="fl">20</span>
+<span class="va">nlam</span> <span class="op">=</span> <span class="fl">12</span>
+<span class="va">lamvec</span> <span class="op">=</span> <span class="fl">10</span><span class="op">^</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log10</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log10</a></span><span class="op">(</span><span class="fl">200</span><span class="op">)</span>, length.out <span class="op">=</span> <span class="va">nlam</span><span class="op">)</span>  <span class="co"># the vector of logarithmically spaced lambda</span>
+<span class="va">runs</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html">expand.grid</a></span><span class="op">(</span>rep <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">nrep</span>, lambda <span class="op">=</span> <span class="va">lamvec</span><span class="op">)</span>
+
+<span class="va">res</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">runs</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">j</span><span class="op">)</span> <span class="op">{</span>
+ <span class="va">lambda</span> <span class="op">=</span> <span class="va">runs</span><span class="op">[</span><span class="va">j</span>,<span class="st">"lambda"</span><span class="op">]</span>
+ <span class="va">B</span> <span class="op">=</span> <span class="fu"><a href="../reference/gen_rand_conn.html">gen_rand_conn</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">Ktru</span>, lambda <span class="op">=</span> <span class="va">lambda</span>, gamma <span class="op">=</span> <span class="fl">0.1</span>, pri<span class="op">=</span><span class="va">pri</span><span class="op">)</span>
+ <span class="va">A</span> <span class="op">=</span> <span class="fu"><a href="../reference/sample_dcsbm.html">sample_dcsbm</a></span><span class="op">(</span><span class="va">z</span>, <span class="va">B</span>, <span class="va">theta</span><span class="op">)</span>
+ <span class="va">zh</span> <span class="op">=</span> <span class="fu"><a href="../reference/spec_clust.html">spec_clust</a></span><span class="op">(</span><span class="va">A</span>, K <span class="op">=</span> <span class="va">Ktru</span><span class="op">)</span> <span class="co"># defaults to tau = 0.25 for the  regularization parameter</span>
+ <span class="va">zh_noreg</span> <span class="op">=</span> <span class="fu"><a href="../reference/spec_clust.html">spec_clust</a></span><span class="op">(</span><span class="va">A</span>, K <span class="op">=</span> <span class="va">Ktru</span>, tau <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
+ <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>rep <span class="op">=</span> <span class="va">runs</span><span class="op">[</span><span class="va">j</span>,<span class="st">"rep"</span><span class="op">]</span>, lambda <span class="op">=</span> <span class="va">lambda</span>, 
+            nmi <span class="op">=</span> <span class="fu"><a href="../reference/compute_mutual_info.html">compute_mutual_info</a></span><span class="op">(</span><span class="va">z</span>, <span class="va">zh</span><span class="op">)</span>, nmi_noreg <span class="op">=</span> <span class="fu"><a href="../reference/compute_mutual_info.html">compute_mutual_info</a></span><span class="op">(</span><span class="va">z</span>, <span class="va">zh_noreg</span><span class="op">)</span><span class="op">)</span>
+<span class="op">}</span><span class="op">)</span><span class="op">)</span>
+
+<span class="va">agg_nmi</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span><span class="op">(</span><span class="va">res</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">lambda</span><span class="op">)</span>, FUN <span class="op">=</span> <span class="va">mean</span><span class="op">)</span></pre></div>
+<p>The resulting plot looks like the following:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">agg_nmi</span><span class="op">$</span><span class="va">lambda</span>, <span class="va">agg_nmi</span><span class="op">$</span><span class="va">nmi</span>, log<span class="op">=</span><span class="st">"x"</span>,
+     type <span class="op">=</span> <span class="st">"b"</span>, col <span class="op">=</span> <span class="st">"blue"</span>, ylab <span class="op">=</span> <span class="st">"NMI"</span>, xlab <span class="op">=</span> <span class="st">"lambda"</span>, pch<span class="op">=</span><span class="fl">19</span>,
+     main<span class="op">=</span><span class="st">"Specral clustering performance"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">agg_nmi</span><span class="op">$</span><span class="va">lambda</span>, <span class="va">agg_nmi</span><span class="op">$</span><span class="va">nmi_noreg</span>, col<span class="op">=</span><span class="st">"red"</span>, lty<span class="op">=</span><span class="fl">2</span>, pch<span class="op">=</span><span class="fl">18</span>, type <span class="op">=</span> <span class="st">"b"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">agg_nmi</span><span class="op">$</span><span class="va">nmi</span><span class="op">)</span>, legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"0.25 regularization"</span>,<span class="st">"No regularization"</span><span class="op">)</span>, 
+       col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"blue"</span>,<span class="st">"red"</span><span class="op">)</span>, lty<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, box.lty<span class="op">=</span><span class="fl">0</span><span class="op">)</span></pre></div>
+<p><img src="Community_Detection_files/figure-html/unnamed-chunk-8-1.png" width="576" style="display: block; margin: auto;"></p>
+<p>Comparing with the result for the simple planted partition, we see that the problem based on <span class="math inline">\(B_2\)</span> is much harder for the spectral clustering. Note that the community structure of <span class="math inline">\(B_2\)</span> is not necessarily assortative.</p>
+</div>
 </div>
   </div>
 

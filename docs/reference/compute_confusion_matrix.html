@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Generate planted partition (PP) connectivity matrix — pp_conn • nett</title>
+<title>Compute confusion matrix — compute_confusion_matrix • nett</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Generate planted partition (PP) connectivity matrix — pp_conn" />
-<meta property="og:description" content="Create a degree-corrected planted partition connectivity matrix with a given average expected degree." />
+<meta property="og:title" content="Compute confusion matrix — compute_confusion_matrix" />
+<meta property="og:description" content="Compute confusion matrix" />
 
 
 
@@ -115,61 +115,18 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Generate planted partition (PP) connectivity matrix</h1>
+    <h1>Compute confusion matrix</h1>
     
-    <div class="hidden name"><code>pp_conn.Rd</code></div>
+    <div class="hidden name"><code>compute_confusion_matrix.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Create a degree-corrected planted partition connectivity matrix with a given average expected degree.</p>
+    <p>Compute confusion matrix</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pp_conn</span><span class='op'>(</span>
-  <span class='va'>n</span>,
-  <span class='va'>oir</span>,
-  <span class='va'>lambda</span>,
-  <span class='va'>pri</span>,
-  theta <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='va'>n</span><span class='op'>)</span>,
-  normalize_theta <span class='op'>=</span> <span class='cn'>F</span>,
-  d <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>pri</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>compute_confusion_matrix</span><span class='op'>(</span><span class='va'>z</span>, <span class='va'>y</span>, K <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>n</th>
-      <td><p>the number of nodes</p></td>
-    </tr>
-    <tr>
-      <th>oir</th>
-      <td><p>out-in-ratio</p></td>
-    </tr>
-    <tr>
-      <th>lambda</th>
-      <td><p>the expected average degree</p></td>
-    </tr>
-    <tr>
-      <th>pri</th>
-      <td><p>the prior on community labels</p></td>
-    </tr>
-    <tr>
-      <th>theta</th>
-      <td><p>node connection propensity parameter of DCSBM</p></td>
-    </tr>
-    <tr>
-      <th>normalize_theta</th>
-      <td><p>whether to normalize theta so that max(theta) == 1</p></td>
-    </tr>
-    <tr>
-      <th>d</th>
-      <td><p>diagonal of the connectivity matrix. An all-one vector by default.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>The connectivity matrix B of the desired DCSBM.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

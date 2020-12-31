@@ -8,6 +8,7 @@
 #' @param type (lap|adj|adj2) Whether to use Laplacian or adjacency-based spectral clustering
 #' @param tau Regularization paramter for the Laplacian
 #' @return A vector of size n x 1 with elements in {1,2,...,K}
+#' @keywords comm_detect
 #' @export
 spec_clust <- function(A, K, type="lap",
                        tau = 0.25, nstart = 20, niter = 10,

@@ -17,7 +17,7 @@ get_dcsbm_exav_deg <- function(n, pri, B, ex_theta = 1) {
 #   as.numeric( (n-1) * t(pri) %*% B %*% pri )
 # }
 
-#' Planted partition connectivity matrix
+#' Generate planted partition (PP) connectivity matrix
 #'
 #' Create a degree-corrected planted partition connectivity matrix with a given average expected degree.
 #' @param n the number of nodes
@@ -28,6 +28,7 @@ get_dcsbm_exav_deg <- function(n, pri, B, ex_theta = 1) {
 #' @param normalize_theta whether to normalize theta so that max(theta) == 1
 #' @param d diagonal of the connectivity matrix. An all-one vector by default.
 #' @return The connectivity matrix B of the desired DCSBM.
+#' @keywords models
 #' @export
 pp_conn <- function(n, oir, lambda, pri, theta = rep(1,n), normalize_theta = F, d = rep(1, length(pri))) {
   K = length(pri)
@@ -49,22 +50,35 @@ pp_conn <- function(n, oir, lambda, pri, theta = rep(1,n), normalize_theta = F, 
   }
   list(B=B, theta=theta)
 }
-# pp_conn <- function(n, p, lambda, csizes) {
-#   # create a planted partition connectivity matrix
-#   # the P matrix : block density
-#   # lambda is the desired avg degree, n is size, p is cout/cint, csizes is pi
-#   if (sum(csizes) != 1) {
-#     csizes = csizes/sum(csizes)
-#   }
-#   csizes = csizes * n
-#   Kc = length(csizes)
-#   P0 = p + diag(rep(1 - p, Kc))
-#   # cat('cout/cin = ', p, '\n')
-#   P0 = round(pmax(P0, t(P0))/max(P0), 2)
-#   scale = sum(diag(csizes) %*% P0 %*% diag(csizes)/sum(csizes))
-#   Pmat = pmin(P0 * lambda/scale, 1)
-#   return(Pmat)
-# }
+
+#' Generate randomly permuted connectivity matrix
+#'
+#' Creates a randomly permuted DCPP connectivity matrix with a given average expected degree
+#'
+#' The connectivity matrix is a convex combination of a random symmetric permutation matrix and
+#' the matrix of all ones, with weights gamm and 1-gamma.
+#'
+#' This version assumes E(theta) = 1 where theta is the degree propensity parameter of DCSBM.
+#' TODO: This could be extended to include general E(theta) in future versions.
+#'
+#' @param n number of nodes
+#' @param K number of communities
+#' @param lambda expected average degree
+#' @param gamma a measure of out-in-ratio (convex combination parameter)
+#' @param pri the prior on community labels
+#' @return connectivity matrix B of the desired DCSBM.
+#' @keywords models
+#' @export
+gen_rand_conn = function(n, K, lambda, gamma = 0.3, pri = rep(1,K)/K) {
+  B = matrix(runif(K^2),K)
+  B = (B + t(B))/2
+  # main structure
+  rand_perm_mat = rsymperm(K) # diag(K)[, sample(K)]
+  B = (1-gamma)*rand_perm_mat + gamma*B
+  scale = get_dcsbm_exav_deg(n, pri, B)
+  B*lambda/scale
+}
+
 
 #' Sample from a DCPP
 #'
