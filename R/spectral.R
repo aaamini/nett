@@ -1,5 +1,13 @@
-# Spectral clustering -----------------------------------------------------
-# Spectral clustering with perturbation
+
+#' Spectral clustering
+#'
+#' Perform spectral clustering (with regularization) to estimate communities
+#'
+#' @param A Adjacency matrix (n x n)
+#' @param K Number of communities
+#' @param type (lap|adj|adj2) Whether to use Laplacian or adjacency-based spectral clustering
+#' @param tau Regularization paramter for the Laplacian
+#' @return A vector of size n x 1 with elements in {1,2,...,K}
 #' @export
 spec_clust <- function(A, K, type="lap",
                        tau = 0.25, nstart = 20, niter = 10,

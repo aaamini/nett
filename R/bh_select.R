@@ -1,12 +1,12 @@
-#' Estimate the community number using the Beth Hessian matrix
+#' Beth-Hessian model selection
 #'
-#' Estimates the number of communities under block models by using the spectral
+#' Estimate the number of communities under block models by using the spectral
 #' properties of network Beth-Hessian matrix with moment correction.
 
 #' @param A adjacency matrix.
 #' @param Kmax the maximum number of communities to check.
 #' @return A list of result
-#' \item{K}{estimated community number}
+#' \item{K}{estimated the number of communities}
 #' \item{rho}{eigenvalues of the Beth-Hessian matrix}
 
 

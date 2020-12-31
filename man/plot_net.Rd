@@ -25,6 +25,8 @@ plot_net(
 \item{gr}{the network as an igraph object}
 
 \item{community}{community assgiment; vector of node labels}
+
+\item{...}{other settings}
 }
 \description{
 Plot a network using degree-modulated node sizes, community colors and other enhancements

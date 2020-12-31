@@ -3,7 +3,7 @@
 #' Plot a network using degree-modulated node sizes, community colors and other enhancements
 #' @param gr the network as an igraph object
 #' @param community community assgiment; vector of node labels
-#' @param ...
+#' @param ... other settings
 #' @export
 plot_net = function(gr,
                     community = NULL,

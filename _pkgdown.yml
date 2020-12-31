@@ -1,0 +1,30 @@
+reference:
+- title: Sampling and network creation
+  # desc:  Sampling form network models
+- contents:
+  - starts_with("sample_")
+  - fastSBM
+  - pp_conn
+
+- title: Community detection
+  # desc: Community detection
+- contents:
+  - spec_clust
+
+
+- title: Model selection and goodness-of-fit testing
+- contents:
+  - adj_spec_test
+  - bethe_hessian_select
+  - nac_test
+  - snac_test
+  - snac_resample
+
+- title: Plotting
+- contents:
+  -  starts_with("plot_")
+
+- title: Utilities
+- contents:
+  - extract_largest_cc
+  - extract_low_deg_comp

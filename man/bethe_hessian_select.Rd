@@ -2,7 +2,7 @@
 % Please edit documentation in R/bh_select.R
 \name{bethe_hessian_select}
 \alias{bethe_hessian_select}
-\title{Estimate the community number using the Beth Hessian matrix}
+\title{Beth-Hessian model selection}
 \usage{
 bethe_hessian_select(A, Kmax)
 }
@@ -13,10 +13,10 @@ bethe_hessian_select(A, Kmax)
 }
 \value{
 A list of result
-\item{K}{estimated community number}
+\item{K}{estimated the number of communities}
 \item{rho}{eigenvalues of the Beth-Hessian matrix}
 }
 \description{
-Estimates the number of communities under block models by using the spectral
+Estimate the number of communities under block models by using the spectral
 properties of network Beth-Hessian matrix with moment correction.
 }

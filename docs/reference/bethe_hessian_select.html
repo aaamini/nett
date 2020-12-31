@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • nett</title>
+<title>Beth-Hessian model selection — bethe_hessian_select • nett</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,9 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Beth-Hessian model selection — bethe_hessian_select" />
+<meta property="og:description" content="Estimate the number of communities under block models by using the spectral
+properties of network Beth-Hessian matrix with moment correction." />
 
 
 
@@ -58,7 +60,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -112,184 +114,41 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Beth-Hessian model selection</h1>
+    
+    <div class="hidden name"><code>bethe_hessian_select.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Estimate the number of communities under block models by using the spectral
+properties of network Beth-Hessian matrix with moment correction.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>bethe_hessian_select</span><span class='op'>(</span><span class='va'>A</span>, <span class='va'>Kmax</span><span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-sampling-and-network-creation" class="hasAnchor"><a href="#section-sampling-and-network-creation" class="anchor"></a>Sampling and network creation</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="sample_dclvm.html">sample_dclvm()</a></code> </p>
-        </td>
-        <td><p>Sample from a DCLVM</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sample_dcpp.html">sample_dcpp()</a></code> </p>
-        </td>
-        <td><p>Sample from a DCPP</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sample_dcsbm.html">sample_dcsbm()</a></code> </p>
-        </td>
-        <td><p>Sample DCSBM</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="fastSBM.html">fastSBM()</a></code> </p>
-        </td>
-        <td><p>Sample SBM</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pp_conn.html">pp_conn()</a></code> </p>
-        </td>
-        <td><p>Planted partition connectivity matrix</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-community-detection" class="hasAnchor"><a href="#section-community-detection" class="anchor"></a>Community detection</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="spec_clust.html">spec_clust()</a></code> </p>
-        </td>
-        <td><p>Spectral clustering</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-model-selection-and-goodness-of-fit-testing" class="hasAnchor"><a href="#section-model-selection-and-goodness-of-fit-testing" class="anchor"></a>Model selection and goodness-of-fit testing</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="adj_spec_test.html">adj_spec_test()</a></code> </p>
-        </td>
-        <td><p>Adjusted spectral test</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="bethe_hessian_select.html">bethe_hessian_select()</a></code> </p>
-        </td>
-        <td><p>Beth-Hessian model selection</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="nac_test.html">nac_test()</a></code> </p>
-        </td>
-        <td><p>NAC test</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="snac_test.html">snac_test()</a></code> </p>
-        </td>
-        <td><p>SNAC test</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="snac_resample.html">snac_resample()</a></code> </p>
-        </td>
-        <td><p>Resampled SNAC+</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-plotting" class="hasAnchor"><a href="#section-plotting" class="anchor"></a>Plotting</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="plot_deg_dist.html">plot_deg_dist()</a></code> </p>
-        </td>
-        <td><p>Plot digree distribution</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_net.html">plot_net()</a></code> </p>
-        </td>
-        <td><p>Plot a network</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_smooth_profile.html">plot_smooth_profile()</a></code> </p>
-        </td>
-        <td><p>Plot community profiles</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-utilities" class="hasAnchor"><a href="#section-utilities" class="anchor"></a>Utilities</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="extract_largest_cc.html">extract_largest_cc()</a></code> </p>
-        </td>
-        <td><p>Extract largest component</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="extract_low_deg_comp.html">extract_low_deg_comp()</a></code> </p>
-        </td>
-        <td><p>Extract low-degree component</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>A</th>
+      <td><p>adjacency matrix.</p></td>
+    </tr>
+    <tr>
+      <th>Kmax</th>
+      <td><p>the maximum number of communities to check.</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A list of result</p>
+<dt>K</dt><dd><p>estimated the number of communities</p></dd>
+<dt>rho</dt><dd><p>eigenvalues of the Beth-Hessian matrix</p></dd>
+
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
