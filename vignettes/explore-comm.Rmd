@@ -1,8 +1,8 @@
 ---
-title: "Exploring community structure"
+title: "Exploring Community Structure"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Exploring community structure}
+  %\VignetteIndexEntry{explore-comm}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -42,3 +42,5 @@ Compute and plot the community profile based on SNAC+ test statistic:
 tstat = snac_resample(A, nrep = 10, ncores = 3)
 plot_smooth_profile(tstat, "A DCPP network")
 ```
+
+See the article [Adjusted chi-square test for degree-corrected block models, Zhang and Amini](https://arxiv.org/abs/2012.15047) for how these profiles are constructed.

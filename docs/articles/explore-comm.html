@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Exploring community structure • nett</title>
+<title>Exploring Community Structure • nett</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Exploring community structure">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Exploring Community Structure">
 <meta property="og:description" content="nett">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">nett</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9004</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9006</span>
       </span>
     </div>
 
@@ -54,7 +54,7 @@
       <a href="../articles/Visualization.html">Visualization</a>
     </li>
     <li>
-      <a href="../articles/explore-community.html">Exploring community structure</a>
+      <a href="../articles/explore-comm.html">Exploring Community Structure</a>
     </li>
   </ul>
 </li>
@@ -69,15 +69,15 @@
 
       
 
-      </header><script src="explore-community_files/header-attrs-2.5.2/header-attrs.js"></script><link href="explore-community_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
-<script src="explore-community_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
+      </header><script src="explore-comm_files/header-attrs-2.5.2/header-attrs.js"></script><link href="explore-comm_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="explore-comm_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Exploring community structure</h1>
+      <h1 data-toc-skip>Exploring Community Structure</h1>
             
       
       
-      <div class="hidden name"><code>explore-community.Rmd</code></div>
+      <div class="hidden name"><code>explore-comm.Rmd</code></div>
 
     </div>
 
@@ -107,7 +107,8 @@
 <div class="sourceCode" id="cb4"><pre class="downlit">
 <span class="va">tstat</span> <span class="op">=</span> <span class="fu"><a href="../reference/snac_resample.html">snac_resample</a></span><span class="op">(</span><span class="va">A</span>, nrep <span class="op">=</span> <span class="fl">10</span>, ncores <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
 <span class="fu"><a href="../reference/plot_smooth_profile.html">plot_smooth_profile</a></span><span class="op">(</span><span class="va">tstat</span>, <span class="st">"A DCPP network"</span><span class="op">)</span></pre></div>
-<p><img src="explore-community_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
+<p><img src="explore-comm_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
+<p>See the article <a href="https://arxiv.org/abs/2012.15047">Adjusted chi-square test for degree-corrected block models, Zhang and Amini</a> for how these profiles are constructed.</p>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

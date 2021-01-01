@@ -15,7 +15,7 @@ snac_resample = function(A, nrep = 20, Kmin = 1, Kmax = 13, ncores = 10, seed = 
             data.frame(
                 itr = rep(t, length(Ks)),
                 K = Ks,
-                value = sapply(Ks, function(k) CCsub(A, k, labels[ , k-Kmin+1], ratio = .5, fromEachCommunity=TRUE)$total)
+                value = sapply(Ks, function(k) snac_test(A, k, labels[ , k-Kmin+1])$stat)
             )
         })
 
