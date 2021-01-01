@@ -15,7 +15,9 @@ devtools::install_github("aaamini/nett")
 </pre>
 
 To also build the vignettes when installing use the follwing:
+
 <pre>
 devtools::install_github("aaamini/nett", build_vignettes = TRUE)
 </pre>
+
 This will take some time. Alternatively, just refer to the articles on this website (which are the the built vignettes).
