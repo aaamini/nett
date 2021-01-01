@@ -23,6 +23,10 @@ reference:
   - snac_test
   - snac_resample
 
+- title: Model estimation
+- contents:
+  - has_keyword("estimation")
+
 - title: Plotting
 - contents:
   -  starts_with("plot_")

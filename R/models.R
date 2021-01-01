@@ -58,24 +58,23 @@ pp_conn <- function(n, oir, lambda, pri, theta = rep(1,n), normalize_theta = F, 
 #' The connectivity matrix is a convex combination of a random symmetric permutation matrix and
 #' the matrix of all ones, with weights gamm and 1-gamma.
 #'
-#' This version assumes E(theta) = 1 where theta is the degree propensity parameter of DCSBM.
-#' TODO: This could be extended to include general E(theta) in future versions.
 #'
 #' @param n number of nodes
 #' @param K number of communities
 #' @param lambda expected average degree
 #' @param gamma a measure of out-in-ratio (convex combination parameter)
 #' @param pri the prior on community labels
+#' @param theta node connection propensity parameter of DCSBM, by default E(theta) = 1
 #' @return connectivity matrix B of the desired DCSBM.
 #' @keywords models
 #' @export
-gen_rand_conn = function(n, K, lambda, gamma = 0.3, pri = rep(1,K)/K) {
+gen_rand_conn = function(n, K, lambda, gamma = 0.3, pri = rep(1,K)/K, theta = rep(1,n)) {
   B = matrix(runif(K^2),K)
   B = (B + t(B))/2
   # main structure
   rand_perm_mat = rsymperm(K) # diag(K)[, sample(K)]
   B = (1-gamma)*rand_perm_mat + gamma*B
-  scale = get_dcsbm_exav_deg(n, pri, B)
+  scale = get_dcsbm_exav_deg(n, pri, B, mean(theta))
   B*lambda/scale
 }
 

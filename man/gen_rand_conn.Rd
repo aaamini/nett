@@ -4,21 +4,23 @@
 \alias{gen_rand_conn}
 \title{Generate randomly permuted connectivity matrix}
 \usage{
-gen_rand_conn(n, K, lambda, gamma = 0.3, pri = rep(1, K)/K)
+gen_rand_conn(n, K, lambda, gamma = 0.3, pri = rep(1, K)/K, theta = rep(1, n))
 }
 \arguments{
-\item{n}{the number of nodes}
+\item{n}{number of nodes}
 
-\item{lambda}{the expected average degree}
+\item{K}{number of communities}
+
+\item{lambda}{expected average degree}
 
 \item{gamma}{a measure of out-in-ratio (convex combination parameter)}
 
 \item{pri}{the prior on community labels}
 
-\item{d}{diagonal of the connectivity matrix. An all-one vector by default.}
+\item{theta}{node connection propensity parameter of DCSBM, by default E(theta) = 1}
 }
 \value{
-The connectivity matrix B of the desired DCSBM.
+connectivity matrix B of the desired DCSBM.
 }
 \description{
 Creates a randomly permuted DCPP connectivity matrix with a given average expected degree
@@ -26,8 +28,5 @@ Creates a randomly permuted DCPP connectivity matrix with a given average expect
 \details{
 The connectivity matrix is a convex combination of a random symmetric permutation matrix and
 the matrix of all ones, with weights gamm and 1-gamma.
-
-This version assumes E(theta) = 1 where theta is the degree propensity parameter of DCSBM.
-TODO: This could be extended to include general E(theta) in future versions.
 }
 \keyword{models}
