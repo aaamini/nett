@@ -19,6 +19,7 @@ html, body {
 
 body {
   position: relative;
+  font-size: 150%;
 }
 
 body > .container {
