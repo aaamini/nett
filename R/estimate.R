@@ -4,6 +4,14 @@
 # The idea behind the following function is due to Aiyou Chen
 # require A to be a sparse matrix
 # This is faster than looping over [K] x [K].
+
+#' Block sum of an adjacency matrix
+#'
+#' Compute the block sum of an adjacency matrix given a label vector.
+#' @param A adjacency matrix.
+#' @param z label vector.
+#' @return matrix $B[k,l] = sum_{i,j} A[i,j] 1{z_i = k, z_j = l}$
+#' @keywords estimation
 #' @export
 computeBlockSums <- function(A, z) {
   # A: a sparse adjacency matrix
