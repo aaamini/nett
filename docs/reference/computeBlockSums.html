@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Sample from a DCLVM — sample_dclvm • nett</title>
+<title>Block sum of an adjacency matrix — computeBlockSums • nett</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Sample from a DCLVM — sample_dclvm" />
-<meta property="og:description" content="Sample form a degree-corrected latent variable model with Gaussian kernel" />
+<meta property="og:title" content="Block sum of an adjacency matrix — computeBlockSums" />
+<meta property="og:description" content="Compute the block sum of an adjacency matrix given a label vector." />
 
 
 
@@ -115,18 +115,33 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Sample from a DCLVM</h1>
+    <h1>Block sum of an adjacency matrix</h1>
     
-    <div class="hidden name"><code>sample_dclvm.Rd</code></div>
+    <div class="hidden name"><code>computeBlockSums.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Sample form a degree-corrected latent variable model with Gaussian kernel</p>
+    <p>Compute the block sum of an adjacency matrix given a label vector.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sample_dclvm</span><span class='op'>(</span><span class='va'>z</span>, <span class='va'>lambda</span>, <span class='va'>theta</span>, npairs <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>computeBlockSums</span><span class='op'>(</span><span class='va'>A</span>, <span class='va'>z</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>A</th>
+      <td><p>adjacency matrix.</p></td>
+    </tr>
+    <tr>
+      <th>z</th>
+      <td><p>label vector.</p></td>
+    </tr>
+    </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>matrix $Bk,l = sum_i,j Ai,j 1z_i = k, z_j = l$</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

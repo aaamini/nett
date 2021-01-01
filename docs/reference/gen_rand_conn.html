@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">nett</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9006</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9007</span>
       </span>
     </div>
 
@@ -95,7 +95,7 @@
       <a href="../articles/Visualization.html">Visualization</a>
     </li>
     <li>
-      <a href="../articles/explore-community.html">Exploring community structure</a>
+      <a href="../articles/explore-comm.html">Exploring Community Structure</a>
     </li>
   </ul>
 </li>
@@ -124,18 +124,22 @@
     <p>Creates a randomly permuted DCPP connectivity matrix with a given average expected degree</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gen_rand_conn</span><span class='op'>(</span><span class='va'>n</span>, <span class='va'>K</span>, <span class='va'>lambda</span>, gamma <span class='op'>=</span> <span class='fl'>0.3</span>, pri <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='va'>K</span><span class='op'>)</span><span class='op'>/</span><span class='va'>K</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>gen_rand_conn</span><span class='op'>(</span><span class='va'>n</span>, <span class='va'>K</span>, <span class='va'>lambda</span>, gamma <span class='op'>=</span> <span class='fl'>0.3</span>, pri <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='va'>K</span><span class='op'>)</span><span class='op'>/</span><span class='va'>K</span>, theta <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='va'>n</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>n</th>
-      <td><p>the number of nodes</p></td>
+      <td><p>number of nodes</p></td>
+    </tr>
+    <tr>
+      <th>K</th>
+      <td><p>number of communities</p></td>
     </tr>
     <tr>
       <th>lambda</th>
-      <td><p>the expected average degree</p></td>
+      <td><p>expected average degree</p></td>
     </tr>
     <tr>
       <th>gamma</th>
@@ -146,20 +150,18 @@
       <td><p>the prior on community labels</p></td>
     </tr>
     <tr>
-      <th>d</th>
-      <td><p>diagonal of the connectivity matrix. An all-one vector by default.</p></td>
+      <th>theta</th>
+      <td><p>node connection propensity parameter of DCSBM, by default E(theta) = 1</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The connectivity matrix B of the desired DCSBM.</p>
+    <p>connectivity matrix B of the desired DCSBM.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The connectivity matrix is a convex combination of a random symmetric permutation matrix and
 the matrix of all ones, with weights gamm and 1-gamma.</p>
-<p>This version assumes E(theta) = 1 where theta is the degree propensity parameter of DCSBM.
-TODO: This could be extended to include general E(theta) in future versions.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
