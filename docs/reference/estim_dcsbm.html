@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>The usual "printf" function — printf • nett</title>
+<title>Estimate model parameters of a DCSBM — estim_dcsbm • nett</title>
 
 
 <!-- jquery -->
@@ -41,8 +41,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="The usual "printf" function — printf" />
-<meta property="og:description" content="The usual &quot;printf&quot; function" />
+<meta property="og:title" content="Estimate model parameters of a DCSBM — estim_dcsbm" />
+<meta property="og:description" content="Compute the block sum of an adjacency matrix given a label vector." />
 
 
 
@@ -123,18 +123,39 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>The usual "printf" function</h1>
+    <h1>Estimate model parameters of a DCSBM</h1>
     
-    <div class="hidden name"><code>printf.Rd</code></div>
+    <div class="hidden name"><code>estim_dcsbm.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The usual "printf" function</p>
+    <p>Compute the block sum of an adjacency matrix given a label vector.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>printf</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>estim_dcsbm</span><span class='op'>(</span><span class='va'>A</span>, <span class='va'>z</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>A</th>
+      <td><p>adjacency matrix.</p></td>
+    </tr>
+    <tr>
+      <th>z</th>
+      <td><p>label vector.</p></td>
+    </tr>
+    </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A list of result</p>
+<dt>B</dt><dd><p>estimated connectivity matrix.</p></dd>
+<dt>theta</dt><dd><p>estimated node propensity parameter.</p></dd>
+
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>$$\hat B_{k\ell} = \frac{N_{k\ell}(\hat z)}{m_{k\ell} (\hat z)}, \quad \hat \theta_i =  \frac{n_{\hat z_i}(\zh) d_i}{\sum_{j : \hat z_j = \hat z_i} d_i}, \quad \hat \pi_k = n_k(\zh) / n$$</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

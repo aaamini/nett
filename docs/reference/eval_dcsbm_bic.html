@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>The usual "printf" function — printf • nett</title>
+<title>compute BIC score — eval_dcsbm_bic • nett</title>
 
 
 <!-- jquery -->
@@ -41,8 +41,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="The usual "printf" function — printf" />
-<meta property="og:description" content="The usual &quot;printf&quot; function" />
+<meta property="og:title" content="compute BIC score — eval_dcsbm_bic" />
+<meta property="og:description" content="compute BIC score when fitting a DCSBM to network data" />
 
 
 
@@ -123,17 +123,37 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>The usual "printf" function</h1>
+    <h1>compute BIC score</h1>
     
-    <div class="hidden name"><code>printf.Rd</code></div>
+    <div class="hidden name"><code>eval_dcsbm_bic.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The usual "printf" function</p>
+    <p>compute BIC score when fitting a DCSBM to network data</p>
     </div>
 
-    <pre class="usage"><span class='fu'>printf</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>eval_dcsbm_bic</span><span class='op'>(</span><span class='va'>A</span>, <span class='va'>z</span>, <span class='va'>K</span>, <span class='va'>poi</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>A</th>
+      <td><p>adjacency matrix</p></td>
+    </tr>
+    <tr>
+      <th>z</th>
+      <td><p>label vector</p></td>
+    </tr>
+    <tr>
+      <th>K</th>
+      <td><p>number of community in <code>z</code></p></td>
+    </tr>
+    <tr>
+      <th>poi</th>
+      <td><p>whether to use Poisson version of likelihood</p></td>
+    </tr>
+    </table>
 
 
   </div>

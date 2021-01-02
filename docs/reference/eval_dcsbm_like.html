@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>The usual "printf" function — printf • nett</title>
+<title>Log likelihood of a DCSBM — eval_dcsbm_like • nett</title>
 
 
 <!-- jquery -->
@@ -41,8 +41,9 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="The usual "printf" function — printf" />
-<meta property="og:description" content="The usual &quot;printf&quot; function" />
+<meta property="og:title" content="Log likelihood of a DCSBM — eval_dcsbm_like" />
+<meta property="og:description" content="Compute the log likelihood of a DCSBM, using estimated parameters
+B, theta based on the given label vector" />
 
 
 
@@ -123,18 +124,43 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>The usual "printf" function</h1>
+    <h1>Log likelihood of a DCSBM</h1>
     
-    <div class="hidden name"><code>printf.Rd</code></div>
+    <div class="hidden name"><code>eval_dcsbm_like.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The usual "printf" function</p>
+    <p>Compute the log likelihood of a DCSBM, using estimated parameters
+B, theta based on the given label vector</p>
     </div>
 
-    <pre class="usage"><span class='fu'>printf</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>eval_dcsbm_like</span><span class='op'>(</span><span class='va'>A</span>, <span class='va'>z</span>, poi <span class='op'>=</span> <span class='cn'>T</span>, eps <span class='op'>=</span> <span class='fl'>1e-06</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>A</th>
+      <td><p>adjacency matrix</p></td>
+    </tr>
+    <tr>
+      <th>z</th>
+      <td><p>label vector</p></td>
+    </tr>
+    <tr>
+      <th>poi</th>
+      <td><p>whether to use Poisson version of likelihood</p></td>
+    </tr>
+    <tr>
+      <th>eps</th>
+      <td><p>truncation threshold for the Bernoulli likelihood,
+used when parameter phat is close to 1 or 0.</p></td>
+    </tr>
+    </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>log likelihood of a DCSBM</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
