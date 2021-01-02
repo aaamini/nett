@@ -10,7 +10,7 @@
 #' Compute the block sum of an adjacency matrix given a label vector.
 #' @param A adjacency matrix.
 #' @param z label vector.
-#' @return matrix $B[k,l] = sum_{i,j} A[i,j] 1{z_i = k, z_j = l}$
+#' @return matrix B[k,l] = sum_{i,j} A[i,j] 1{z_i = k, z_j = l}
 #' @keywords estimation
 #' @export
 computeBlockSums <- function(A, z) {
@@ -24,7 +24,6 @@ computeBlockSums <- function(A, z) {
 
 # estimate parameters of the block model -- can be removed since estim_dcsbm is enough
 # in fact estim_sbm = function(A,z) estim_dcsbm(A,z)$B
-#' @export
 estim_sbm <- function(A,z) estim_dcsbm(A,z)$B
 # estim_sbm <- function(A, z) {
 #   ns <- as.vector(table(z))
@@ -40,6 +39,19 @@ estim_sbm <- function(A,z) estim_dcsbm(A,z)$B
 
 # estimate parameters of the degree-corrected block model
 # fast implementation
+# TODO: fix math equations in the doc
+
+#' Estimate model parameters of a DCSBM
+#'
+#' Compute the block sum of an adjacency matrix given a label vector.
+#' @param A adjacency matrix.
+#' @param z label vector.
+#' @return A list of result
+#' \item{B}{estimated connectivity matrix.}
+#' \item{theta}{estimated node propensity parameter.}
+#' @details
+#' \deqn{\hat B_{k\ell} = \frac{N_{k\ell}(\hat z)}{m_{k\ell} (\hat z)}, \quad \hat \theta_i =  \frac{n_{\hat z_i}(\zh) d_i}{\sum_{j : \hat z_j = \hat z_i} d_i}, \quad \hat \pi_k = n_k(\zh) / n}
+#' @keywords estimation
 #' @export
 estim_dcsbm <- function(A,z) {
   ns <- as.vector(table(z)) # nk = tabulate(z)
@@ -65,6 +77,18 @@ estim_dcsbm <- function(A,z) {
 # TODO: check dimensions
 # TODO: extend to non-consequential labels, and automatically detect max. label
 # Likelihood computations -------------------------------------------------
+# TODO: need add equations
+#' Log likelihood of a DCSBM
+#' @description Compute the log likelihood of a DCSBM, using estimated parameters
+#' B, theta based on the given label vector
+#'
+#' @param A adjacency matrix
+#' @param z label vector
+#' @param poi whether to use Poisson version of likelihood
+#' @param eps truncation threshold for the Bernoulli likelihood,
+#' used when parameter phat is close to 1 or 0.
+#' @return log likelihood of a DCSBM
+#' @keywords estimation
 #' @export
 eval_dcsbm_like <- function(A, z, poi = T, eps = 1e-6) {
   Bsum = computeBlockSums(A,z)
@@ -117,12 +141,31 @@ eval_dcsbm_like <- function(A, z, poi = T, eps = 1e-6) {
 }
 
 # computes likelihood ratio of labels[ , 2]-model w.r.t. labels[ , 1]-model
+#' Log likelihood of a DCSBM
+#' @description Compute the log likelihood of a DCSBM, using estimated parameters
+#' B, theta based on the given label vector
+#'
+#' @param A adjacency matrix
+#' @param labels a matrix with two columns as two different label vectors
+#' @param poi whether to use Poisson version of likelihood
+#' @param eps truncation threshold for the Bernoulli likelihood,
+#' used when parameter phat is close to 1 or 0.
+#' @return log likelihood ratio
+#' @details log likelihood ratio between fitting DCSBM with the label vectors
+#' as the second and first column of \code{labels}
+#' @keywords mod_sel
 #' @export
 eval_dcsbm_loglr = function(A, labels, poi = T, eps = 1e-6) {
   eval_dcsbm_like(A, labels[ , 2], poi = poi, eps = eps) - eval_dcsbm_like(A, labels[ , 1], poi = poi, eps = eps)
 }
 
-# compute BIC score, based on poisson distr
+#' compute BIC score
+#' @description compute BIC score when fitting a DCSBM to network data
+#' @param A adjacency matrix
+#' @param z label vector
+#' @param K number of community in \code{z}
+#' @param poi whether to use Poisson version of likelihood
+#' @keywords mod_sel
 #' @export
 eval_dcsbm_bic = function(A, z, K, poi) {
   n = length(labels)
