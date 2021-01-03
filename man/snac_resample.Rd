@@ -6,6 +6,19 @@
 \usage{
 snac_resample(A, nrep = 20, Kmin = 1, Kmax = 13, ncores = 10, seed = 1234)
 }
+\arguments{
+\item{A}{adjacency matrix}
+
+\item{nrep}{number of times SNAC+ is computed}
+
+\item{Kmin}{minimum community number to use in SNAC+}
+
+\item{Kmax}{maximum community number to use in SNAC+}
+
+\item{ncores}{number of cores to use in the parallel computing}
+
+\item{seed}{seed for random sampling}
+}
 \description{
 Compute SNAC+ with resampling
 }

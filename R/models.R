@@ -1,5 +1,14 @@
 # simulation functions
 # AA: Functions are mostly provided by Aiyou Chen (most likely!)
+
+#' Calculate the expected average degree of a DCSBM
+#' @description Calculate the expected average degree of a DCSBM
+#' @param n number of nodes
+#' @param pri distribution of node labels (K x 1)
+#' @param B  connectivity matrix (K x K)
+#' @param ex_theta expected value of theta
+#' @return expected average degree of a DCSBM
+#' @keywords models
 #' @export
 get_dcsbm_exav_deg <- function(n, pri, B, ex_theta = 1) {
   # Calculate the expected average degree of a DCSBM
@@ -8,14 +17,6 @@ get_dcsbm_exav_deg <- function(n, pri, B, ex_theta = 1) {
   pri = as.vector(pri)
   as.numeric( (n-1) * t(pri) %*% B %*% pri * (ex_theta^2) )
 }
-
-# get_sbm_exav_deg <- function(n, pri, B) {
-#   # Calculate the expected average degree of a DCSBM
-#   # pri: class prior
-#   # ex_theta: expected theta
-#   pri = as.vector(pri)
-#   as.numeric( (n-1) * t(pri) %*% B %*% pri )
-# }
 
 #' Generate planted partition (PP) connectivity matrix
 #'
@@ -82,6 +83,14 @@ gen_rand_conn = function(n, K, lambda, gamma = 0.3, pri = rep(1,K)/K, theta = re
 #' Sample from a DCPP
 #'
 #' Sample from a degree-corrected planted parition model
+#' @param  n number of nodes
+#' @param lambda average degree
+#' @param  K  number of communities
+#' @param oir out-in ratio
+#' @param theta propensity parameter
+#' @param pri prior distribution of node labels
+#' @param normalize_theta whether to normalize theta so that max(theta) == 1
+#' @return an adjacency matrix following a degree-corrected planted parition model
 #' @export
 sample_dcpp <- function(n, lambda, K, oir, theta = NULL,
                        pri = rep(1,K)/K, normalize_theta = F) {
@@ -121,6 +130,7 @@ sample_dclvm = function(z, lambda, theta, npairs = NULL) {
 #' @param z Node labels (n x 1)
 #' @param Pmat Connectivity matrix (K x K)
 #' @param theta Node connectivity propensity vector (n x 1)
+#' @return an adjacency matrix following DCSBM
 #' @export
 sample_dcsbm = function(z, Pmat, theta=1) {
   n = length(z)
@@ -133,6 +143,7 @@ sample_dcsbm = function(z, Pmat, theta=1) {
 #' Sample an adjacency matrix from a stochastic block model (SBM)
 #' @param z Node labels (n x 1)
 #' @param Pmat Connectivity matrix (K x K)
+#' @return an adjacency matrix following SBM
 #' @export
 fastSBM <- function(z, Pmat){
   csizes = tabulate(z)

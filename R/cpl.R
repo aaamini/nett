@@ -1,4 +1,10 @@
-# CPL
+#' CPL
+#' @param Amat adjacency matric
+#' @param Kcommunities desired community number
+#' @param ilabels initial label vector
+#' @param Iter number of iterations
+#' @return estimated community label vector of \code{Amat}
+#' @keywords comm_detect
 #' @export
 fastCPL <- function(Amat, Kcommunities, ilabels = NULL, Iter = 10) {
   # initial labeling: random compression + spectral clustering

@@ -39,7 +39,6 @@ estim_sbm <- function(A,z) estim_dcsbm(A,z)$B
 
 # estimate parameters of the degree-corrected block model
 # fast implementation
-# TODO: fix math equations in the doc
 
 #' Estimate model parameters of a DCSBM
 #'
@@ -50,7 +49,10 @@ estim_sbm <- function(A,z) estim_dcsbm(A,z)$B
 #' \item{B}{estimated connectivity matrix.}
 #' \item{theta}{estimated node propensity parameter.}
 #' @details
-#' \deqn{\hat B_{k\ell} = \frac{N_{k\ell}(\hat z)}{m_{k\ell} (\hat z)}, \quad \hat \theta_i =  \frac{n_{\hat z_i}(\zh) d_i}{\sum_{j : \hat z_j = \hat z_i} d_i}, \quad \hat \pi_k = n_k(\zh) / n}
+#' \deqn{\hat B_{k\ell} = \frac{N_{k\ell}(\hat z)}{m_{k\ell} (\hat z)}, \quad \hat \theta_i =  \frac{n_{\hat z_i}(\hat z) d_i}{\sum_{j : \hat z_j = \hat z_i} d_i}}
+#' where \eqn{N_{k\ell}(\zh)} is the sum of the elements of \code{A} in block \eqn{(k,\ell)}
+#' specified by labels \eqn{\hat z}, \eqn{n_k(\hat z)} is the number of nodes in community \eqn{k}
+#' according to \eqn{\hat z} and \eqn{m_{k\ell}(\hat z) = n_k(\hat z) (n_\ell(\hat z) - 1\{k = \ell\})}
 #' @keywords estimation
 #' @export
 estim_dcsbm <- function(A,z) {
@@ -77,7 +79,7 @@ estim_dcsbm <- function(A,z) {
 # TODO: check dimensions
 # TODO: extend to non-consequential labels, and automatically detect max. label
 # Likelihood computations -------------------------------------------------
-# TODO: need add equations
+
 #' Log likelihood of a DCSBM
 #' @description Compute the log likelihood of a DCSBM, using estimated parameters
 #' B, theta based on the given label vector
@@ -88,6 +90,11 @@ estim_dcsbm <- function(A,z) {
 #' @param eps truncation threshold for the Bernoulli likelihood,
 #' used when parameter phat is close to 1 or 0.
 #' @return log likelihood of a DCSBM
+#' @details The log likelihood is calculated by
+#' \deqn{\ell(\hat B,\hat \theta, \hat \pi, \hat z \mid A) =
+#' \sum_i \log \hat \pi_{z_i} + \sum_{i < j} \phi(A_{ij};\hat \theta_i \hat \theta_j \hat B_{\hat{z}_i \hat{z}_j} )}
+#' where \eqn{\hat B}, \eqn{\hat \theta} is calculated from \code{\link{estim_dcsbm}},
+#' \eqn{\hat{\pi}_k} is the proportion of nodes in community k.
 #' @keywords estimation
 #' @export
 eval_dcsbm_like <- function(A, z, poi = T, eps = 1e-6) {
@@ -165,6 +172,7 @@ eval_dcsbm_loglr = function(A, labels, poi = T, eps = 1e-6) {
 #' @param z label vector
 #' @param K number of community in \code{z}
 #' @param poi whether to use Poisson version of likelihood
+#' @details the BIC score is calculated by log likelihood minus \eqn{K*(K + 1)*log(n)/2}
 #' @keywords mod_sel
 #' @export
 eval_dcsbm_bic = function(A, z, K, poi) {

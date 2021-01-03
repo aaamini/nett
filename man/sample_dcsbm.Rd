@@ -13,6 +13,9 @@ sample_dcsbm(z, Pmat, theta = 1)
 
 \item{theta}{Node connectivity propensity vector (n x 1)}
 }
+\value{
+an adjacency matrix following DCSBM
+}
 \description{
 Sample an adjacency matrix from a degree-corrected block model (DCSBM)
 }

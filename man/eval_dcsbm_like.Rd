@@ -23,4 +23,11 @@ log likelihood of a DCSBM
 Compute the log likelihood of a DCSBM, using estimated parameters
 B, theta based on the given label vector
 }
+\details{
+The log likelihood is calculated by
+\deqn{\ell(\hat B,\hat \theta, \hat \pi, \hat z \mid A) =
+\sum_i \log \hat \pi_{z_i} + \sum_{i < j} \phi(A_{ij};\hat \theta_i \hat \theta_j \hat B_{\hat{z}_i \hat{z}_j} )}
+where \eqn{\hat B}, \eqn{\hat \theta} is calculated from \code{\link{estim_dcsbm}},
+\eqn{\hat{\pi}_k} is the proportion of nodes in community k.
+}
 \keyword{estimation}

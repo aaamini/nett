@@ -1,6 +1,12 @@
 #' Resampled SNAC+
 #'
 #' Compute SNAC+ with resampling
+#' @param A adjacency matrix
+#' @param nrep number of times SNAC+ is computed
+#' @param Kmin minimum community number to use in SNAC+
+#' @param Kmax maximum community number to use in SNAC+
+#' @param ncores number of cores to use in the parallel computing
+#' @param seed seed for random sampling
 #' @export
 snac_resample = function(A, nrep = 20, Kmin = 1, Kmax = 13, ncores = 10, seed = 1234) {
     Ks = Kmin:Kmax
@@ -54,6 +60,16 @@ fit_ss = function(x, y, xx, spar = NULL, trunc_type = "none") {
 #' Plot community profiles
 #'
 #' Plot the smooth community profiles based on a resampled statistic
+#' @param tstat dataframe that has a column 'value' as statistic in the plot
+#' and a column 'K' as its corresponding community number
+#' @param net_name name of network
+#' @param trunc_type method to round the dip/elbow point as the estimated
+#' community number
+#' @param  spar the sparsity level of fitting spline to the value of \code{tstat}
+#' @param plot_null_spar whether to plot the spline with zero sparsity
+#' @param alpha transparency of the points in the plot
+#' @param base_font_size font size of the plot
+#' @return smooth profile plot of a network
 #' @export
 plot_smooth_profile = function(
     tstat, net_name = "", trunc_type = "none",

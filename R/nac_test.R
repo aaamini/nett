@@ -50,7 +50,10 @@ nac_test <- function(A, K, z = NULL, y = NULL, plus = T, ...) {
 #' @param fromEachCommunity whether subsample from each estimated community or the full network,
 #' default is TRUE
 #' @param ... parameters for spectral clustering.
-#' @return SNAC or SNAC+ test statistics and label vector z and y.
+#' @return A list of result
+#' \item{stat}{SNAC or SNAC+ test statistic.}
+#' \item{z}{row label vector.}
+#' \item{y}{column label vector.}
 #' @export
 snac_test <- function(A, K, z=NULL, ratio = 0.5, plus = TRUE,  fromEachCommunity=TRUE,...){
   if (is.null(z)) z <- spec_clust(A, K, ...)

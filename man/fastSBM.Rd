@@ -11,6 +11,9 @@ fastSBM(z, Pmat)
 
 \item{Pmat}{Connectivity matrix (K x K)}
 }
+\value{
+an adjacency matrix following SBM
+}
 \description{
 Sample an adjacency matrix from a stochastic block model (SBM)
 }

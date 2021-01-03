@@ -14,6 +14,26 @@ plot_smooth_profile(
   base_font_size = 12
 )
 }
+\arguments{
+\item{tstat}{dataframe that has a column 'value' as statistic in the plot
+and a column 'K' as its corresponding community number}
+
+\item{net_name}{name of network}
+
+\item{trunc_type}{method to round the dip/elbow point as the estimated
+community number}
+
+\item{spar}{the sparsity level of fitting spline to the value of \code{tstat}}
+
+\item{plot_null_spar}{whether to plot the spline with zero sparsity}
+
+\item{alpha}{transparency of the points in the plot}
+
+\item{base_font_size}{font size of the plot}
+}
+\value{
+smooth profile plot of a network
+}
 \description{
 Plot the smooth community profiles based on a resampled statistic
 }

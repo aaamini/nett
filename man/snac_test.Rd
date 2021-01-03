@@ -31,7 +31,10 @@ default is TRUE}
 \item{...}{parameters for spectral clustering.}
 }
 \value{
-SNAC or SNAC+ test statistics and label vector z and y.
+A list of result
+\item{stat}{SNAC or SNAC+ test statistic.}
+\item{z}{row label vector.}
+\item{y}{column label vector.}
 }
 \description{
 perform SNAC test

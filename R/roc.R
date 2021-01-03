@@ -13,8 +13,17 @@ get_roc <- function(T0, T1, twosided = T) {
              TPR = get_reject_freq(T1, T0_sorted, twosided = twosided))
 }
 
-# apply_methods is a function that returns a data.frame with columns "method", "tstat" and "twosided"
-# gen_null_data and gen_null_data are functions that generate data under the null and alternative
+#' simulate data to draw ROC curves
+#' @param apply_methods a function that returns a data.frame with columns "method", "tstat" and "twosided"
+#' @param  gen_null_data a function that generate data under the null model
+#' @param  gen_alt_data a function that generate data under the alternative model
+#' @param nruns number of simulated data from the null/alternative model
+#' @param core_count number of cores used in parallel computing
+#' @param seed seed for random simulation
+#' @return a list of result
+#' \item{roc}{}
+#' \item{raw}{}
+#' \item{elapsed_time}{symstem elapsed time for generating ROC data}
 #' @export
 simulate_roc = function(apply_methods, gen_null_data, gen_alt_data,
                         nruns = 100,

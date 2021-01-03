@@ -14,6 +14,24 @@ sample_dcpp(
   normalize_theta = F
 )
 }
+\arguments{
+\item{n}{number of nodes}
+
+\item{lambda}{average degree}
+
+\item{K}{number of communities}
+
+\item{oir}{out-in ratio}
+
+\item{theta}{propensity parameter}
+
+\item{pri}{prior distribution of node labels}
+
+\item{normalize_theta}{whether to normalize theta so that max(theta) == 1}
+}
+\value{
+an adjacency matrix following a degree-corrected planted parition model
+}
 \description{
 Sample from a degree-corrected planted parition model
 }
