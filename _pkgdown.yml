@@ -30,6 +30,7 @@ reference:
 - title: Plotting
 - contents:
   -  starts_with("plot_")
+  - has_keyword("plotting")
 
 - title: Utilities
 - contents:

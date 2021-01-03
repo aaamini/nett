@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Log likelihood of a DCSBM — eval_dcsbm_like • nett</title>
+<title>CPL — fastCPL • nett</title>
 
 
 <!-- jquery -->
@@ -41,9 +41,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Log likelihood of a DCSBM — eval_dcsbm_like" />
-<meta property="og:description" content="Compute the log likelihood of a DCSBM, using estimated parameters
-B, theta based on the given label vector" />
+<meta property="og:title" content="CPL — fastCPL" />
+<meta property="og:description" content="CPL" />
 
 
 
@@ -124,50 +123,41 @@ B, theta based on the given label vector" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Log likelihood of a DCSBM</h1>
+    <h1>CPL</h1>
     
-    <div class="hidden name"><code>eval_dcsbm_like.Rd</code></div>
+    <div class="hidden name"><code>fastCPL.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Compute the log likelihood of a DCSBM, using estimated parameters
-B, theta based on the given label vector</p>
+    <p>CPL</p>
     </div>
 
-    <pre class="usage"><span class='fu'>eval_dcsbm_like</span><span class='op'>(</span><span class='va'>A</span>, <span class='va'>z</span>, poi <span class='op'>=</span> <span class='cn'>T</span>, eps <span class='op'>=</span> <span class='fl'>1e-06</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>fastCPL</span><span class='op'>(</span><span class='va'>Amat</span>, <span class='va'>Kcommunities</span>, ilabels <span class='op'>=</span> <span class='cn'>NULL</span>, Iter <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>A</th>
-      <td><p>adjacency matrix</p></td>
+      <th>Amat</th>
+      <td><p>adjacency matric</p></td>
     </tr>
     <tr>
-      <th>z</th>
-      <td><p>label vector</p></td>
+      <th>Kcommunities</th>
+      <td><p>desired community number</p></td>
     </tr>
     <tr>
-      <th>poi</th>
-      <td><p>whether to use Poisson version of likelihood</p></td>
+      <th>ilabels</th>
+      <td><p>initial label vector</p></td>
     </tr>
     <tr>
-      <th>eps</th>
-      <td><p>truncation threshold for the Bernoulli likelihood,
-used when parameter phat is close to 1 or 0.</p></td>
+      <th>Iter</th>
+      <td><p>number of iterations</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>log likelihood of a DCSBM</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>The log likelihood is calculated by
-$$\ell(\hat B,\hat \theta, \hat \pi, \hat z \mid A) =
-\sum_i \log \hat \pi_{z_i} + \sum_{i &lt; j} \phi(A_{ij};\hat \theta_i \hat \theta_j \hat B_{\hat{z}_i \hat{z}_j} )$$
-where \(\hat B\), \(\hat \theta\) is calculated from <code><a href='estim_dcsbm.html'>estim_dcsbm</a></code>,
-\(\hat{\pi}_k\) is the proportion of nodes in community k.</p>
+    <p>estimated community label vector of <code>Amat</code></p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

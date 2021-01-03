@@ -28,10 +28,13 @@ simulate_roc(
 }
 \value{
 a list of result
-\item{roc}{}
-\item{raw}{}
+\item{roc}{A data frame used to plot ROC curves with columns: method, whether a two sided test,
+false positive rate (FPR), and true positive rate (TPR)}
+\item{raw}{A data frame containing raw output from null and alternative models with columns:
+method, statistics value, whether a two sided test, and the type of hypothesis}
 \item{elapsed_time}{symstem elapsed time for generating ROC data}
 }
 \description{
 simulate data to draw ROC curves
 }
+\keyword{plotting}
