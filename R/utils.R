@@ -15,7 +15,7 @@ label_mat2vec <- function(Z){
 
 #' Compute confusion matrix
 #' @export
-#' @keywords utils
+#' @keywords evaluation
 compute_confusion_matrix <- function (z, y, K=NULL) {
   # Compute the confusion matrix between labels "y" and "z"
   # z,y Two sets of labels
@@ -46,7 +46,7 @@ label_vec2mat <- function(z, K=NULL, sparse=F) {
 
 #' Compute normalized mutual information (NMI)
 #' @export
-#' @keywords utils
+#' @keywords evaluation
 compute_mutual_info  <- function(z,y) {
   # normMUI Computes the normalized mutual information between two clusters
   #  Labels should be either vectors or n x k matrices
@@ -121,7 +121,6 @@ MySampleFun <- function(m,n) igraph::sample_seq(1,m,n)
 
 # check MySampleFun
 # MySampleFun <- sample
-
 
 check_pkg_and_stop = function(pkg, func_name = NULL) {
   if (is.null(func_name)) {

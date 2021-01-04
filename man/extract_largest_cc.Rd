@@ -17,3 +17,4 @@ An igraph object
 \description{
 Extract the largest connected component of a network
 }
+\keyword{utils}

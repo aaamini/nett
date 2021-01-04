@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Log likelihood of a DCSBM — eval_dcsbm_loglr • nett</title>
+<title>Log-likelihood ratio of two DCSBMs (fast with poi = T) — eval_dcsbm_loglr • nett</title>
 
 
 <!-- jquery -->
@@ -41,9 +41,9 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Log likelihood of a DCSBM — eval_dcsbm_loglr" />
-<meta property="og:description" content="Compute the log likelihood of a DCSBM, using estimated parameters
-B, theta based on the given label vector" />
+<meta property="og:title" content="Log-likelihood ratio of two DCSBMs (fast with poi = T) — eval_dcsbm_loglr" />
+<meta property="og:description" content="Computes the log-likelihood ratio of one DCSBM relative to another, using
+estimated parameters B and theta based on the given label vectors." />
 
 
 
@@ -75,7 +75,7 @@ B, theta based on the given label vector" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">nett</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9007</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9009</span>
       </span>
     </div>
 
@@ -118,14 +118,14 @@ B, theta based on the given label vector" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Log likelihood of a DCSBM</h1>
+    <h1>Log-likelihood ratio of two DCSBMs (fast with poi = T)</h1>
     
     <div class="hidden name"><code>eval_dcsbm_loglr.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Compute the log likelihood of a DCSBM, using estimated parameters
-B, theta based on the given label vector</p>
+    <p>Computes the log-likelihood ratio of one DCSBM relative to another, using
+estimated parameters <code>B</code> and <code>theta</code> based on the given label vectors.</p>
     </div>
 
     <pre class="usage"><span class='fu'>eval_dcsbm_loglr</span><span class='op'>(</span><span class='va'>A</span>, <span class='va'>labels</span>, poi <span class='op'>=</span> <span class='cn'>T</span>, eps <span class='op'>=</span> <span class='fl'>1e-06</span><span class='op'>)</span></pre>
@@ -139,26 +139,31 @@ B, theta based on the given label vector</p>
     </tr>
     <tr>
       <th>labels</th>
-      <td><p>a matrix with two columns as two different label vectors</p></td>
+      <td><p>a matrix with two columns representing two different label
+vectors</p></td>
     </tr>
     <tr>
       <th>poi</th>
-      <td><p>whether to use Poisson version of likelihood</p></td>
+      <td><p>whether to use Poisson version of likelihood (instead of Bernoulli)</p></td>
     </tr>
     <tr>
       <th>eps</th>
-      <td><p>truncation threshold for the Bernoulli likelihood,
-used when parameter phat is close to 1 or 0.</p></td>
+      <td><p>truncation threshold for the Bernoulli likelihood, used when
+parameter phat is close to 1 or 0.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>log likelihood ratio</p>
+    <p>log-likelihood ratio</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>log likelihood ratio between fitting DCSBM with the label vectors
-as the second and first column of <code>labels</code></p>
+    <p>The log-likehood ratio is computed between two DCSBMs specified by the columns
+of <code>labels</code>. The function computes the log-likelihood ratio of the model with
+<code>labels[ , 2]</code> w.r.t. the model with <code>labels[ , 1]</code>. This is often used with two
+label vectors fitted using different number of communities (say <code>K</code> and <code>K+1</code>).</p>
+<p>When <code>poi</code> is set to <code>TRUE</code>, the function uses fast sparse matrix computations
+and is scalable to large sparse networks.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -13,20 +13,25 @@ get_roc <- function(T0, T1, twosided = T) {
              TPR = get_reject_freq(T1, T0_sorted, twosided = twosided))
 }
 
-#' simulate data to draw ROC curves
-#' @param apply_methods a function that returns a data.frame with columns "method", "tstat" and "twosided"
-#' @param  gen_null_data a function that generate data under the null model
-#' @param  gen_alt_data a function that generate data under the alternative model
+#' Simulate data to estimate ROC curves
+#'
+#' Simulate data from the null and alternative distributions to estimate ROC
+#' curves for a collection of methods.
+#'
+#' @param apply_methods a function that returns a data.frame with columns
+#'   "method", "tstat" and "twosided"
+#' @param gen_null_data a function that generate data under the null model
+#' @param gen_alt_data a function that generate data under the alternative model
 #' @param nruns number of simulated data from the null/alternative model
 #' @param core_count number of cores used in parallel computing
 #' @param seed seed for random simulation
-#' @return a list of result
-#' \item{roc}{A data frame used to plot ROC curves with columns: method, whether a two sided test,
-#' false positive rate (FPR), and true positive rate (TPR)}
-#' \item{raw}{A data frame containing raw output from null and alternative models with columns:
-#' method, statistics value, whether a two sided test, and the type of hypothesis}
-#' \item{elapsed_time}{symstem elapsed time for generating ROC data}
-#' @keywords plotting
+#' @return a list of result \item{roc}{A data frame used to plot ROC curves with
+#'   columns: method, whether a two sided test, false positive rate (FPR), and
+#'   true positive rate (TPR)} \item{raw}{A data frame containing raw output
+#'   from null and alternative models with columns: method, statistics value,
+#'   whether a two sided test, and the type of hypothesis}
+#'   \item{elapsed_time}{symstem elapsed time for generating ROC data}
+#' @keywords evaluation
 #' @export
 simulate_roc = function(apply_methods, gen_null_data, gen_alt_data,
                         nruns = 100,
@@ -64,9 +69,11 @@ simulate_roc = function(apply_methods, gen_null_data, gen_alt_data,
 }
 
 #' Plot ROC curves
-#' @description Plot ROC curves given results from \code{\link{simulate_roc}}
-#' @param roc_results data frame \code{roc} from the output list of \code{\link{simulate_roc}}
-#' @param method_names
+#'
+#' Plot ROC curves given results from [simulate_roc].
+#'
+#' @param roc_results data frame `roc` from the output list of [simulate_roc]
+#' @param method_names a list of method names
 #' @keywords plotting
 #' @export
 plot_roc <- function(roc_results, method_names=NULL) {

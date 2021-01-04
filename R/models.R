@@ -1,8 +1,7 @@
-# simulation functions
-# AA: Functions are mostly provided by Aiyou Chen (most likely!)
+# Functions to sample from various random network models
 
 #' Calculate the expected average degree of a DCSBM
-#' @description Calculate the expected average degree of a DCSBM
+#'
 #' @param n number of nodes
 #' @param pri distribution of node labels (K x 1)
 #' @param B  connectivity matrix (K x K)
@@ -20,7 +19,9 @@ get_dcsbm_exav_deg <- function(n, pri, B, ex_theta = 1) {
 
 #' Generate planted partition (PP) connectivity matrix
 #'
-#' Create a degree-corrected planted partition connectivity matrix with a given average expected degree.
+#' Create a degree-corrected planted partition connectivity matrix with a given
+#' average expected degree.
+#'
 #' @param n the number of nodes
 #' @param oir out-in-ratio
 #' @param lambda the expected average degree
@@ -54,18 +55,19 @@ pp_conn <- function(n, oir, lambda, pri, theta = rep(1,n), normalize_theta = F, 
 
 #' Generate randomly permuted connectivity matrix
 #'
-#' Creates a randomly permuted DCPP connectivity matrix with a given average expected degree
+#' Creates a randomly permuted DCPP connectivity matrix with a given average
+#' expected degree
 #'
-#' The connectivity matrix is a convex combination of a random symmetric permutation matrix and
-#' the matrix of all ones, with weights gamm and 1-gamma.
-#'
+#' The connectivity matrix is a convex combination of a random symmetric
+#' permutation matrix and the matrix of all ones, with weights gamm and 1-gamma.
 #'
 #' @param n number of nodes
 #' @param K number of communities
 #' @param lambda expected average degree
 #' @param gamma a measure of out-in-ratio (convex combination parameter)
 #' @param pri the prior on community labels
-#' @param theta node connection propensity parameter of DCSBM, by default E(theta) = 1
+#' @param theta node connection propensity parameter of DCSBM, by default
+#'   E(theta) = 1
 #' @return connectivity matrix B of the desired DCSBM.
 #' @keywords models
 #' @export
@@ -82,10 +84,11 @@ gen_rand_conn = function(n, K, lambda, gamma = 0.3, pri = rep(1,K)/K, theta = re
 
 #' Sample from a DCPP
 #'
-#' Sample from a degree-corrected planted parition model
-#' @param  n number of nodes
+#' Sample from a degree-corrected planted partition model
+#'
+#' @param n number of nodes
 #' @param lambda average degree
-#' @param  K  number of communities
+#' @param K number of communities
 #' @param oir out-in ratio
 #' @param theta propensity parameter
 #' @param pri prior distribution of node labels
@@ -127,34 +130,49 @@ sample_dclvm = function(z, lambda, theta, npairs = NULL) {
 #' Sample DCSBM
 #'
 #' Sample an adjacency matrix from a degree-corrected block model (DCSBM)
-#' @param z Node labels (n x 1)
-#' @param Pmat Connectivity matrix (K x K)
-#' @param theta Node connectivity propensity vector (n x 1)
-#' @return an adjacency matrix following DCSBM
+#'
+#' @param z Node labels (\eqn{n * 1})
+#' @param B Connectivity matrix (\eqn{K * K})
+#' @param theta Node connectivity propensity vector (\eqn{n * 1})
+#' @return An adjacency matrix following DCSBM
+#' @examples
+#' B = pp_conn(n = 10^3, oir = 0.1, lambda = 7, pri = rep(1,3))$B
+#' head(sample_dcsbm(sample(1:3, 10^3, replace = T), B, theta = rexp(10^3)))
 #' @export
-sample_dcsbm = function(z, Pmat, theta=1) {
+sample_dcsbm = function(z, B, theta=1) {
   n = length(z)
   if (length(theta) == 1) theta = rep(theta,n)
-  sample_dcsbm_cpp(z-1, Pmat, theta)
+  sample_dcsbm_cpp(z-1, B, theta)
 }
 
-#' Sample SBM
+#' Sample SBM (fast)
 #'
-#' Sample an adjacency matrix from a stochastic block model (SBM)
-#' @param z Node labels (n x 1)
-#' @param Pmat Connectivity matrix (K x K)
-#' @return an adjacency matrix following SBM
+#' Samples an adjacency matrix from a stochastic block model (SBM)
+#'
+#' The function implements a fast algorithm for sampling sparse SBMs, by only
+#' sampling the necessary nonzero entries. This function is adapted almost
+#' verbatim from the original code by Aiyou Chen.
+#'
+#' @param z Node labels (\eqn{n * 1})
+#' @param B Connectivity matrix (\eqn{K * K})
+#' @return An adjacency matrix following SBM
+#'
+#' @examples
+#' B = pp_conn(n = 10^4, oir = 0.1, lambda = 7, pri = rep(1,3))$B
+#' head(fast_sbm(sample(1:3, 10^4, replace = T), B))
+#'
+#' @keywords models
 #' @export
-fastSBM <- function(z, Pmat){
+fast_sbm <- function(z, B){
   csizes = tabulate(z)
-  A <- fastSBM.internal(csizes, Pmat)
+  A <- fast_sbm.internal(csizes, B)
   sig = order(z) # z[sig] = 1 1 1 ... 2 2 2 ... 3 3 3 3 ...
   siginv = Matrix::invPerm(sig)
   return(A[siginv,siginv])
 }
 
 # generate a K-block random graph
-fastSBM.internal <- function(csizes, Pmat) {
+fast_sbm.internal <- function(csizes, Pmat) {
   # csizes, K by 1, contains the size of each block
   # Pmat is K by K connectivity density matrix
   # store the graph on a sparse matrix
@@ -243,31 +261,48 @@ quickDCSBM <- function(n, lambda, K, oir, theta = NULL,
   # }
   z <- sample(K, n, replace=T, prob=pri)
 
-  list(adj=fastDCSBM(z, out$B, theta = out$theta), labels = z, B = out$B, theta=out$theta)
+  list(adj=sample_tdcsbm(z, out$B, theta = out$theta), labels = z, B = out$B, theta=out$theta)
 }
 
-
-
-fastDCSBM <- function(z, Pmat, theta=1) {
+#' Sample truncated DCSBM (fast)
+#'
+#' Sample an adjacency matrix from a truncated degree-corrected block model
+#' (DCSBM) using a fast algorithm.
+#'
+#' The function  samples an adjacency matrix from a truncated DCSBM, with
+#' entries having Bernoulli distributions with mean \deqn{ E[A_{ij} | z] =
+#' B_{z_i, z_j} \max(1, \theta_i \theta_j).} The approach uses the masking idea
+#' of Aiyou Chen, leading to fast sampling for sparse networks. The masking,
+#' however, truncates \eqn{\theta_i \theta_j} to at most 1, hence
+#' we refer to it as the truncated DCSBM.
+#'
+#' @param z Node labels (\eqn{n * 1})
+#' @param B Connectivity matrix (\eqn{K * K})
+#' @param theta Node connectivity propensity vector (\eqn{n * 1})
+#' @return An adjacency matrix following DCSBM
+#' @examples
+#' B = pp_conn(n = 10^4, oir = 0.1, lambda = 7, pri = rep(1,3))$B
+#' head(sample_tdcsbm(sample(1:3, 10^4, replace = T), B, theta = rexp(10^4)))
+#' @export
+sample_tdcsbm <- function(z, B, theta=1) {
   csizes = tabulate(z)
   n = length(z)
   if (length(theta) == 1) theta = rep(theta,n)
-  A <- fastDCSBM.internal(csizes, Pmat, theta)
-  #A = fastSBM.internal(csizes, Pmat)  # E[A_{ij}] = B_{z[sig[i]], z[sig[j]]}
+  A <- sample_tdcsbm.internal(csizes, B, theta)
+
   sig = order(z) # z[sig] = 1 1 1 ... 2 2 2 ... 3 3 3 3 ...
   siginv = Matrix::invPerm(sig) # or order(sig)
   return(A[siginv,siginv]) # E[A_{siginv[i], siginv[j]}] = B_{z[i], z[j]}
 }
 
 
-
-fastDCSBM.internal <- function(csizes, Pmat, theta) {
+sample_tdcsbm.internal <- function(csizes, Pmat, theta) {
   # generate a degree-corrected block model
   # P(Aij = 1|ci=k,cj=l,theta) = theta_i * theta_j * P_kl
   # input: csizes - size of each block, Pmat - density across blocks, theta - adjustment of degrees
   # first generate a KblockGraph, and then flip 1s to 0st with probability 1-thetai*thetaj
 
-  A <- fastSBM.internal(csizes, Pmat)
+  A <- fast_sbm.internal(csizes, Pmat)
   n <- nrow(A)
   summaryA <- Matrix::summary(A)
   ii <- summaryA$i

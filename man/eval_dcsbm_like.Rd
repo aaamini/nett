@@ -2,7 +2,7 @@
 % Please edit documentation in R/estimate.R
 \name{eval_dcsbm_like}
 \alias{eval_dcsbm_like}
-\title{Log likelihood of a DCSBM}
+\title{Log likelihood of a DCSBM (fast with poi = T)}
 \usage{
 eval_dcsbm_like(A, z, poi = T, eps = 1e-06)
 }
@@ -27,7 +27,7 @@ B, theta based on the given label vector
 The log likelihood is calculated by
 \deqn{\ell(\hat B,\hat \theta, \hat \pi, \hat z \mid A) =
 \sum_i \log \hat \pi_{z_i} + \sum_{i < j} \phi(A_{ij};\hat \theta_i \hat \theta_j \hat B_{\hat{z}_i \hat{z}_j} )}
-where \eqn{\hat B}, \eqn{\hat \theta} is calculated from \code{\link{estim_dcsbm}},
+where \eqn{\hat B}, \eqn{\hat \theta} is calculated by \link{estim_dcsbm},
 \eqn{\hat{\pi}_k} is the proportion of nodes in community k.
 }
 \keyword{estimation}

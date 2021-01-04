@@ -33,6 +33,7 @@ pp_conn(
 The connectivity matrix B of the desired DCSBM.
 }
 \description{
-Create a degree-corrected planted partition connectivity matrix with a given average expected degree.
+Create a degree-corrected planted partition connectivity matrix with a given
+average expected degree.
 }
 \keyword{models}

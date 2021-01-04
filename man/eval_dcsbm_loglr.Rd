@@ -2,29 +2,35 @@
 % Please edit documentation in R/estimate.R
 \name{eval_dcsbm_loglr}
 \alias{eval_dcsbm_loglr}
-\title{Log likelihood of a DCSBM}
+\title{Log-likelihood ratio of two DCSBMs (fast with poi = T)}
 \usage{
 eval_dcsbm_loglr(A, labels, poi = T, eps = 1e-06)
 }
 \arguments{
 \item{A}{adjacency matrix}
 
-\item{labels}{a matrix with two columns as two different label vectors}
+\item{labels}{a matrix with two columns representing two different label
+vectors}
 
-\item{poi}{whether to use Poisson version of likelihood}
+\item{poi}{whether to use Poisson version of likelihood (instead of Bernoulli)}
 
-\item{eps}{truncation threshold for the Bernoulli likelihood,
-used when parameter phat is close to 1 or 0.}
+\item{eps}{truncation threshold for the Bernoulli likelihood, used when
+parameter phat is close to 1 or 0.}
 }
 \value{
-log likelihood ratio
+log-likelihood ratio
 }
 \description{
-Compute the log likelihood of a DCSBM, using estimated parameters
-B, theta based on the given label vector
+Computes the log-likelihood ratio of one DCSBM relative to another, using
+estimated parameters \code{B} and \code{theta} based on the given label vectors.
 }
 \details{
-log likelihood ratio between fitting DCSBM with the label vectors
-as the second and first column of \code{labels}
+The log-likehood ratio is computed between two DCSBMs specified by the columns
+of \code{labels}. The function computes the log-likelihood ratio of the model with
+\code{labels[ , 2]} w.r.t. the model with \code{labels[ , 1]}. This is often used with two
+label vectors fitted using different number of communities (say \code{K} and \code{K+1}).
+
+When \code{poi} is set to \code{TRUE}, the function uses fast sparse matrix computations
+and is scalable to large sparse networks.
 }
 \keyword{mod_sel}

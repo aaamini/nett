@@ -19,3 +19,4 @@ An igraph object
 \description{
 Extract a low-degree connected component of a network
 }
+\keyword{utils}

@@ -4,18 +4,22 @@
 \alias{sample_dcsbm}
 \title{Sample DCSBM}
 \usage{
-sample_dcsbm(z, Pmat, theta = 1)
+sample_dcsbm(z, B, theta = 1)
 }
 \arguments{
-\item{z}{Node labels (n x 1)}
+\item{z}{Node labels (\eqn{n * 1})}
 
-\item{Pmat}{Connectivity matrix (K x K)}
+\item{B}{Connectivity matrix (\eqn{K * K})}
 
-\item{theta}{Node connectivity propensity vector (n x 1)}
+\item{theta}{Node connectivity propensity vector (\eqn{n * 1})}
 }
 \value{
-an adjacency matrix following DCSBM
+An adjacency matrix following DCSBM
 }
 \description{
 Sample an adjacency matrix from a degree-corrected block model (DCSBM)
+}
+\examples{
+B = pp_conn(n = 10^3, oir = 0.1, lambda = 7, pri = rep(1,3))$B
+head(sample_dcsbm(sample(1:3, 10^3, replace = T), B, theta = rexp(10^3)))
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/spectral.R
 \name{spec_clust}
 \alias{spec_clust}
-\title{Spectral clustering}
+\title{Spectral clustering (fast)}
 \usage{
 spec_clust(
   A,
@@ -19,7 +19,7 @@ spec_clust(
 
 \item{K}{Number of communities}
 
-\item{type}{(lap|adj|adj2) Whether to use Laplacian or adjacency-based spectral clustering}
+\item{type}{("lap" | "adj" | "adj2") Whether to use Laplacian or adjacency-based spectral clustering}
 
 \item{tau}{Regularization paramter for the Laplacian}
 }

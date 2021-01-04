@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Spectral clustering (fast) — spec_clust • nett</title>
+<title>Sample truncated DCSBM (fast) — sample_tdcsbm • nett</title>
 
 
 <!-- jquery -->
@@ -41,8 +41,9 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Spectral clustering (fast) — spec_clust" />
-<meta property="og:description" content="Perform spectral clustering (with regularization) to estimate communities" />
+<meta property="og:title" content="Sample truncated DCSBM (fast) — sample_tdcsbm" />
+<meta property="og:description" content="Sample an adjacency matrix from a truncated degree-corrected block model
+(DCSBM) using a fast algorithm." />
 
 
 
@@ -117,50 +118,61 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Spectral clustering (fast)</h1>
+    <h1>Sample truncated DCSBM (fast)</h1>
     
-    <div class="hidden name"><code>spec_clust.Rd</code></div>
+    <div class="hidden name"><code>sample_tdcsbm.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Perform spectral clustering (with regularization) to estimate communities</p>
+    <p>Sample an adjacency matrix from a truncated degree-corrected block model
+(DCSBM) using a fast algorithm.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>spec_clust</span><span class='op'>(</span>
-  <span class='va'>A</span>,
-  <span class='va'>K</span>,
-  type <span class='op'>=</span> <span class='st'>"lap"</span>,
-  tau <span class='op'>=</span> <span class='fl'>0.25</span>,
-  nstart <span class='op'>=</span> <span class='fl'>20</span>,
-  niter <span class='op'>=</span> <span class='fl'>10</span>,
-  ignore_first_col <span class='op'>=</span> <span class='cn'>F</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>sample_tdcsbm</span><span class='op'>(</span><span class='va'>z</span>, <span class='va'>B</span>, theta <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>A</th>
-      <td><p>Adjacency matrix (n x n)</p></td>
+      <th>z</th>
+      <td><p>Node labels (\(n * 1\))</p></td>
     </tr>
     <tr>
-      <th>K</th>
-      <td><p>Number of communities</p></td>
+      <th>B</th>
+      <td><p>Connectivity matrix (\(K * K\))</p></td>
     </tr>
     <tr>
-      <th>type</th>
-      <td><p>("lap" | "adj" | "adj2") Whether to use Laplacian or adjacency-based spectral clustering</p></td>
-    </tr>
-    <tr>
-      <th>tau</th>
-      <td><p>Regularization paramter for the Laplacian</p></td>
+      <th>theta</th>
+      <td><p>Node connectivity propensity vector (\(n * 1\))</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A vector of size n x 1 with elements in 1,2,...,K</p>
+    <p>An adjacency matrix following DCSBM</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
+    <p>The function  samples an adjacency matrix from a truncated DCSBM, with
+entries having Bernoulli distributions with mean $$ E[A_{ij} | z] =
+B_{z_i, z_j} \max(1, \theta_i \theta_j).$$ The approach uses the masking idea
+of Aiyou Chen, leading to fast sampling for sparse networks. The masking,
+however, truncates \(\theta_i \theta_j\) to at most 1, hence
+we refer to it as the truncated DCSBM.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='va'>B</span> <span class='op'>=</span> <span class='fu'><a href='pp_conn.html'>pp_conn</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>10</span><span class='op'>^</span><span class='fl'>4</span>, oir <span class='op'>=</span> <span class='fl'>0.1</span>, lambda <span class='op'>=</span> <span class='fl'>7</span>, pri <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span><span class='op'>$</span><span class='va'>B</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'>sample_tdcsbm</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, <span class='fl'>10</span><span class='op'>^</span><span class='fl'>4</span>, replace <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span>, <span class='va'>B</span>, theta <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Exponential.html'>rexp</a></span><span class='op'>(</span><span class='fl'>10</span><span class='op'>^</span><span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 6 x 10000 sparse Matrix of class "dgCMatrix"
+#&gt;                                                                                
+#&gt; [1,] . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ......
+#&gt; [2,] . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ......
+#&gt; [3,] . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ......
+#&gt; [4,] . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ......
+#&gt; [5,] . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ......
+#&gt; [6,] . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ......
+#&gt; 
+#&gt;  .....suppressing 9966 columns in show(); maybe adjust 'options(max.print= *, width = *)'
+#&gt;  ..............................</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

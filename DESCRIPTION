@@ -1,6 +1,6 @@
 Package: nett
 Title: Network Analysis and Community Detection
-Version: 0.0.0.9008
+Version: 0.0.0.9009
 Authors@R: 
     c(person(given = "Arash A.",
            family = "Amini",
@@ -20,7 +20,8 @@ Suggests:
     knitr,
     rmarkdown,
     igraph,
-    ggplot2
+    ggplot2,
+    mixtools
 Depends: 
     R (>= 2.10)
 Imports: 

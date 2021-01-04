@@ -2,7 +2,7 @@
 % Please edit documentation in R/roc.R
 \name{simulate_roc}
 \alias{simulate_roc}
-\title{simulate data to draw ROC curves}
+\title{Simulate data to estimate ROC curves}
 \usage{
 simulate_roc(
   apply_methods,
@@ -14,7 +14,8 @@ simulate_roc(
 )
 }
 \arguments{
-\item{apply_methods}{a function that returns a data.frame with columns "method", "tstat" and "twosided"}
+\item{apply_methods}{a function that returns a data.frame with columns
+"method", "tstat" and "twosided"}
 
 \item{gen_null_data}{a function that generate data under the null model}
 
@@ -27,14 +28,15 @@ simulate_roc(
 \item{seed}{seed for random simulation}
 }
 \value{
-a list of result
-\item{roc}{A data frame used to plot ROC curves with columns: method, whether a two sided test,
-false positive rate (FPR), and true positive rate (TPR)}
-\item{raw}{A data frame containing raw output from null and alternative models with columns:
-method, statistics value, whether a two sided test, and the type of hypothesis}
+a list of result \item{roc}{A data frame used to plot ROC curves with
+columns: method, whether a two sided test, false positive rate (FPR), and
+true positive rate (TPR)} \item{raw}{A data frame containing raw output
+from null and alternative models with columns: method, statistics value,
+whether a two sided test, and the type of hypothesis}
 \item{elapsed_time}{symstem elapsed time for generating ROC data}
 }
 \description{
-simulate data to draw ROC curves
+Simulate data from the null and alternative distributions to estimate ROC
+curves for a collection of methods.
 }
-\keyword{plotting}
+\keyword{evaluation}

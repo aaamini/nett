@@ -4,14 +4,12 @@ reference:
 - contents:
   - starts_with("sample_")
   - has_keyword("models")
-  - fastSBM
 
 
 - title: Community detection
+  desc: Algorithms for community detection
 - contents:
   - has_keyword("comm_detect")
-  - spec_clust
-
 
 - title: Model selection and testing
   desc: Tools for seleting the number of communities and testing goodness-of-fit of models
@@ -27,9 +25,13 @@ reference:
 - contents:
   - has_keyword("estimation")
 
+- title: Performance Evaluation
+- contents:
+  - has_keyword("evaluation")
+
 - title: Plotting
 - contents:
-  -  starts_with("plot_")
+  - starts_with("plot_")
   - has_keyword("plotting")
 
 - title: Utilities

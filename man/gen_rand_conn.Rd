@@ -17,16 +17,18 @@ gen_rand_conn(n, K, lambda, gamma = 0.3, pri = rep(1, K)/K, theta = rep(1, n))
 
 \item{pri}{the prior on community labels}
 
-\item{theta}{node connection propensity parameter of DCSBM, by default E(theta) = 1}
+\item{theta}{node connection propensity parameter of DCSBM, by default
+E(theta) = 1}
 }
 \value{
 connectivity matrix B of the desired DCSBM.
 }
 \description{
-Creates a randomly permuted DCPP connectivity matrix with a given average expected degree
+Creates a randomly permuted DCPP connectivity matrix with a given average
+expected degree
 }
 \details{
-The connectivity matrix is a convex combination of a random symmetric permutation matrix and
-the matrix of all ones, with weights gamm and 1-gamma.
+The connectivity matrix is a convex combination of a random symmetric
+permutation matrix and the matrix of all ones, with weights gamm and 1-gamma.
 }
 \keyword{models}

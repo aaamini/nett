@@ -80,9 +80,16 @@ estim_dcsbm <- function(A,z) {
 # TODO: extend to non-consequential labels, and automatically detect max. label
 # Likelihood computations -------------------------------------------------
 
-#' Log likelihood of a DCSBM
-#' @description Compute the log likelihood of a DCSBM, using estimated parameters
+#' Log likelihood of a DCSBM (fast with poi = T)
+#'
+#' Compute the log likelihood of a DCSBM, using estimated parameters
 #' B, theta based on the given label vector
+#'
+#' The log likelihood is calculated by
+#' \deqn{\ell(\hat B,\hat \theta, \hat \pi, \hat z \mid A) =
+#' \sum_i \log \hat \pi_{z_i} + \sum_{i < j} \phi(A_{ij};\hat \theta_i \hat \theta_j \hat B_{\hat{z}_i \hat{z}_j} )}
+#' where \eqn{\hat B}, \eqn{\hat \theta} is calculated by [estim_dcsbm],
+#' \eqn{\hat{\pi}_k} is the proportion of nodes in community k.
 #'
 #' @param A adjacency matrix
 #' @param z label vector
@@ -90,11 +97,6 @@ estim_dcsbm <- function(A,z) {
 #' @param eps truncation threshold for the Bernoulli likelihood,
 #' used when parameter phat is close to 1 or 0.
 #' @return log likelihood of a DCSBM
-#' @details The log likelihood is calculated by
-#' \deqn{\ell(\hat B,\hat \theta, \hat \pi, \hat z \mid A) =
-#' \sum_i \log \hat \pi_{z_i} + \sum_{i < j} \phi(A_{ij};\hat \theta_i \hat \theta_j \hat B_{\hat{z}_i \hat{z}_j} )}
-#' where \eqn{\hat B}, \eqn{\hat \theta} is calculated from \code{\link{estim_dcsbm}},
-#' \eqn{\hat{\pi}_k} is the proportion of nodes in community k.
 #' @keywords estimation
 #' @export
 eval_dcsbm_like <- function(A, z, poi = T, eps = 1e-6) {
@@ -147,19 +149,27 @@ eval_dcsbm_like <- function(A, z, poi = T, eps = 1e-6) {
   return(term1 + term2 + term3)
 }
 
-# computes likelihood ratio of labels[ , 2]-model w.r.t. labels[ , 1]-model
-#' Log likelihood of a DCSBM
-#' @description Compute the log likelihood of a DCSBM, using estimated parameters
-#' B, theta based on the given label vector
+
+#' Log-likelihood ratio of two DCSBMs (fast with poi = T)
+#'
+#' Computes the log-likelihood ratio of one DCSBM relative to another, using
+#' estimated parameters `B` and `theta` based on the given label vectors.
+#'
+#' The log-likehood ratio is computed between two DCSBMs specified by the columns
+#' of `labels`. The function computes the log-likelihood ratio of the model with
+#' `labels[ , 2]` w.r.t. the model with `labels[ , 1]`. This is often used with two
+#' label vectors fitted using different number of communities (say `K` and `K+1`).
+#'
+#' When `poi` is set to `TRUE`, the function uses fast sparse matrix computations
+#' and is scalable to large sparse networks.
 #'
 #' @param A adjacency matrix
-#' @param labels a matrix with two columns as two different label vectors
-#' @param poi whether to use Poisson version of likelihood
-#' @param eps truncation threshold for the Bernoulli likelihood,
-#' used when parameter phat is close to 1 or 0.
-#' @return log likelihood ratio
-#' @details log likelihood ratio between fitting DCSBM with the label vectors
-#' as the second and first column of \code{labels}
+#' @param labels a matrix with two columns representing two different label
+#'   vectors
+#' @param poi whether to use Poisson version of likelihood (instead of Bernoulli)
+#' @param eps truncation threshold for the Bernoulli likelihood, used when
+#'   parameter phat is close to 1 or 0.
+#' @return log-likelihood ratio
 #' @keywords mod_sel
 #' @export
 eval_dcsbm_loglr = function(A, labels, poi = T, eps = 1e-6) {

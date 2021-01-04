@@ -33,5 +33,5 @@ sample_dcpp(
 an adjacency matrix following a degree-corrected planted parition model
 }
 \description{
-Sample from a degree-corrected planted parition model
+Sample from a degree-corrected planted partition model
 }

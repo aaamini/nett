@@ -9,4 +9,4 @@ compute_confusion_matrix(z, y, K = NULL)
 \description{
 Compute confusion matrix
 }
-\keyword{utils}
+\keyword{evaluation}

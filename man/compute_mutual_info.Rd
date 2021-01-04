@@ -9,4 +9,4 @@ compute_mutual_info(z, y)
 \description{
 Compute normalized mutual information (NMI)
 }
-\keyword{utils}
+\keyword{evaluation}

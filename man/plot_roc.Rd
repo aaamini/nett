@@ -7,9 +7,11 @@
 plot_roc(roc_results, method_names = NULL)
 }
 \arguments{
-\item{roc_results}{data frame \code{roc} from the output list of \code{\link{simulate_roc}}}
+\item{roc_results}{data frame \code{roc} from the output list of \link{simulate_roc}}
+
+\item{method_names}{a list of method names}
 }
 \description{
-Plot ROC curves given results from \code{\link{simulate_roc}}
+Plot ROC curves given results from \link{simulate_roc}.
 }
 \keyword{plotting}

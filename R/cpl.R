@@ -1,17 +1,47 @@
-#' CPL
-#' @param Amat adjacency matric
-#' @param Kcommunities desired community number
-#' @param ilabels initial label vector
-#' @param Iter number of iterations
-#' @return estimated community label vector of \code{Amat}
+#' CPL algorithm for community detection (fast)
+#'
+#' The Conditional Pseudo-Likelihood (CPL) algorithm for fitting
+#' degree-corrected block models
+#'
+#' The function implements the CPL algorithm as described in the paper below. It
+#' relies on the `mixtools` package for fitting a mixture of multinomials to a
+#' block compression of the adjacency matrix based on the estimated labels and
+#' then reiterates.
+#'
+#' Technically, `fast_cpl` fits a stochastic block model (SBM) conditional on
+#' the observed node degrees,to account for the degree heterogeneity within
+#' communities that is not modeled well in SBM. CPL can also be used to
+#' effectively estimate the parameters of the degree-corrected blcok model
+#' (DCSBM).
+#'
+#' The code is an adaptation of the original R code by Aiyou Chen with slight
+#' simplifications.
+#'
+#' @section References: For more details, see [Pseudo-likelihood methods for
+#'   community detection in large sparse
+#'   networks](https://projecteuclid.org/euclid.aos/1382547514), A. A. Amini, A.
+#'   Chen, P. J. Bickel, E. Levina, Annals of Statistics 2013, Vol. 41 (4),
+#'   2097—2122.
+#'
+#'
+#' @param Amat adjacency matrix of the network
+#' @param K desired number of communities
+#' @param ilabels initial label vector (if not provided, initial labels are
+#'   estimated using [spec_clust])
+#' @param niter number of iterations
+#' @return Estimated community label vector.
+#' @examples
+#' fast_cpl(igraph::as_adj(polblogs), 2)
 #' @keywords comm_detect
+#'
 #' @export
-fastCPL <- function(Amat, Kcommunities, ilabels = NULL, Iter = 10) {
+fast_cpl <- function(Amat, K, ilabels = NULL, niter = 10) {
+  check_pkg_and_stop("mixtools")
   # initial labeling: random compression + spectral clustering
-  if (Kcommunities == 1) return(rep(1,nrow(A)))
+  if (K == 1) return(rep(1, nrow(A)))
 
   if (is.null(ilabels)) {
-    ilabels = spec_clust(Amat, K = Kcommunities)
+    ilabels = spec_clust(Amat, K = K)
   }
 
   # define temporary variables
@@ -22,21 +52,21 @@ fastCPL <- function(Amat, Kcommunities, ilabels = NULL, Iter = 10) {
   # print(Ohat)
   theta = Ohat/apply(Ohat, 1, sum)
 
-  for (iter in 1:Iter) {
+  for (niter in 1:niter) {
     # colBmat = as.matrix(colBmatFun(Amat, elabels))
     colBmat = colBmatFun(Amat, elabels)
     tb = as.numeric(table(elabels))
-    if (iter > 1) {
+    if (niter > 1) {
       theta = fit$theta
     }
     fit = mixtools::multmixEM(colBmat, lambda = tb/sum(tb), theta = theta, maxit = 300, epsilon = 1e-4)
     maxp = do.call(pmax, data.frame(fit$posterior))
-    for (i in 1 : Kcommunities) {
+    for (i in 1 : K) {
       tlabels[fit$posterior[, i] == maxp] = i
     }
     # print mis-matching matrix
-    # cat('iteration', iter, '\n')
-    if (length(unique(tlabels)) == Kcommunities) {
+    # cat('niteration', niter, '\n')
+    if (length(unique(tlabels)) == K) {
       elabels = tlabels
       # print(table(clabels, elabels))
       # print(fit$lambda)
