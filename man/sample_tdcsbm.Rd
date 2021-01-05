@@ -23,7 +23,7 @@ Sample an adjacency matrix from a truncated degree-corrected block model
 \details{
 The function  samples an adjacency matrix from a truncated DCSBM, with
 entries having Bernoulli distributions with mean \deqn{ E[A_{ij} | z] =
-B_{z_i, z_j} \max(1, \theta_i \theta_j).} The approach uses the masking idea
+B_{z_i, z_j} \min(1, \theta_i \theta_j).} The approach uses the masking idea
 of Aiyou Chen, leading to fast sampling for sparse networks. The masking,
 however, truncates \eqn{\theta_i \theta_j} to at most 1, hence
 we refer to it as the truncated DCSBM.
