@@ -21,7 +21,7 @@ Compute the block sum of an adjacency matrix given a label vector.
 }
 \details{
 \deqn{\hat B_{k\ell} = \frac{N_{k\ell}(\hat z)}{m_{k\ell} (\hat z)}, \quad \hat \theta_i =  \frac{n_{\hat z_i}(\hat z) d_i}{\sum_{j : \hat z_j = \hat z_i} d_i}}
-where \eqn{N_{k\ell}(\zh)} is the sum of the elements of \code{A} in block \eqn{(k,\ell)}
+where \eqn{N_{k\ell}(\hat{z})} is the sum of the elements of \code{A} in block \eqn{(k,\ell)}
 specified by labels \eqn{\hat z}, \eqn{n_k(\hat z)} is the number of nodes in community \eqn{k}
 according to \eqn{\hat z} and \eqn{m_{k\ell}(\hat z) = n_k(\hat z) (n_\ell(\hat z) - 1\{k = \ell\})}
 }

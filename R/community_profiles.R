@@ -7,6 +7,8 @@
 #' @param Kmax maximum community number to use in SNAC+
 #' @param ncores number of cores to use in the parallel computing
 #' @param seed seed for random sampling
+#' @return A data frame with columns specifying repetition cycles,
+#' number of community numbers and the value of SNAC+ statistics
 #' @export
 snac_resample = function(A, nrep = 20, Kmin = 1, Kmax = 13, ncores = 10, seed = 1234) {
     Ks = Kmin:Kmax
@@ -91,14 +93,14 @@ plot_smooth_profile = function(
     optK_label = c(shQuote(net_name), bquote(K %~~% .(ss_res1$elbow1) ~","~.(ss_res1$dip)))
     p = ggplot2::ggplot(tstat, ggplot2::aes(x=K, y=value)) +
         ggplot2::geom_point(size = 2, color="#6F98C2", alpha = alpha) +
-        ggplot2::geom_line(ggplot2::aes(x=xx, y=fxx), data = data.frame(xx=xx, fxx=ss_res1$fxx), size = 1, color="black")  +
+        ggplot2::geom_line(ggplot2::aes(x=xx, y=fxx), data = data.frame(xx=xx, fxx=ss_res1$fxx), size = 1.5, color="black")  +
         ggplot2::scale_x_continuous(breaks = unique(tstat$K)) +
         ggplot2::ylab("SNAC+") +
         ggplot2::theme_bw(base_size = base_font_size)
     if (!is.null(spar) && plot_null_spar) {
         ss_res2 = fit_ss(x, y, xx, spar = NULL, trunc_type = trunc_type)
         p = p +
-            ggplot2::geom_line(ggplot2::aes(x=xx, y=fxx), data = data.frame(xx=xx, fxx=ss_res2$fxx), size = 0.7, color = color2, linetype = "dashed")
+            ggplot2::geom_line(ggplot2::aes(x=xx, y=fxx), data = data.frame(xx=xx, fxx=ss_res2$fxx), size = 1.5, color = color2, linetype = "dashed")
         optK_label =c(optK_label, bquote(K %~~% .(ss_res2$elbow1) ~","~.(ss_res2$dip)))
     }
     p + ggplot2::annotate("text", x=Kmax-1.75, y=max(tstat$value)*c(0.95,0.9,0.85),

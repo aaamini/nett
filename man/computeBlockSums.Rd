@@ -12,7 +12,7 @@ computeBlockSums(A, z)
 \item{z}{label vector.}
 }
 \value{
-matrix B\link{k,l} = sum_{i,j} A\link{i,j} 1{z_i = k, z_j = l}
+A K x L matrix with (k,l)-th element as \eqn{sum_{i,j} A_{i,j} 1{z_i = k, z_j = l}}
 }
 \description{
 Compute the block sum of an adjacency matrix given a label vector.

@@ -10,7 +10,7 @@
 #' Compute the block sum of an adjacency matrix given a label vector.
 #' @param A adjacency matrix.
 #' @param z label vector.
-#' @return matrix B[k,l] = sum_{i,j} A[i,j] 1{z_i = k, z_j = l}
+#' @return A K x L matrix with (k,l)-th element as \eqn{sum_{i,j} A_{i,j} 1{z_i = k, z_j = l}}
 #' @keywords estimation
 #' @export
 computeBlockSums <- function(A, z) {
@@ -50,7 +50,7 @@ estim_sbm <- function(A,z) estim_dcsbm(A,z)$B
 #' \item{theta}{estimated node propensity parameter.}
 #' @details
 #' \deqn{\hat B_{k\ell} = \frac{N_{k\ell}(\hat z)}{m_{k\ell} (\hat z)}, \quad \hat \theta_i =  \frac{n_{\hat z_i}(\hat z) d_i}{\sum_{j : \hat z_j = \hat z_i} d_i}}
-#' where \eqn{N_{k\ell}(\zh)} is the sum of the elements of \code{A} in block \eqn{(k,\ell)}
+#' where \eqn{N_{k\ell}(\hat{z})} is the sum of the elements of \code{A} in block \eqn{(k,\ell)}
 #' specified by labels \eqn{\hat z}, \eqn{n_k(\hat z)} is the number of nodes in community \eqn{k}
 #' according to \eqn{\hat z} and \eqn{m_{k\ell}(\hat z) = n_k(\hat z) (n_\ell(\hat z) - 1\{k = \ell\})}
 #' @keywords estimation
@@ -176,13 +176,13 @@ eval_dcsbm_loglr = function(A, labels, poi = T, eps = 1e-6) {
   eval_dcsbm_like(A, labels[ , 2], poi = poi, eps = eps) - eval_dcsbm_like(A, labels[ , 1], poi = poi, eps = eps)
 }
 
-#' compute BIC score
+#' Compute BIC score
 #' @description compute BIC score when fitting a DCSBM to network data
 #' @param A adjacency matrix
 #' @param z label vector
 #' @param K number of community in \code{z}
 #' @param poi whether to use Poisson version of likelihood
-#' @details the BIC score is calculated by log likelihood minus \eqn{K*(K + 1)*log(n)/2}
+#' @details the BIC score is calculated by log likelihood minus \eqn{K\times(K + 1)\timeslog(n)/2}
 #' @keywords mod_sel
 #' @export
 eval_dcsbm_bic = function(A, z, K, poi) {

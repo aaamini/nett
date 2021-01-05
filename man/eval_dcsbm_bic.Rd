@@ -2,7 +2,7 @@
 % Please edit documentation in R/estimate.R
 \name{eval_dcsbm_bic}
 \alias{eval_dcsbm_bic}
-\title{compute BIC score}
+\title{Compute BIC score}
 \usage{
 eval_dcsbm_bic(A, z, K, poi)
 }
@@ -19,6 +19,6 @@ eval_dcsbm_bic(A, z, K, poi)
 compute BIC score when fitting a DCSBM to network data
 }
 \details{
-the BIC score is calculated by log likelihood minus \eqn{K*(K + 1)*log(n)/2}
+the BIC score is calculated by log likelihood minus \eqn{K\times(K + 1)\timeslog(n)/2}
 }
 \keyword{mod_sel}

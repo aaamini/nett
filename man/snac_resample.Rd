@@ -19,6 +19,10 @@ snac_resample(A, nrep = 20, Kmin = 1, Kmax = 13, ncores = 10, seed = 1234)
 
 \item{seed}{seed for random sampling}
 }
+\value{
+A data frame with columns specifying repetition cycles,
+number of community numbers and the value of SNAC+ statistics
+}
 \description{
 Compute SNAC+ with resampling
 }
