@@ -1,6 +1,6 @@
 Package: nett
 Title: Network Analysis and Community Detection
-Version: 0.0.0.9009
+Version: 0.0.0.9010
 Authors@R: 
     c(person(given = "Arash A.",
            family = "Amini",
