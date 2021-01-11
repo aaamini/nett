@@ -16,7 +16,7 @@ the spectral clustering}
 
 \item{y}{label vector for columns of adjacency matrix.}
 
-\item{plus}{whether or not use column label vector with (K+1) communities, default is TRUE}
+\item{plus}{whether or not use column label vector with (\code{K}+1) communities, default is TRUE}
 
 \item{...}{parameters for spectral clustering.}
 }
@@ -27,5 +27,19 @@ A list of result
 \item{y}{column label vector.}
 }
 \description{
-NAC and NAC+ test
+The NAC test to measure the goodness-of-fit of the DCSBM to network data.
+
+The function computes the NAC+ or NAC statistics in the paper below.
+}
+\section{References}{
+ \href{https://arxiv.org/abs/2012.15047}{Adjusted chi-square test for degree-corrected block models},
+Linfan Zhang, Arash A. Amini, arXiv preprint arXiv:2012.15047, 2020.
+}
+
+\examples{
+A <- sample_dcpp(500, 10, 4, 0.1)
+nac_test(A, K = 4)$stat
+}
+\seealso{
+\link{snac_test}
 }

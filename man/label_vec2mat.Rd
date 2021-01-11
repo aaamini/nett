@@ -6,6 +6,13 @@
 \usage{
 label_vec2mat(z, K = NULL, sparse = F)
 }
+\arguments{
+\item{z}{a label vector}
+
+\item{K}{number of labels in \code{z}}
+
+\item{sparse}{whether the output should be sparse matrix}
+}
 \description{
 Convert label vector to matrix
 }

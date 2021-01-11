@@ -6,6 +6,13 @@
 \usage{
 compute_confusion_matrix(z, y, K = NULL)
 }
+\arguments{
+\item{z}{a label vector}
+
+\item{y}{a label vector}
+
+\item{K}{number of labels in both \code{z} and \code{y}}
+}
 \description{
 Compute confusion matrix
 }

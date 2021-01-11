@@ -4,7 +4,10 @@
 \alias{label_mat2vec}
 \title{Convert label matrix to vector}
 \usage{
-label_mat2vec(Z)
+label_mat2vec(z)
+}
+\arguments{
+\item{z}{a label vector with elements as integers from 1 to K}
 }
 \description{
 Convert label matrix to vector

@@ -13,7 +13,7 @@
 #' @return A K x L matrix with (k,l)-th element as \eqn{sum_{i,j} A_{i,j} 1{z_i = k, z_j = l}}
 #' @keywords estimation
 #' @export
-computeBlockSums <- function(A, z) {
+compute_block_sums <- function(A, z) {
   # A: a sparse adjacency matrix
   # z: a label vector
   # Outputs the matrix B[k,l] = sum_{i,j} A[i,j] 1{z_i = k, z_j = l}
@@ -65,7 +65,7 @@ estim_dcsbm <- function(A,z) {
     theta = degs*ns/Bsum
 
   } else {  # number of clusters > 1
-    Bsum = computeBlockSums(A, z)
+    Bsum = compute_block_sums(A, z)
     Bsum[Bsum == 0] = 1
     B = Bsum / (ns %*% t(ns) - diag(ns))
 
@@ -100,7 +100,7 @@ estim_dcsbm <- function(A,z) {
 #' @keywords estimation
 #' @export
 eval_dcsbm_like <- function(A, z, poi = T, eps = 1e-6) {
-  Bsum = computeBlockSums(A,z)
+  Bsum = compute_block_sums(A,z)
   degs = Matrix::rowSums(A)
   total_clust_degs = Matrix::rowSums(Bsum)
   theta = degs/total_clust_degs[z] # unit normalization for theta

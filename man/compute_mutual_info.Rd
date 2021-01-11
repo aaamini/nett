@@ -6,6 +6,11 @@
 \usage{
 compute_mutual_info(z, y)
 }
+\arguments{
+\item{z}{a label vector}
+
+\item{y}{a label vector}
+}
 \description{
 Compute normalized mutual information (NMI)
 }

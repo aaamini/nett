@@ -7,13 +7,17 @@
 # }
 
 #' Convert label matrix to vector
+#' @param z  a label vector with elements as integers from 1 to K
 #' @export
 #' @keywords utils
-label_mat2vec <- function(Z){
-  max.col(Z)
+label_mat2vec <- function(z){
+  max.col(z)
 }
 
 #' Compute confusion matrix
+#' @param z a label vector
+#' @param y a label vector
+#' @param K number of labels in both \code{z} and \code{y}
 #' @export
 #' @keywords evaluation
 compute_confusion_matrix <- function (z, y, K=NULL) {
@@ -28,6 +32,9 @@ compute_confusion_matrix <- function (z, y, K=NULL) {
 # M = label_vec2mat(c,K)'*label_vec2mat(e,K);
 
 #' Convert label vector to matrix
+#' @param z a label vector
+#' @param K number of labels in \code{z}
+#' @param sparse whether the output should be sparse matrix
 #' @export
 #' @keywords utils
 label_vec2mat <- function(z, K=NULL, sparse=F) {
@@ -45,6 +52,8 @@ label_vec2mat <- function(z, K=NULL, sparse=F) {
 }
 
 #' Compute normalized mutual information (NMI)
+#' @param z a label vector
+#' @param y a label vector
 #' @export
 #' @keywords evaluation
 compute_mutual_info  <- function(z,y) {

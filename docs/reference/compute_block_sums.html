@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot ROC curves — plot_roc • nett</title>
+<title>Block sum of an adjacency matrix — compute_block_sums • nett</title>
 
 
 <!-- jquery -->
@@ -41,8 +41,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Plot ROC curves — plot_roc" />
-<meta property="og:description" content="Plot ROC curves given results from simulate_roc." />
+<meta property="og:title" content="Block sum of an adjacency matrix — compute_block_sums" />
+<meta property="og:description" content="Compute the block sum of an adjacency matrix given a label vector." />
 
 
 
@@ -123,30 +123,33 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plot ROC curves</h1>
+    <h1>Block sum of an adjacency matrix</h1>
     
-    <div class="hidden name"><code>plot_roc.Rd</code></div>
+    <div class="hidden name"><code>compute_block_sums.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Plot ROC curves given results from <a href='simulate_roc.html'>simulate_roc</a>.</p>
+    <p>Compute the block sum of an adjacency matrix given a label vector.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_roc</span><span class='op'>(</span><span class='va'>roc_results</span>, method_names <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>compute_block_sums</span><span class='op'>(</span><span class='va'>A</span>, <span class='va'>z</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>roc_results</th>
-      <td><p>data frame <code>roc</code> from the output list of <a href='simulate_roc.html'>simulate_roc</a></p></td>
+      <th>A</th>
+      <td><p>adjacency matrix.</p></td>
     </tr>
     <tr>
-      <th>method_names</th>
-      <td><p>a list of method names</p></td>
+      <th>z</th>
+      <td><p>label vector.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A K x L matrix with (k,l)-th element as \(sum_{i,j} A_{i,j} 1{z_i = k, z_j = l}\)</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -1,9 +1,9 @@
-pandoc: 2.11.0.2
-pkgdown: 1.6.1.9000
-pkgdown_sha: e1e46f2e13c7efdb17bc4eae40bc3779c2b0b517
+pandoc: 1.19.2.1
+pkgdown: 1.6.1
+pkgdown_sha: ~
 articles:
   Community_Detection: Community_Detection.html
-  Visualization: Visualization.html
   explore-comm: explore-comm.html
-last_built: 2021-01-01T20:27Z
+  Visualization: Visualization.html
+last_built: 2021-01-11T02:42Z
 

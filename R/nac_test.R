@@ -2,19 +2,28 @@
 
 #' NAC test
 #'
-#' @description  NAC and NAC+ test
+#' @description  The NAC test to measure the goodness-of-fit of the DCSBM to network data.
+#'
+#' The function computes the NAC+ or NAC statistics in the paper below.
+#'
+#' @section References: [Adjusted chi-square test for degree-corrected block models](https://arxiv.org/abs/2012.15047),
+#' Linfan Zhang, Arash A. Amini, arXiv preprint arXiv:2012.15047, 2020.
+#'
+#' @seealso  [snac_test]
 #' @param A adjacency matrix
 #' @param K number of communities
 #' @param z label vector for rows of adjacency matrix. If not given, will be calculated by
 #' the spectral clustering
 #' @param y label vector for columns of adjacency matrix.
-#' @param plus whether or not use column label vector with (K+1) communities, default is TRUE
+#' @param plus whether or not use column label vector with (`K`+1) communities, default is TRUE
 #' @param ... parameters for spectral clustering.
 #' @return A list of result
 #' \item{stat}{NAC or NAC+ test statistic.}
 #' \item{z}{row label vector.}
 #' \item{y}{column label vector.}
-
+#' @examples
+#' A <- sample_dcpp(500, 10, 4, 0.1)
+#' nac_test(A, K = 4)$stat
 #' @export
 nac_test <- function(A, K, z = NULL, y = NULL, plus = T, ...) {
 
@@ -41,47 +50,101 @@ nac_test <- function(A, K, z = NULL, y = NULL, plus = T, ...) {
 
 #' SNAC test
 #'
-#' @description perform SNAC test
+#' @description The SNAC test to measure the goodness-of-fit of the DCSBM to network data.
+#'
+#' The function computes the SNAC+ or SNAC statistics in the paper below.
+#' The row label vector of the adjacency matrix could be given through `z` otherwise will
+#' be estimated by [spec_clust]. One can specify the ratio of nodes used to estimate column
+#' label vector. If `plus = TRUE`, the column labels will be estimated by [spec_clust] with
+#' (`K`+1) clusters, i.e. performing SNAC+ test, otherwise with `K` clusters SNAC test.
+#' One can also get multiple test statistics with repeated random subsampling on nodes.
+#'
+#' @section References: [Adjusted chi-square test for degree-corrected block models](https://arxiv.org/abs/2012.15047),
+#' Linfan Zhang, Arash A. Amini, arXiv preprint arXiv:2012.15047, 2020.
+#'
 #' @param A adjacency matrix
-#' @param K number of communities
-#' @param z label vector for rows of adjacency matrix. If not given, will be calculated by
+#' @param K desired number of communities
+#' @param z label vector for rows of adjacency matrix. If not provided, will be estimated by
+#' [spec_clust]
 #' @param ratio ratio of subsampled nodes from the network
-#' @param plus whether or not use column label vector with (K+1) communities, default is TRUE
 #' @param fromEachCommunity whether subsample from each estimated community or the full network,
 #' default is TRUE
+#' @param plus whether or not use column label vector with (K+1) communities, default is TRUE
+#' @param niter number of times the statisitcs are computed
 #' @param ... parameters for spectral clustering.
 #' @return A list of result
 #' \item{stat}{SNAC or SNAC+ test statistic.}
 #' \item{z}{row label vector.}
-#' \item{y}{column label vector.}
+#'
+#' @examples
+#' A <- sample_dcpp(500, 10, 4, 0.1)
+#' snac_test(A, K = 4)$stat
+#'
 #' @export
-snac_test <- function(A, K, z=NULL, ratio = 0.5, plus = TRUE,  fromEachCommunity=TRUE,...){
+snac_test <- function(A, K, z=NULL, ratio = 0.5,
+                      fromEachCommunity=TRUE,
+                      plus = TRUE,
+                      niter = 1, ...){
   if (is.null(z)) z <- spec_clust(A, K, ...)
 
   n <- length(z)
-  if (fromEachCommunity) {
-    # split nodes clustered into halves
-    index1 <- sampleEveryComm(z, K, ratio)
-  } else {
-    # split the whole network into halves
-    index1 <- sample(n, round(n*ratio))
+  stat <- c()
+  for (i in 1:niter){
+    if (fromEachCommunity) {
+      # split nodes clustered into halves
+      index1 <- sampleEveryComm(z, K, ratio)
+    } else {
+      # split the whole network into halves
+      index1 <- sample(n, round(n*ratio))
+    }
+
+    index2 <- (1:n)[-index1]
+
+    # perform K+1 clustering on one half
+    # if(sum(A[index1, index1]) == 0){
+    #   return(list(total = 0))
+    # }else{
+    if (plus){
+      y1 <- spec_clust(A[index1, index1], K+1, ...)
+    }else{
+      y1 <- spec_clust(A[index1, index1], K, ...)
+    }
+    # }
+
+    z2 <- z[index2]
+
+    stat[i] <- nac_test(A[index2, index1], K, z = z2, y = y1)$stat
   }
+  return(list(stat = stat, z = z))
 
-  index2 <- (1:n)[-index1]
+}
 
-  # perform K+1 clustering on one half
-  # if(sum(A[index1, index1]) == 0){
-  #   return(list(total = 0))
-  # }else{
-  if (plus){
-    y1 <- spec_clust(A[index1, index1], K+1, ...) # working
-  }else{
-    y1 <- spec_clust(A[index1, index1], K, ...)
-  }
-  # }
+#' Estimate community number with SNAC+
+#'
+#' Applying SNAC+ test sequentially to estimate community number of a network
+#' fit to DCSBM
+#'
+#' @param A adjacency matrix
+#' @param Kmin minimum candidate community number
+#' @param Kmax maximum candidate community number
+#' @param alpha significance level for rejecting the null hypothsis
+#' @param labels a matrix with each column being a row label vector for a
+#' candidate community number
+#' @return estimated community number
+#' @seealso [snac_test]
+#' @keywords mod_sel
+#' @export
+snac_select <- function(A, Kmin=1, Kmax, alpha, labels =NULL) {
+  if (is.null(labels)) labels <- sapply(Kmin:Kmax, function(k) nett::spec_clust(A, k))
+  Tstat <- sapply(Kmin:Kmax, function(k) snac_test(A, k, z = labels[,k-Kmin+1])$stat )
 
-  z2 <- z[index2]
-  return( nac_test(A[index2, index1], K, z = z2, y = y1) )
+  inrange <- Tstat < qnorm(1-alpha)
+  K <- which(inrange)[1]
+  # Kmax is not enough, we return Kmax for consistency
+  if (is.na(K)) K <- length(Tstat)
+  K <- K+Kmin-1
+
+  return(K)
 }
 
 CondChisqTest <- function(X, z, K=NULL, d=NULL) {

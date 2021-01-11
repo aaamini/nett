@@ -36,6 +36,7 @@
 #'
 #' @export
 fast_cpl <- function(Amat, K, ilabels = NULL, niter = 10) {
+  require(mixtools)
   check_pkg_and_stop("mixtools")
   # initial labeling: random compression + spectral clustering
   if (K == 1) return(rep(1, nrow(A)))

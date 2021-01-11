@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot ROC curves — plot_roc • nett</title>
+<title>Estimate community number with SNAC+ — snac_select • nett</title>
 
 
 <!-- jquery -->
@@ -41,8 +41,9 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Plot ROC curves — plot_roc" />
-<meta property="og:description" content="Plot ROC curves given results from simulate_roc." />
+<meta property="og:title" content="Estimate community number with SNAC+ — snac_select" />
+<meta property="og:description" content="Applying SNAC+ test sequentially to estimate community number of a network
+fit to DCSBM" />
 
 
 
@@ -123,30 +124,50 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plot ROC curves</h1>
+    <h1>Estimate community number with SNAC+</h1>
     
-    <div class="hidden name"><code>plot_roc.Rd</code></div>
+    <div class="hidden name"><code>snac_select.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Plot ROC curves given results from <a href='simulate_roc.html'>simulate_roc</a>.</p>
+    <p>Applying SNAC+ test sequentially to estimate community number of a network
+fit to DCSBM</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_roc</span><span class='op'>(</span><span class='va'>roc_results</span>, method_names <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>snac_select</span><span class='op'>(</span><span class='va'>A</span>, Kmin <span class='op'>=</span> <span class='fl'>1</span>, <span class='va'>Kmax</span>, <span class='va'>alpha</span>, labels <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>roc_results</th>
-      <td><p>data frame <code>roc</code> from the output list of <a href='simulate_roc.html'>simulate_roc</a></p></td>
+      <th>A</th>
+      <td><p>adjacency matrix</p></td>
     </tr>
     <tr>
-      <th>method_names</th>
-      <td><p>a list of method names</p></td>
+      <th>Kmin</th>
+      <td><p>minimum candidate community number</p></td>
+    </tr>
+    <tr>
+      <th>Kmax</th>
+      <td><p>maximum candidate community number</p></td>
+    </tr>
+    <tr>
+      <th>alpha</th>
+      <td><p>significance level for rejecting the null hypothsis</p></td>
+    </tr>
+    <tr>
+      <th>labels</th>
+      <td><p>a matrix with each column being a row label vector for a
+candidate community number</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>estimated community number</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><a href='snac_test.html'>snac_test</a></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
