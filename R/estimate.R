@@ -97,6 +97,7 @@ estim_dcsbm <- function(A,z) {
 #' @param eps truncation threshold for the Bernoulli likelihood,
 #' used when parameter phat is close to 1 or 0.
 #' @return log likelihood of a DCSBM
+#' @seealso [eval_dcsbm_loglr], [eval_dcsbm_bic]
 #' @keywords estimation
 #' @export
 eval_dcsbm_like <- function(A, z, poi = T, eps = 1e-6) {
@@ -170,6 +171,7 @@ eval_dcsbm_like <- function(A, z, poi = T, eps = 1e-6) {
 #' @param eps truncation threshold for the Bernoulli likelihood, used when
 #'   parameter phat is close to 1 or 0.
 #' @return log-likelihood ratio
+#' @seealso [eval_dcsbm_like], [eval_dcsbm_bic]
 #' @keywords mod_sel
 #' @export
 eval_dcsbm_loglr = function(A, labels, poi = T, eps = 1e-6) {
@@ -182,7 +184,17 @@ eval_dcsbm_loglr = function(A, labels, poi = T, eps = 1e-6) {
 #' @param z label vector
 #' @param K number of community in \code{z}
 #' @param poi whether to use Poisson version of likelihood
-#' @details the BIC score is calculated by log likelihood minus \eqn{K\times(K + 1)\timeslog(n)/2}
+#' @details the BIC score is calculated by log likelihood minus \eqn{K\times(K + 1)\times log(n)/2}
+#' @section References:
+#' BIC score is originally proposed in
+#' [Likelihood-based model selection for stochastic block models](https://projecteuclid.org/euclid.aos/1494921948)
+#' Wang, YX Rachel, Peter J. Bickel, The Annals of Statistics 45, no. 2 (2017): 500-528.
+#'
+#' The details of modified implementation can be found in
+#' [Adjusted chi-square test for degree-corrected block models](https://arxiv.org/abs/2012.15047),
+#' Linfan Zhang, Arash A. Amini, arXiv preprint arXiv:2012.15047, 2020.
+#'
+#' @seealso [eval_dcsbm_like], [eval_dcsbm_loglr]
 #' @keywords mod_sel
 #' @export
 eval_dcsbm_bic = function(A, z, K, poi) {

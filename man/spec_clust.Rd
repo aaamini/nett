@@ -24,7 +24,7 @@ spec_clust(
 \item{tau}{Regularization paramter for the Laplacian}
 }
 \value{
-A vector of size n x 1 with elements in {1,2,...,K}
+A label vector of size n x 1 with elements in {1,2,...,K}
 }
 \description{
 Perform spectral clustering (with regularization) to estimate communities

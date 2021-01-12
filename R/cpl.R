@@ -36,7 +36,6 @@
 #'
 #' @export
 fast_cpl <- function(Amat, K, ilabels = NULL, niter = 10) {
-  require(mixtools)
   check_pkg_and_stop("mixtools")
   # initial labeling: random compression + spectral clustering
   if (K == 1) return(rep(1, nrow(A)))
@@ -49,7 +48,7 @@ fast_cpl <- function(Amat, K, ilabels = NULL, niter = 10) {
   elabels = ilabels
   tlabels = elabels
   # Ohat = as.matrix(BmatFun(Amat, elabels))
-  Ohat = computeBlockSums(Amat, elabels)
+  Ohat = compute_block_sums(Amat, elabels)
   # print(Ohat)
   theta = Ohat/apply(Ohat, 1, sum)
 

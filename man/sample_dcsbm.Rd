@@ -23,3 +23,6 @@ Sample an adjacency matrix from a degree-corrected block model (DCSBM)
 B = pp_conn(n = 10^3, oir = 0.1, lambda = 7, pri = rep(1,3))$B
 head(sample_dcsbm(sample(1:3, 10^3, replace = T), B, theta = rexp(10^3)))
 }
+\seealso{
+\link{sample_dcpp}, \link{fast_sbm}, \link{sample_tdcsbm}
+}

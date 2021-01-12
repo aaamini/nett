@@ -90,10 +90,12 @@ gen_rand_conn = function(n, K, lambda, gamma = 0.3, pri = rep(1,K)/K, theta = re
 #' @param lambda average degree
 #' @param K number of communities
 #' @param oir out-in ratio
-#' @param theta propensity parameter
+#' @param theta propensity parameter, if not given will be samples from a Pareto
+#' distribution with scale parameter 2/3 and shape parameter 3
 #' @param pri prior distribution of node labels
 #' @param normalize_theta whether to normalize theta so that max(theta) == 1
 #' @return an adjacency matrix following a degree-corrected planted parition model
+#' @seealso [sample_dcsbm], [sample_tdcsbm]
 #' @export
 sample_dcpp <- function(n, lambda, K, oir, theta = NULL,
                        pri = rep(1,K)/K, normalize_theta = F) {
@@ -135,6 +137,7 @@ sample_dclvm = function(z, lambda, theta, npairs = NULL) {
 #' @param B Connectivity matrix (\eqn{K * K})
 #' @param theta Node connectivity propensity vector (\eqn{n * 1})
 #' @return An adjacency matrix following DCSBM
+#' @seealso [sample_dcpp], [fast_sbm], [sample_tdcsbm]
 #' @examples
 #' B = pp_conn(n = 10^3, oir = 0.1, lambda = 7, pri = rep(1,3))$B
 #' head(sample_dcsbm(sample(1:3, 10^3, replace = T), B, theta = rexp(10^3)))

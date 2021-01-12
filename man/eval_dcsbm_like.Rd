@@ -30,4 +30,7 @@ The log likelihood is calculated by
 where \eqn{\hat B}, \eqn{\hat \theta} is calculated by \link{estim_dcsbm},
 \eqn{\hat{\pi}_k} is the proportion of nodes in community k.
 }
+\seealso{
+\link{eval_dcsbm_loglr}, \link{eval_dcsbm_bic}
+}
 \keyword{estimation}

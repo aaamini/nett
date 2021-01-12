@@ -4,30 +4,61 @@
 \alias{adj_spec_test}
 \title{Adjusted spectral test}
 \usage{
-adj_spec_test(A, K, z = NULL, DC = T, theta = NULL, B = NULL, ...)
+adj_spec_test(
+  A,
+  K,
+  z = NULL,
+  DC = T,
+  theta = NULL,
+  B = NULL,
+  cluster_fct = spec_clust,
+  ...
+)
 }
 \arguments{
-\item{A}{adjacency matrix}
+\item{A}{adjacency matrix.}
 
-\item{K}{number of communities}
+\item{K}{number of communities.}
 
 \item{z}{label vector for rows of adjacency matrix. If not given, will be calculated by
-the spectral clustering}
+the spectral clustering.}
 
-\item{DC}{whether or not include degree correction in the parameter estimation}
+\item{DC}{whether or not include degree correction in the parameter estimation.}
 
-\item{theta}{give the propensity parameter directly}
+\item{theta}{give the propensity parameter directly.}
 
-\item{B}{give the connectivity matrix directly}
+\item{B}{give the connectivity matrix directly.}
 
-\item{...}{parameters for spectral clustering.}
+\item{cluster_fct}{community detection function to get \code{z} , by default using \link{spec_clust}.}
+
+\item{...}{additional arguments for \code{cluster_fct}.}
 }
 \value{
-A list of result
-\item{stat}{NAC or NAC+ test statistic.}
-\item{z}{row label vector.}
-\item{y}{column label vector.}
+Adjusted spectral test statistics.
 }
 \description{
+The adjusted spectral goodness-of-fit test based on Poisson DCSBM.
+
+The test is a natural extension on Lei's work of testing goodness-of-fit
+for SBM. The residual matrix \eqn{\tilde{A}} is computed from the DCSBM estimation
+expectation of \code{A}. To speed up computation, the residual matrix uses Poisson variance instead.
+Specifically,
+
+\deqn{
+ 	\tilde{A}_{ij} = (A_{ij} - \hat P_{ij}) / ( n \hat P_{ij})^{1/2}, \quad
+ 	\hat P_{ij} = \hat \theta_i \hat \theta_j \hat B_{\hat{z}_i, \hat{z}_j} \cdot 1\{i \neq j\}
+}
+
+where \eqn{\hat{\theta}} and \eqn{\hat{B}} are computed using \link{estim_dcsbm} if not provided.
+
 Adjusted spectral test
 }
+\section{References}{
+
+Details of modification can be seen at \href{https://arxiv.org/abs/2012.15047}{Adjusted chi-square test for degree-corrected block models},
+Linfan Zhang, Arash A. Amini, arXiv preprint arXiv:2012.15047, 2020.
+
+The original spectral test is from \href{https://projecteuclid.org/euclid.aos/1452004791}{A goodness-of-fit test for stochastic block models}
+Lei, Jing, Ann. Statist. 44 (2016), no. 1, 401--424. doi:10.1214/15-AOS1370.
+}
+

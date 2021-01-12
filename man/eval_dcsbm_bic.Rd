@@ -19,6 +19,20 @@ eval_dcsbm_bic(A, z, K, poi)
 compute BIC score when fitting a DCSBM to network data
 }
 \details{
-the BIC score is calculated by log likelihood minus \eqn{K\times(K + 1)\timeslog(n)/2}
+the BIC score is calculated by log likelihood minus \eqn{K\times(K + 1)\times log(n)/2}
+}
+\section{References}{
+
+BIC score is originally proposed in
+\href{https://projecteuclid.org/euclid.aos/1494921948}{Likelihood-based model selection for stochastic block models}
+Wang, YX Rachel, Peter J. Bickel, The Annals of Statistics 45, no. 2 (2017): 500-528.
+
+The details of modified implementation can be found in
+\href{https://arxiv.org/abs/2012.15047}{Adjusted chi-square test for degree-corrected block models},
+Linfan Zhang, Arash A. Amini, arXiv preprint arXiv:2012.15047, 2020.
+}
+
+\seealso{
+\link{eval_dcsbm_like}, \link{eval_dcsbm_loglr}
 }
 \keyword{mod_sel}

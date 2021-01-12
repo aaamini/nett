@@ -42,7 +42,17 @@
   
 
 <meta property="og:title" content="Adjusted spectral test — adj_spec_test" />
-<meta property="og:description" content="Adjusted spectral test" />
+<meta property="og:description" content="The adjusted spectral goodness-of-fit test based on Poisson DCSBM.
+The test is a natural extension on Lei's work of testing goodness-of-fit
+for SBM. The residual matrix \(\tilde{A}\) is computed from the DCSBM estimation
+expectation of A. To speed up computation, the residual matrix uses Poisson variance instead.
+Specifically,
+$$
+ 	\tilde{A}_{ij} = (A_{ij} - \hat P_{ij}) / ( n \hat P_{ij})^{1/2}, \quad
+ 	\hat P_{ij} = \hat \theta_i \hat \theta_j \hat B_{\hat{z}_i, \hat{z}_j} \cdot 1\{i \neq j\}
+$$
+where \(\hat{\theta}\) and \(\hat{B}\) are computed using estim_dcsbm if not provided.
+Adjusted spectral test" />
 
 
 
@@ -129,52 +139,79 @@
     </div>
 
     <div class="ref-description">
-    <p>Adjusted spectral test</p>
+    <p>The adjusted spectral goodness-of-fit test based on Poisson DCSBM.</p>
+<p>The test is a natural extension on Lei's work of testing goodness-of-fit
+for SBM. The residual matrix \(\tilde{A}\) is computed from the DCSBM estimation
+expectation of <code>A</code>. To speed up computation, the residual matrix uses Poisson variance instead.
+Specifically,</p>
+<p>$$
+ 	\tilde{A}_{ij} = (A_{ij} - \hat P_{ij}) / ( n \hat P_{ij})^{1/2}, \quad
+ 	\hat P_{ij} = \hat \theta_i \hat \theta_j \hat B_{\hat{z}_i, \hat{z}_j} \cdot 1\{i \neq j\}
+$$</p>
+<p>where \(\hat{\theta}\) and \(\hat{B}\) are computed using <a href='estim_dcsbm.html'>estim_dcsbm</a> if not provided.</p>
+<p>Adjusted spectral test</p>
     </div>
 
-    <pre class="usage"><span class='fu'>adj_spec_test</span><span class='op'>(</span><span class='va'>A</span>, <span class='va'>K</span>, z <span class='op'>=</span> <span class='cn'>NULL</span>, DC <span class='op'>=</span> <span class='cn'>T</span>, theta <span class='op'>=</span> <span class='cn'>NULL</span>, B <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>adj_spec_test</span><span class='op'>(</span>
+  <span class='va'>A</span>,
+  <span class='va'>K</span>,
+  z <span class='op'>=</span> <span class='cn'>NULL</span>,
+  DC <span class='op'>=</span> <span class='cn'>T</span>,
+  theta <span class='op'>=</span> <span class='cn'>NULL</span>,
+  B <span class='op'>=</span> <span class='cn'>NULL</span>,
+  cluster_fct <span class='op'>=</span> <span class='va'>spec_clust</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>A</th>
-      <td><p>adjacency matrix</p></td>
+      <td><p>adjacency matrix.</p></td>
     </tr>
     <tr>
       <th>K</th>
-      <td><p>number of communities</p></td>
+      <td><p>number of communities.</p></td>
     </tr>
     <tr>
       <th>z</th>
       <td><p>label vector for rows of adjacency matrix. If not given, will be calculated by
-the spectral clustering</p></td>
+the spectral clustering.</p></td>
     </tr>
     <tr>
       <th>DC</th>
-      <td><p>whether or not include degree correction in the parameter estimation</p></td>
+      <td><p>whether or not include degree correction in the parameter estimation.</p></td>
     </tr>
     <tr>
       <th>theta</th>
-      <td><p>give the propensity parameter directly</p></td>
+      <td><p>give the propensity parameter directly.</p></td>
     </tr>
     <tr>
       <th>B</th>
-      <td><p>give the connectivity matrix directly</p></td>
+      <td><p>give the connectivity matrix directly.</p></td>
+    </tr>
+    <tr>
+      <th>cluster_fct</th>
+      <td><p>community detection function to get <code>z</code> , by default using <a href='spec_clust.html'>spec_clust</a>.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>parameters for spectral clustering.</p></td>
+      <td><p>additional arguments for <code>cluster_fct</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list of result</p>
-<dt>stat</dt><dd><p>NAC or NAC+ test statistic.</p></dd>
-<dt>z</dt><dd><p>row label vector.</p></dd>
-<dt>y</dt><dd><p>column label vector.</p></dd>
+    <p>Adjusted spectral test statistics.</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
+    
+
+<p>Details of modification can be seen at <a href='https://arxiv.org/abs/2012.15047'>Adjusted chi-square test for degree-corrected block models</a>,
+Linfan Zhang, Arash A. Amini, arXiv preprint arXiv:2012.15047, 2020.</p>
+<p>The original spectral test is from <a href='https://projecteuclid.org/euclid.aos/1452004791'>A goodness-of-fit test for stochastic block models</a>
+Lei, Jing, Ann. Statist. 44 (2016), no. 1, 401--424. doi:10.1214/15-AOS1370.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

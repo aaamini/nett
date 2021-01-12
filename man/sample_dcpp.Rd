@@ -23,7 +23,8 @@ sample_dcpp(
 
 \item{oir}{out-in ratio}
 
-\item{theta}{propensity parameter}
+\item{theta}{propensity parameter, if not given will be samples from a Pareto
+distribution with scale parameter 2/3 and shape parameter 3}
 
 \item{pri}{prior distribution of node labels}
 
@@ -34,4 +35,7 @@ an adjacency matrix following a degree-corrected planted parition model
 }
 \description{
 Sample from a degree-corrected planted partition model
+}
+\seealso{
+\link{sample_dcsbm}, \link{sample_tdcsbm}
 }

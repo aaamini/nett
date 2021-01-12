@@ -4,21 +4,23 @@
 \alias{nac_test}
 \title{NAC test}
 \usage{
-nac_test(A, K, z = NULL, y = NULL, plus = T, ...)
+nac_test(A, K, z = NULL, y = NULL, plus = T, cluster_fct = spec_clust, ...)
 }
 \arguments{
-\item{A}{adjacency matrix}
+\item{A}{adjacency matrix.}
 
-\item{K}{number of communities}
+\item{K}{number of communities.}
 
-\item{z}{label vector for rows of adjacency matrix. If not given, will be calculated by
-the spectral clustering}
+\item{z}{label vector for rows of \code{A}. If not provided, will be estimated from \code{cluster_fct}.}
 
-\item{y}{label vector for columns of adjacency matrix.}
+\item{y}{label vector for columns of \code{A}. If not provided, will be estimated from \code{cluster_fct}.}
 
-\item{plus}{whether or not use column label vector with (\code{K}+1) communities, default is TRUE}
+\item{plus}{whether or not use column label vector with (\code{K}+1) communities, default is TRUE.}
 
-\item{...}{parameters for spectral clustering.}
+\item{cluster_fct}{community detection function to get \code{z} and \code{y}, by default using \link{spec_clust}.
+The first two arguments have to be \code{A} and \code{K}.}
+
+\item{...}{additional arguments for \code{cluster_fct}.}
 }
 \value{
 A list of result
@@ -29,7 +31,11 @@ A list of result
 \description{
 The NAC test to measure the goodness-of-fit of the DCSBM to network data.
 
-The function computes the NAC+ or NAC statistics in the paper below.
+The function computes the NAC+ or NAC statistics in the paper below. Label vectors, if
+not provided, are estimated using \link{spec_clust} by default but one can also use any other
+community detection algorithms through \code{cluster_fct}. Note that the function has to have
+\code{A} and \code{K} as its first two arguments, and additional arguments could be provided through
+\code{...}.
 }
 \section{References}{
  \href{https://arxiv.org/abs/2012.15047}{Adjusted chi-square test for degree-corrected block models},
@@ -37,8 +43,9 @@ Linfan Zhang, Arash A. Amini, arXiv preprint arXiv:2012.15047, 2020.
 }
 
 \examples{
-A <- sample_dcpp(500, 10, 4, 0.1)
+A <- sample_dcpp(500, 10, 4, 0.1)$adj
 nac_test(A, K = 4)$stat
+nac_test(A, K = 4, cluster_fct = fast_cpl)$stat
 }
 \seealso{
 \link{snac_test}

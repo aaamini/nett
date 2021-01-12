@@ -45,7 +45,7 @@
 <meta property="og:description" content="The SNAC test to measure the goodness-of-fit of the DCSBM to network data.
 The function computes the SNAC+ or SNAC statistics in the paper below.
 The row label vector of the adjacency matrix could be given through z otherwise will
-be estimated by spec_clust. One can specify the ratio of nodes used to estimate column
+be estimated by cluster_fct. One can specify the ratio of nodes used to estimate column
 label vector. If plus = TRUE, the column labels will be estimated by spec_clust with
 (K+1) clusters, i.e. performing SNAC+ test, otherwise with K clusters SNAC test.
 One can also get multiple test statistics with repeated random subsampling on nodes." />
@@ -138,7 +138,7 @@ One can also get multiple test statistics with repeated random subsampling on no
     <p>The SNAC test to measure the goodness-of-fit of the DCSBM to network data.</p>
 <p>The function computes the SNAC+ or SNAC statistics in the paper below.
 The row label vector of the adjacency matrix could be given through <code>z</code> otherwise will
-be estimated by <a href='spec_clust.html'>spec_clust</a>. One can specify the ratio of nodes used to estimate column
+be estimated by <code>cluster_fct</code>. One can specify the ratio of nodes used to estimate column
 label vector. If <code>plus = TRUE</code>, the column labels will be estimated by <a href='spec_clust.html'>spec_clust</a> with
 (<code>K</code>+1) clusters, i.e. performing SNAC+ test, otherwise with <code>K</code> clusters SNAC test.
 One can also get multiple test statistics with repeated random subsampling on nodes.</p>
@@ -151,7 +151,8 @@ One can also get multiple test statistics with repeated random subsampling on no
   ratio <span class='op'>=</span> <span class='fl'>0.5</span>,
   fromEachCommunity <span class='op'>=</span> <span class='cn'>TRUE</span>,
   plus <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  niter <span class='op'>=</span> <span class='fl'>1</span>,
+  cluster_fct <span class='op'>=</span> <span class='va'>spec_clust</span>,
+  nrep <span class='op'>=</span> <span class='fl'>1</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -160,20 +161,20 @@ One can also get multiple test statistics with repeated random subsampling on no
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>A</th>
-      <td><p>adjacency matrix</p></td>
+      <td><p>adjacency matrix.</p></td>
     </tr>
     <tr>
       <th>K</th>
-      <td><p>desired number of communities</p></td>
+      <td><p>desired number of communities.</p></td>
     </tr>
     <tr>
       <th>z</th>
       <td><p>label vector for rows of adjacency matrix. If not provided, will be estimated by
-<a href='spec_clust.html'>spec_clust</a></p></td>
+<code>cluster_fct</code></p></td>
     </tr>
     <tr>
       <th>ratio</th>
-      <td><p>ratio of subsampled nodes from the network</p></td>
+      <td><p>ratio of subsampled nodes from the network.</p></td>
     </tr>
     <tr>
       <th>fromEachCommunity</th>
@@ -182,15 +183,20 @@ default is TRUE</p></td>
     </tr>
     <tr>
       <th>plus</th>
-      <td><p>whether or not use column label vector with (K+1) communities, default is TRUE</p></td>
+      <td><p>whether or not use column label vector with (<code>K</code>+1) communities to compute the statistics, default is TRUE.</p></td>
     </tr>
     <tr>
-      <th>niter</th>
-      <td><p>number of times the statisitcs are computed</p></td>
+      <th>cluster_fct</th>
+      <td><p>community detection function to estimate label vectors, by default using <a href='spec_clust.html'>spec_clust</a>.
+The first two arguments have to be <code>A</code> and <code>K</code>.</p></td>
+    </tr>
+    <tr>
+      <th>nrep</th>
+      <td><p>number of times the statisitcs are computed.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>parameters for spectral clustering.</p></td>
+      <td><p>additional arguments for <code>cluster_fct</code>.</p></td>
     </tr>
     </table>
 
@@ -204,12 +210,14 @@ default is TRUE</p></td>
 
     <p><a href='https://arxiv.org/abs/2012.15047'>Adjusted chi-square test for degree-corrected block models</a>,
 Linfan Zhang, Arash A. Amini, arXiv preprint arXiv:2012.15047, 2020.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><a href='nac_test.html'>nac_test</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>A</span> <span class='op'>&lt;-</span> <span class='fu'><a href='sample_dcpp.html'>sample_dcpp</a></span><span class='op'>(</span><span class='fl'>500</span>, <span class='fl'>10</span>, <span class='fl'>4</span>, <span class='fl'>0.1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in loadNamespace(name): there is no package called ‘EnvStats’</span></div><div class='input'><span class='fu'>snac_test</span><span class='op'>(</span><span class='va'>A</span>, K <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span><span class='op'>$</span><span class='va'>stat</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in spec_clust(A, K, ...): object 'A' not found</span></div><div class='input'>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='va'>A</span> <span class='op'>&lt;-</span> <span class='fu'><a href='sample_dcpp.html'>sample_dcpp</a></span><span class='op'>(</span><span class='fl'>500</span>, <span class='fl'>10</span>, <span class='fl'>4</span>, <span class='fl'>0.1</span><span class='op'>)</span><span class='op'>$</span><span class='va'>adj</span>
+<span class='fu'>snac_test</span><span class='op'>(</span><span class='va'>A</span>, K <span class='op'>=</span> <span class='fl'>4</span>, niter <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span><span class='op'>$</span><span class='va'>stat</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: did not converge in 3 iterations</span></div><div class='output co'>#&gt; <span class='warning'>Warning: did not converge in 3 iterations</span></div><div class='output co'>#&gt; <span class='warning'>Warning: did not converge in 3 iterations</span></div><div class='output co'>#&gt; <span class='warning'>Warning: did not converge in 3 iterations</span></div><div class='output co'>#&gt; <span class='warning'>Warning: did not converge in 3 iterations</span></div><div class='output co'>#&gt; <span class='warning'>Warning: did not converge in 3 iterations</span></div><div class='output co'>#&gt; <span class='warning'>Warning: did not converge in 3 iterations</span></div><div class='output co'>#&gt; <span class='warning'>Warning: did not converge in 3 iterations</span></div><div class='output co'>#&gt; <span class='warning'>Warning: did not converge in 3 iterations</span></div><div class='output co'>#&gt; <span class='warning'>Warning: did not converge in 3 iterations</span></div><div class='output co'>#&gt; <span class='warning'>Warning: did not converge in 3 iterations</span></div><div class='output co'>#&gt; <span class='warning'>Warning: did not converge in 3 iterations</span></div><div class='output co'>#&gt; <span class='warning'>Warning: did not converge in 3 iterations</span></div><div class='output co'>#&gt; <span class='warning'>Warning: did not converge in 3 iterations</span></div><div class='output co'>#&gt; [1] -2.566449</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

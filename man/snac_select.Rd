@@ -4,26 +4,43 @@
 \alias{snac_select}
 \title{Estimate community number with SNAC+}
 \usage{
-snac_select(A, Kmin = 1, Kmax, alpha, labels = NULL)
+snac_select(
+  A,
+  Kmin = 1,
+  Kmax,
+  alpha = 1e-05,
+  labels = NULL,
+  cluster_fct = spec_clust,
+  ...
+)
 }
 \arguments{
-\item{A}{adjacency matrix}
+\item{A}{adjacency matrix.}
 
-\item{Kmin}{minimum candidate community number}
+\item{Kmin}{minimum candidate community number.}
 
-\item{Kmax}{maximum candidate community number}
+\item{Kmax}{maximum candidate community number.}
 
-\item{alpha}{significance level for rejecting the null hypothsis}
+\item{alpha}{significance level for rejecting the null hypothsis.}
 
 \item{labels}{a matrix with each column being a row label vector for a
-candidate community number}
+candidate community number. If not provided, will be computed by \code{cluster_fct}.}
+
+\item{cluster_fct}{community detection function to get label vectors to compute SNAC+ statistics
+(in \link{snac_test}), by default using \link{spec_clust}.}
+
+\item{...}{additional arguments for \code{cluster_fct}.}
 }
 \value{
-estimated community number
+estimated community number.
 }
 \description{
 Applying SNAC+ test sequentially to estimate community number of a network
 fit to DCSBM
+}
+\examples{
+A <- sample_dcpp(500, 10, 3, 0.1)$adj
+snac_select(A, Kmax = 6)
 }
 \seealso{
 \link{snac_test}

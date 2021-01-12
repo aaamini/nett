@@ -20,4 +20,10 @@ A list of result
 Estimate the number of communities under block models by using the spectral
 properties of network Beth-Hessian matrix with moment correction.
 }
+\section{References}{
+
+\link{Estimating the number of communities in networks by spectral methods} (https://arxiv.org/abs/1507.00827)
+Can M. Le, Elizaveta Levina, arXiv preprint arXiv:1507.00827, 2015
+}
+
 \keyword{mod_sel}

@@ -11,28 +11,32 @@ snac_test(
   ratio = 0.5,
   fromEachCommunity = TRUE,
   plus = TRUE,
-  niter = 1,
+  cluster_fct = spec_clust,
+  nrep = 1,
   ...
 )
 }
 \arguments{
-\item{A}{adjacency matrix}
+\item{A}{adjacency matrix.}
 
-\item{K}{desired number of communities}
+\item{K}{desired number of communities.}
 
 \item{z}{label vector for rows of adjacency matrix. If not provided, will be estimated by
-\link{spec_clust}}
+\code{cluster_fct}}
 
-\item{ratio}{ratio of subsampled nodes from the network}
+\item{ratio}{ratio of subsampled nodes from the network.}
 
 \item{fromEachCommunity}{whether subsample from each estimated community or the full network,
 default is TRUE}
 
-\item{plus}{whether or not use column label vector with (K+1) communities, default is TRUE}
+\item{plus}{whether or not use column label vector with (\code{K}+1) communities to compute the statistics, default is TRUE.}
 
-\item{niter}{number of times the statisitcs are computed}
+\item{cluster_fct}{community detection function to estimate label vectors, by default using \link{spec_clust}.
+The first two arguments have to be \code{A} and \code{K}.}
 
-\item{...}{parameters for spectral clustering.}
+\item{nrep}{number of times the statisitcs are computed.}
+
+\item{...}{additional arguments for \code{cluster_fct}.}
 }
 \value{
 A list of result
@@ -44,7 +48,7 @@ The SNAC test to measure the goodness-of-fit of the DCSBM to network data.
 
 The function computes the SNAC+ or SNAC statistics in the paper below.
 The row label vector of the adjacency matrix could be given through \code{z} otherwise will
-be estimated by \link{spec_clust}. One can specify the ratio of nodes used to estimate column
+be estimated by \code{cluster_fct}. One can specify the ratio of nodes used to estimate column
 label vector. If \code{plus = TRUE}, the column labels will be estimated by \link{spec_clust} with
 (\code{K}+1) clusters, i.e. performing SNAC+ test, otherwise with \code{K} clusters SNAC test.
 One can also get multiple test statistics with repeated random subsampling on nodes.
@@ -55,7 +59,9 @@ Linfan Zhang, Arash A. Amini, arXiv preprint arXiv:2012.15047, 2020.
 }
 
 \examples{
-A <- sample_dcpp(500, 10, 4, 0.1)
-snac_test(A, K = 4)$stat
-
+A <- sample_dcpp(500, 10, 4, 0.1)$adj
+snac_test(A, K = 4, niter = 3)$stat
+}
+\seealso{
+\link{nac_test}
 }

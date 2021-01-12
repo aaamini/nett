@@ -7,7 +7,7 @@
 #' @param K Number of communities
 #' @param type ("lap" | "adj" | "adj2") Whether to use Laplacian or adjacency-based spectral clustering
 #' @param tau Regularization paramter for the Laplacian
-#' @return A vector of size n x 1 with elements in {1,2,...,K}
+#' @return A label vector of size n x 1 with elements in {1,2,...,K}
 #' @keywords comm_detect
 #' @export
 spec_clust <- function(A, K, type="lap",
@@ -79,23 +79,44 @@ spec_clust <- function(A, K, type="lap",
 
 #' Adjusted spectral test
 #'
+#' @description The adjusted spectral goodness-of-fit test based on Poisson DCSBM.
+#'
+#' The test is a natural extension on Lei's work of testing goodness-of-fit
+#' for SBM. The residual matrix \eqn{\tilde{A}} is computed from the DCSBM estimation
+#' expectation of `A`. To speed up computation, the residual matrix uses Poisson variance instead.
+#' Specifically,
+#'
+#' \deqn{
+#'  	\tilde{A}_{ij} = (A_{ij} - \hat P_{ij}) / ( n \hat P_{ij})^{1/2}, \quad
+#'  	\hat P_{ij} = \hat \theta_i \hat \theta_j \hat B_{\hat{z}_i, \hat{z}_j} \cdot 1\{i \neq j\}
+#' }
+#'
+#' where \eqn{\hat{\theta}} and \eqn{\hat{B}} are computed using [estim_dcsbm] if not provided.
+#'
 #' @description  Adjusted spectral test
-#' @param A adjacency matrix
-#' @param K number of communities
+#' @param A adjacency matrix.
+#' @param K number of communities.
 #' @param z label vector for rows of adjacency matrix. If not given, will be calculated by
-#' the spectral clustering
-#' @param DC whether or not include degree correction in the parameter estimation
-#' @param theta give the propensity parameter directly
-#' @param B give the connectivity matrix directly
-#' @param ... parameters for spectral clustering.
-#' @return A list of result
-#' \item{stat}{NAC or NAC+ test statistic.}
-#' \item{z}{row label vector.}
-#' \item{y}{column label vector.}
+#' the spectral clustering.
+#' @param DC whether or not include degree correction in the parameter estimation.
+#' @param theta give the propensity parameter directly.
+#' @param B give the connectivity matrix directly.
+#' @param cluster_fct community detection function to get `z` , by default using [spec_clust].
+#' @param ... additional arguments for `cluster_fct`.
+#' @return Adjusted spectral test statistics.
+#'
+#' @section References:
+#' Details of modification can be seen at [Adjusted chi-square test for degree-corrected block models](https://arxiv.org/abs/2012.15047),
+#' Linfan Zhang, Arash A. Amini, arXiv preprint arXiv:2012.15047, 2020.
+#'
+#' The original spectral test is from [A goodness-of-fit test for stochastic block models](https://projecteuclid.org/euclid.aos/1452004791)
+#' Lei, Jing, Ann. Statist. 44 (2016), no. 1, 401--424. doi:10.1214/15-AOS1370.
+#'
 #' @export
-adj_spec_test <- function(A, K, z = NULL, DC = T, theta = NULL, B = NULL, ...) {
+adj_spec_test <- function(A, K, z = NULL, DC = T, theta = NULL, B = NULL,
+                          cluster_fct = spec_clust, ...) {
   if (is.null(z)) {
-    z <- spec_clust(A, K, ...)
+    z <- cluster_fct(A, K, ...)
   }
 
   if(is.null(theta) | is.null(B)){

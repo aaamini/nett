@@ -33,4 +33,7 @@ label vectors fitted using different number of communities (say \code{K} and \co
 When \code{poi} is set to \code{TRUE}, the function uses fast sparse matrix computations
 and is scalable to large sparse networks.
 }
+\seealso{
+\link{eval_dcsbm_like}, \link{eval_dcsbm_bic}
+}
 \keyword{mod_sel}
