@@ -72,6 +72,9 @@ pp_conn <- function(n, oir, lambda, pri, theta = rep(1,n), normalize_theta = F, 
 #' @keywords models
 #' @export
 gen_rand_conn = function(n, K, lambda, gamma = 0.3, pri = rep(1,K)/K, theta = rep(1,n)) {
+
+  if (sum(pri) != 1)  pri = pri/sum(pri)
+
   B = matrix(runif(K^2),K)
   B = (B + t(B))/2
   # main structure
