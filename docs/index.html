@@ -32,18 +32,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">nett</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9010</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9012</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
@@ -58,10 +52,10 @@
       <a href="articles/Community_Detection.html">Community detection</a>
     </li>
     <li>
-      <a href="articles/explore-comm.html">Exploring Community Structure</a>
+      <a href="articles/Visualization.html">Visualization</a>
     </li>
     <li>
-      <a href="articles/Visualization.html">Visualization</a>
+      <a href="articles/explore-comm.html">Exploring Community Structure</a>
     </li>
   </ul>
 </li>
@@ -84,6 +78,18 @@
 <p><code>nett</code> is an R package for the analysis of network data with a focus on <strong>community detection</strong> and associated models.</p>
 <p>Check out the articles for some examples of how to use the package.</p>
 <p>The package is under development and hopefully more features will be added as time goes by.</p>
+<p>Some the implemented functionality are follows:</p>
+<ul>
+<li>Spectral clustering with regularization</li>
+<li>Conditional pseudo-likelihood for community detection (<a href="https://projecteuclid.org/euclid.aos/1382547514">Amini, Chen, Bickel and Levina</a>).</li>
+<li>Spectral goodness-of-test for SBM and DCSBM (inspired by Bickel and Sarkar, and <a href="https://projecteuclid.org/euclid.aos/1452004791">Lei</a>’s work).</li>
+<li>Likelihood ratio tests and BIC selection for SBM and DCSBM (inspired by <a href="https://projecteuclid.org/euclid.aos/1494921948">Bickel and Wang</a>’s work among others.)</li>
+<li>Likelihood computations for SBM and DCSBM.</li>
+<li>Network Adjusted Chi-square test for SBM and DCSBM (<a href="https://arxiv.org/abs/2012.15047">Zhang and Amini</a>).</li>
+<li>Bethe-Hessian Selection for DCSBM (inspired by <a href="https://arxiv.org/abs/1507.00827">Le and Levina</a>’s work).</li>
+<li>…</li>
+</ul>
+<p>Most of the computations haven been adapted to Poisson models to make them fast and scalable.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -96,6 +102,11 @@ devtools::install_github("aaamini/nett")
 devtools::install_github("aaamini/nett", build_vignettes = TRUE)
 </pre>
 <p>This will take some time. Alternatively, just refer to the articles on this website (which are the the built vignettes).</p>
+<div id="related" class="section level3">
+<h3 class="hasAnchor">
+<a href="#related" class="anchor"></a>Related</h3>
+<p>See the related repository <a href="https://github.com/linfanz/nac-test">linfanz/nac-test</a>, for some experiments comparing goodness-of-fit and model selection approaches.</p>
+</div>
 </div>
 </div>
   </div>
@@ -125,7 +136,7 @@ devtools::install_github("aaamini/nett", build_vignettes = TRUE)
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
