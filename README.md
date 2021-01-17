@@ -14,3 +14,5 @@ To install, you can use the following command
 devtools::install_github("aaamini/nett")
 </pre>
 
+## Related repo
+See the related repo [linfanz/nac-test](https://github.com/linfanz/nac-test), for some experiments comparing goodness-of-fit and model selection approaches.
