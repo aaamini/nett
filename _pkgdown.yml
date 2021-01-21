@@ -39,4 +39,6 @@ reference:
   - has_keyword("utils")
 
 repo:
-  home: https://github.com/aaamini/nett/
+  url:
+    home: https://github.com/aaamini/nett/
+

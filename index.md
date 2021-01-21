@@ -7,7 +7,7 @@ Check out the articles for some examples of how to use the package.
 
 The package is under development and hopefully more features will be added as time goes by.
 
-Some the implemented functionality are follows:
+Some of the implemented functionality are follows:
 - Spectral clustering with regularization
 - Conditional pseudo-likelihood for community detection ([Amini, Chen, Bickel and Levina](https://projecteuclid.org/euclid.aos/1382547514)).
 - Spectral goodness-of-test for SBM and DCSBM (inspired by Bickel and Sarkar, and [Lei](https://projecteuclid.org/euclid.aos/1452004791)'s work). 
@@ -20,7 +20,7 @@ Some the implemented functionality are follows:
 Most of the computations haven been adapted to Poisson models to make them fast and scalable. 
 
 ## Installation
-The package is available on [GitHub](https://github.com/aaamini/nett/). To install, you can use the following command
+To install, you can use the following command
 
 <pre>
 devtools::install_github("aaamini/nett")

@@ -2,13 +2,17 @@ Package: nett
 Title: Network Analysis and Community Detection
 Version: 0.0.0.9012
 Authors@R: 
-    c(person(given = "Arash A.",
+    c(
+        person(given = "Arash A.",
            family = "Amini",
            role = c("aut","cre"),
-           email = "aaamini@ucla.edu"),
-      person(given = "Linfan",
+           comment = c(ORCID = "0000-0002-2808-8310")
+        ),
+        person(given = "Linfan",
            family = "Zhang",
-           role = c("aut")))
+           role = c("aut")
+        )
+    )
 Description: Functions for community detection, random network generation, etc.
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -38,3 +42,5 @@ LinkingTo:
     Rcpp,
     RcppArmadillo
 VignetteBuilder: knitr
+URL: https://github.com/aaamini/nett
+BugReports: https://github.com/aaamini/nett/issues
