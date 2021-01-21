@@ -2,7 +2,7 @@
 % Please edit documentation in R/models.R
 \name{sample_dcsbm}
 \alias{sample_dcsbm}
-\title{Sample DCSBM}
+\title{Sample from a DCSBM}
 \usage{
 sample_dcsbm(z, B, theta = 1)
 }

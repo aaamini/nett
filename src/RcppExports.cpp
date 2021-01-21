@@ -42,6 +42,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// sample_dcer_cpp
+arma::sp_mat sample_dcer_cpp(arma::vec theta);
+RcppExport SEXP _nett_sample_dcer_cpp(SEXP thetaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type theta(thetaSEXP);
+    rcpp_result_gen = Rcpp::wrap(sample_dcer_cpp(theta));
+    return rcpp_result_gen;
+END_RCPP
+}
 // sample_dcsbm_cpp
 arma::sp_mat sample_dcsbm_cpp(arma::uvec z, arma::mat Pmat, arma::vec theta);
 RcppExport SEXP _nett_sample_dcsbm_cpp(SEXP zSEXP, SEXP PmatSEXP, SEXP thetaSEXP) {
@@ -72,6 +83,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_nett_pair_dist2", (DL_FUNC) &_nett_pair_dist2, 2},
     {"_nett_pair_dist2_mat", (DL_FUNC) &_nett_pair_dist2_mat, 1},
     {"_nett_sample_dclvm_cpp", (DL_FUNC) &_nett_sample_dclvm_cpp, 3},
+    {"_nett_sample_dcer_cpp", (DL_FUNC) &_nett_sample_dcer_cpp, 1},
     {"_nett_sample_dcsbm_cpp", (DL_FUNC) &_nett_sample_dcsbm_cpp, 3},
     {"_nett_sample_r1", (DL_FUNC) &_nett_sample_r1, 2},
     {NULL, NULL, 0}

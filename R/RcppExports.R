@@ -13,6 +13,10 @@ sample_dclvm_cpp <- function(z, scale, theta) {
     .Call(`_nett_sample_dclvm_cpp`, z, scale, theta)
 }
 
+sample_dcer_cpp <- function(theta) {
+    .Call(`_nett_sample_dcer_cpp`, theta)
+}
+
 sample_dcsbm_cpp <- function(z, Pmat, theta) {
     .Call(`_nett_sample_dcsbm_cpp`, z, Pmat, theta)
 }

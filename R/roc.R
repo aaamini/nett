@@ -42,9 +42,13 @@ simulate_roc = function(apply_methods, gen_null_data, gen_alt_data,
     null_data = gen_null_data()
     alt_data = gen_alt_data()
 
+    # dplyr::bind_rows(
+    #   apply_methods(null_data) %>%  tibble::add_column(H=0),
+    #   apply_methods(alt_data) %>%  tibble::add_column(H=1)
+    # )
     dplyr::bind_rows(
-      apply_methods(null_data) %>%  tibble::add_column(H=0),
-      apply_methods(alt_data) %>%  tibble::add_column(H=1)
+      tibble::add_column(apply_methods(null_data), H=0),
+      tibble::add_column( apply_methods(alt_data), H=1)
     )
   }
 
@@ -56,14 +60,24 @@ simulate_roc = function(apply_methods, gen_null_data, gen_alt_data,
     )["elapsed"]
   )
 
-  roc_results = result %>%
-                  dplyr::group_by(method, H) %>%
-                  tidyr::nest(tstat_all = tstat)  %>%
-                  tidyr::pivot_wider(names_from = H, values_from = tstat_all, names_prefix="H") %>%
-                  dplyr::mutate(res = purrr::map2(H0, H1, ~get_roc(unlist(.x), unlist(.y), twosided = twosided))) %>%
-                  tidyr::unnest(res) %>%
-                  dplyr::select(-c(H0, H1)) %>%
-                  dplyr::ungroup()
+  temp = dplyr::group_by(result, method, H)
+  temp = tidyr::nest(temp, tstat_all = tstat)
+  temp = tidyr::pivot_wider(temp, names_from = H,
+                                   values_from = tstat_all, names_prefix="H")
+  temp = dplyr::mutate(temp, res = purrr::map2(H0, H1, ~get_roc(unlist(.x), unlist(.y), twosided = twosided)))
+  temp = tidyr::unnest(temp, res)
+  temp = dplyr::select(temp, -c(H0, H1))
+  roc_results = dplyr::ungroup(temp)
+
+
+  # roc_results = result %>%
+  #                 dplyr::group_by(method, H) %>%
+  #                 tidyr::nest(tstat_all = tstat)  %>%
+  #                 tidyr::pivot_wider(names_from = H, values_from = tstat_all, names_prefix="H") %>%
+  #                 dplyr::mutate(res = purrr::map2(H0, H1, ~get_roc(unlist(.x), unlist(.y), twosided = twosided))) %>%
+  #                 tidyr::unnest(res) %>%
+  #                 dplyr::select(-c(H0, H1)) %>%
+  #                 dplyr::ungroup()
 
   list(roc = roc_results, raw = result, elapsed_time = elapsed_time)
 }
@@ -76,7 +90,7 @@ simulate_roc = function(apply_methods, gen_null_data, gen_alt_data,
 #' @param method_names a list of method names
 #' @keywords plotting
 #' @export
-plot_roc <- function(roc_results, method_names=NULL) {
+plot_roc <- function(roc_results, method_names=NULL, font_size = 16) {
   if (!is.null(method_names)){
     roc_results = roc_results %>%
       dplyr::mutate(method = factor(method, levels = method_names))
@@ -84,30 +98,25 @@ plot_roc <- function(roc_results, method_names=NULL) {
     roc_results = roc_results %>%
       dplyr::mutate(method = factor(method))
   }
-  # customize line color
   cbbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
   p = roc_results %>%
-    ggplot2::ggplot(ggplot2::aes(x = FPR, y = TPR, color = method)) +
+    ggplot2::ggplot(ggplot2::aes(x = FPR, y = TPR, color = method, linetype = method)) +
     ggplot2::scale_colour_manual(values=cbbPalette)+
-    ggplot2::geom_line(size=2)  +
-    ggplot2::theme_bw() +
-    ggplot2::theme(text = ggplot2::element_text(size=20))+
-    ggplot2::coord_fixed() +
+    ggplot2::geom_line(size = 1.5)  +
+    ggplot2::theme_bw(base_size = font_size) +
+    # ggplot2::theme(text = ggplot2::element_text(size=18))+
+    ggplot2::coord_fixed(ratio = 1) +
     ggplot2::geom_abline(intercept =0 , slope = 1, linetype="dashed") +
     ggplot2::scale_x_continuous(limits = c(0,1.01), expand = c(0,0)) +
     ggplot2::scale_y_continuous(limits = c(0,1.01),expand = c(0,0)) +
     ggplot2::theme(
       legend.background = ggplot2::element_blank(),
       legend.title = ggplot2::element_blank(),
-      legend.position = c(0.85, 0.2),
-      legend.text = ggplot2::element_text(size=12),
-      text = ggplot2::element_text(size=16)
+      legend.position = c(0.8, 0.2),
+      # legend.text = ggplot2::element_text(size=25),
+      # text = ggplot2::element_text(size=26)
     ) +
-    ggplot2::guides(
-      fill = ggplot2::guide_legend(
-      keywidth = 0.25,
-      keyheight = 0.25,
-      default.unit = "inch")
+    ggplot2::guides(colour = ggplot2::guide_legend(keywidth = 4, keyheight = 1)
     )
   p
 }

@@ -31,7 +31,7 @@
 #' @param niter number of iterations
 #' @return Estimated community label vector.
 #' @examples
-#' fast_cpl(igraph::as_adj(polblogs), 2)
+#' head(fast_cpl(igraph::as_adj(polblogs), 2), 50)
 #' @keywords comm_detect
 #'
 #' @export

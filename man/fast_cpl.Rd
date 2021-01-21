@@ -45,6 +45,6 @@ Chen, P. J. Bickel, E. Levina, Annals of Statistics 2013, Vol. 41 (4),
 }
 
 \examples{
-fast_cpl(igraph::as_adj(polblogs), 2)
+head(fast_cpl(igraph::as_adj(polblogs), 2), 50)
 }
 \keyword{comm_detect}

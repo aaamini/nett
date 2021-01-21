@@ -2,7 +2,7 @@
 % Please edit documentation in R/models.R
 \name{fast_sbm}
 \alias{fast_sbm}
-\title{Sample SBM (fast)}
+\title{Sample from a SBM (fast)}
 \usage{
 fast_sbm(z, B)
 }

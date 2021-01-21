@@ -132,7 +132,7 @@ sample_dclvm = function(z, lambda, theta, npairs = NULL) {
   return( sample_dclvm_cpp(z, scale, theta) )
 }
 
-#' Sample DCSBM
+#' Sample from a DCSBM
 #'
 #' Sample an adjacency matrix from a degree-corrected block model (DCSBM)
 #'
@@ -151,7 +151,18 @@ sample_dcsbm = function(z, B, theta=1) {
   sample_dcsbm_cpp(z-1, B, theta)
 }
 
-#' Sample SBM (fast)
+#' Sample from a DCER
+#'
+#' Sample an adjacency matrix from a degree-corrected Erdős–Rényi model (DCER).
+#'
+#' @param theta Node connectivity propensity vector (\eqn{n * 1})
+#' @return An adjacency matrix following DCSBM
+#' @export
+sample_dcer = function(theta) {
+  sample_dcer_cpp(theta)
+}
+
+#' Sample from a SBM (fast)
 #'
 #' Samples an adjacency matrix from a stochastic block model (SBM)
 #'

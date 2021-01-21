@@ -20,16 +20,20 @@ Suggests:
     knitr,
     rmarkdown,
     igraph,
-    ggplot2
+    ggplot2,
+    dplyr,
+    tiydr,
+    tibble,
+    mixtools,
+    EnvStats
 Depends: 
     R (>= 2.10)
 Imports: 
     magrittr,
     Rcpp,
     RcppArmadillo,
-    Matrix, 
-    EnvStats,
-    mixtools
+    Matrix,
+    RSpectra
 LinkingTo: 
     Rcpp,
     RcppArmadillo

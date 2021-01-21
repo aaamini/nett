@@ -4,7 +4,7 @@
 \alias{plot_roc}
 \title{Plot ROC curves}
 \usage{
-plot_roc(roc_results, method_names = NULL)
+plot_roc(roc_results, method_names = NULL, font_size = 16)
 }
 \arguments{
 \item{roc_results}{data frame \code{roc} from the output list of \link{simulate_roc}}
