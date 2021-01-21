@@ -131,4 +131,4 @@ legend(1, max(agg_nmi$nmi), legend = c("0.25 regularization","No regularization"
        col = c("blue","red"), lty=1:2, box.lty=0)
 ```
 
-Comparing with the result for the simple planted partition, we see that the problem based on $B_2$ is much harder for the spectral clustering. Note that the community structure of $B_2$ is not necessarily assortative.
+

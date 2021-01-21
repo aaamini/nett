@@ -1,9 +1,10 @@
-pandoc: 1.19.2.1
-pkgdown: 1.6.1
-pkgdown_sha: ~
+pandoc: 2.11.0.2
+pkgdown: 1.6.1.9000
+pkgdown_sha: e1e46f2e13c7efdb17bc4eae40bc3779c2b0b517
 articles:
   Community_Detection: Community_Detection.html
-  explore-comm: explore-comm.html
   Visualization: Visualization.html
-last_built: 2021-01-11T02:42Z
+  explore-comm: explore-comm.html
+  hard_dcsbm_testing: hard_dcsbm_testing.html
+last_built: 2021-01-21T04:57Z
 
