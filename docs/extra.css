@@ -1,3 +1,8 @@
 body {
   font-size: 150%;
 }
+
+div.csl-entry {
+  text-indent: -2em;
+  padding-left: 2em;
+}
