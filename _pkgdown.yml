@@ -12,7 +12,7 @@ reference:
   - has_keyword("comm_detect")
 
 - title: Model selection and testing
-  desc: Tools for seleting the number of communities and testing goodness-of-fit of models
+  desc: Tools for selecting the number of communities and testing goodness-of-fit of models
 - contents:
   - has_keyword("mod_sel")
   - has_keyword("got")
