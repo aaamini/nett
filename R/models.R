@@ -181,7 +181,8 @@ sample_dcer = function(theta) {
 #' @keywords models
 #' @export
 fast_sbm <- function(z, B){
-  csizes = tabulate(z)
+  if (!isSymmetric(B)) stop("B has to be a symmetric matrix.")
+  csizes = tabulate(z, nrow(B))
   A <- fast_sbm.internal(csizes, B)
   sig = order(z) # z[sig] = 1 1 1 ... 2 2 2 ... 3 3 3 3 ...
   siginv = Matrix::invPerm(sig)
