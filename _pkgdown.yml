@@ -25,6 +25,11 @@ reference:
 - contents:
   - has_keyword("estimation")
 
+- title: Network representation
+  # desc:
+- contents:
+  - has_keyword("net_repr")
+
 - title: Performance Evaluation
 - contents:
   - has_keyword("evaluation")

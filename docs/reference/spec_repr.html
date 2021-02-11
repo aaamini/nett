@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Authors • nett</title>
+<title>Spectral Representation — spec_repr • nett</title>
 
 
 <!-- jquery -->
@@ -18,8 +18,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
-<link rel="stylesheet" href="bootstrap-toc.css">
-<script src="bootstrap-toc.js"></script>
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
@@ -33,15 +33,17 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script>
+<link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script>
 
 
 
-  <link href="extra.css" rel="stylesheet">
+  <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Authors" />
+<meta property="og:title" content="Spectral Representation — spec_repr" />
+<meta property="og:description" content="Provides a spectral representation of the network (with regularization)
+based on the adjacency or Laplacian matrices" />
 
 
 
@@ -60,7 +62,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-authors">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -72,7 +74,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">nett</a>
+        <a class="navbar-link" href="../index.html">nett</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9014</span>
       </span>
     </div>
@@ -80,7 +82,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -90,16 +92,16 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="articles/Community_Detection.html">Community detection</a>
+      <a href="../articles/Community_Detection.html">Community detection</a>
     </li>
     <li>
-      <a href="articles/Visualization.html">Visualization</a>
+      <a href="../articles/Visualization.html">Visualization</a>
     </li>
     <li>
-      <a href="articles/explore-comm.html">Exploring Community Structure</a>
+      <a href="../articles/explore-comm.html">Exploring Community Structure</a>
     </li>
     <li>
-      <a href="articles/hard_dcsbm_testing.html">A hard DCSBM testing problem</a>
+      <a href="../articles/hard_dcsbm_testing.html">A hard DCSBM testing problem</a>
     </li>
   </ul>
 </li>
@@ -122,26 +124,54 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Authors</h1>
+    <h1>Spectral Representation</h1>
+    
+    <div class="hidden name"><code>spec_repr.Rd</code></div>
     </div>
 
-    <ul class="list-unstyled">
-      <li>
-        <p><strong>Arash A. Amini</strong>. Author, maintainer. <a href='https://orcid.org/0000-0002-2808-8310' target='orcid.widget' aria-label='ORCID'><span class='fab fa-orcid orcid' aria-hidden='true'></span></a>
-        </p>
-      </li>
-      <li>
-        <p><strong>Linfan Zhang</strong>. Author. 
-        </p>
-      </li>
-    </ul>
+    <div class="ref-description">
+    <p>Provides a spectral representation of the network (with regularization)
+based on the adjacency or Laplacian matrices</p>
+    </div>
+
+    <pre class="usage"><span class='fu'>spec_repr</span><span class='op'>(</span><span class='va'>A</span>, <span class='va'>K</span>, type <span class='op'>=</span> <span class='st'>"lap"</span>, tau <span class='op'>=</span> <span class='fl'>0.25</span>, ignore_first_col <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>A</th>
+      <td><p>Adjacency matrix (n x n)</p></td>
+    </tr>
+    <tr>
+      <th>K</th>
+      <td><p>Number of communities</p></td>
+    </tr>
+    <tr>
+      <th>type</th>
+      <td><p>("lap" | "adj" | "adj2") Whether to use Laplacian or
+adjacency-based spectral clustering</p></td>
+    </tr>
+    <tr>
+      <th>tau</th>
+      <td><p>Regularization paramter for the Laplacian</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>The n x K matrix resulting from a spectral embedding of the network into
+R^K</p>
 
   </div>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
+  </div>
 </div>
-
 
 
       <footer>
