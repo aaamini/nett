@@ -61,13 +61,13 @@ estim_dcsbm <- function(A,z) {
 
   if (length(ns) == 1) { # number of clusters == 1
     Bsum = sum(A)
-    B = as.matrix(max(Bsum,1)/(ns*(ns-1)))
+    B = as.matrix(max(Bsum,1)/max(ns*(ns-1)),1)
     theta = degs*ns/Bsum
 
   } else {  # number of clusters > 1
     Bsum = compute_block_sums(A, z)
     Bsum[Bsum == 0] = 1
-    B = Bsum / (ns %*% t(ns) - diag(ns))
+    B = Bsum / pmax(ns %*% t(ns) - diag(ns), 1)
 
     total_clust_degs = rowSums(Bsum)  # sum of degrees within each cluster
     theta = degs*ns[z]/total_clust_degs[z]

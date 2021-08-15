@@ -1,6 +1,6 @@
 Package: nett
 Title: Network Analysis and Community Detection
-Version: 0.0.0.9014
+Version: 0.0.0.9015
 Authors@R: 
     c(person(given = "Arash A.",
            family = "Amini",
@@ -27,7 +27,8 @@ Suggests:
     tiydr,
     tibble,
     mixtools,
-    EnvStats
+    EnvStats,
+    foreach
 Depends: 
     R (>= 2.10)
 Imports: 
