@@ -6,6 +6,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // pair_dist2
 double pair_dist2(arma::vec x, arma::vec y);
 RcppExport SEXP _nett_pair_dist2(SEXP xSEXP, SEXP ySEXP) {

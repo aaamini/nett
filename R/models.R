@@ -143,7 +143,7 @@ sample_dclvm = function(z, lambda, theta, npairs = NULL) {
 #' @seealso [sample_dcpp], [fast_sbm], [sample_tdcsbm]
 #' @examples
 #' B = pp_conn(n = 10^3, oir = 0.1, lambda = 7, pri = rep(1,3))$B
-#' head(sample_dcsbm(sample(1:3, 10^3, replace = T), B, theta = rexp(10^3)))
+#' head(sample_dcsbm(sample(1:3, 10^3, replace = TRUE), B, theta = rexp(10^3)))
 #' @export
 sample_dcsbm = function(z, B, theta=1) {
   n = length(z)
@@ -176,7 +176,7 @@ sample_dcer = function(theta) {
 #'
 #' @examples
 #' B = pp_conn(n = 10^4, oir = 0.1, lambda = 7, pri = rep(1,3))$B
-#' head(fast_sbm(sample(1:3, 10^4, replace = T), B))
+#' head(fast_sbm(sample(1:3, 10^4, replace = TRUE), B))
 #'
 #' @keywords models
 #' @export
@@ -300,7 +300,7 @@ quickDCSBM <- function(n, lambda, K, oir, theta = NULL,
 #' @return An adjacency matrix following DCSBM
 #' @examples
 #' B = pp_conn(n = 10^4, oir = 0.1, lambda = 7, pri = rep(1,3))$B
-#' head(sample_tdcsbm(sample(1:3, 10^4, replace = T), B, theta = rexp(10^4)))
+#' head(sample_tdcsbm(sample(1:3, 10^4, replace = TRUE), B, theta = rexp(10^4)))
 #' @export
 sample_tdcsbm <- function(z, B, theta=1) {
   csizes = tabulate(z)

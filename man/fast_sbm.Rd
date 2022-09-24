@@ -24,7 +24,7 @@ verbatim from the original code by Aiyou Chen.
 }
 \examples{
 B = pp_conn(n = 10^4, oir = 0.1, lambda = 7, pri = rep(1,3))$B
-head(fast_sbm(sample(1:3, 10^4, replace = T), B))
+head(fast_sbm(sample(1:3, 10^4, replace = TRUE), B))
 
 }
 \keyword{models}

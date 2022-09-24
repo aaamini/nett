@@ -30,5 +30,5 @@ we refer to it as the truncated DCSBM.
 }
 \examples{
 B = pp_conn(n = 10^4, oir = 0.1, lambda = 7, pri = rep(1,3))$B
-head(sample_tdcsbm(sample(1:3, 10^4, replace = T), B, theta = rexp(10^4)))
+head(sample_tdcsbm(sample(1:3, 10^4, replace = TRUE), B, theta = rexp(10^4)))
 }
