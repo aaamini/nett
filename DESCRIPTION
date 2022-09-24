@@ -24,7 +24,7 @@ Suggests:
     igraph,
     ggplot2,
     dplyr,
-    tiydr,
+    tidyr,
     tibble,
     mixtools,
     EnvStats,
