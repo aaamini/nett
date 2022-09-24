@@ -2,7 +2,7 @@
 #'
 #' Plot a network using degree-modulated node sizes, community colors and other enhancements
 #' @param gr the network as an igraph object
-#' @param community community assgiment; vector of node labels
+#' @param community community assignment; vector of node labels
 #' @param ... other settings
 #' @export
 plot_net = function(gr,
@@ -90,9 +90,9 @@ plot_net = function(gr,
 }
 
 
-#' Plot digree distribution
+#' Plot degree distribution
 #'
-#' Plot the digree distribution of a network on log scale
+#' Plot the degree distribution of a network on log scale
 #'
 #' @param gr the network as an igraph object
 #' @export

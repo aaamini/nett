@@ -21,7 +21,7 @@ snac_select(
 
 \item{Kmax}{maximum candidate community number.}
 
-\item{alpha}{significance level for rejecting the null hypothsis.}
+\item{alpha}{significance level for rejecting the null hypothesis.}
 
 \item{labels}{a matrix with each column being a row label vector for a
 candidate community number. If not provided, will be computed by \code{cluster_fct}.}

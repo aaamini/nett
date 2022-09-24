@@ -85,7 +85,7 @@ summary(igraph::degree(out$gr))
 
 
 ## Visualizing *Political Blogs* network
-Let us compare with *Political Blogs* network accessable via `polblogs`.
+Let us compare with *Political Blogs* network accessible via `polblogs`.
 
 ```{r}
 par(mar = c(0,0,0,0))

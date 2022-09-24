@@ -24,7 +24,7 @@ plot_net(
 \arguments{
 \item{gr}{the network as an igraph object}
 
-\item{community}{community assgiment; vector of node labels}
+\item{community}{community assignment; vector of node labels}
 
 \item{...}{other settings}
 }

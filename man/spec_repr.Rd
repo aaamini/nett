@@ -14,7 +14,7 @@ spec_repr(A, K, type = "lap", tau = 0.25, ignore_first_col = F)
 \item{type}{("lap" | "adj" | "adj2") Whether to use Laplacian or
 adjacency-based spectral clustering}
 
-\item{tau}{Regularization paramter for the Laplacian}
+\item{tau}{Regularization parameter for the Laplacian}
 }
 \value{
 The n x K matrix resulting from a spectral embedding of the network into

@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotting.R
 \name{plot_deg_dist}
 \alias{plot_deg_dist}
-\title{Plot digree distribution}
+\title{Plot degree distribution}
 \usage{
 plot_deg_dist(gr, logx = T)
 }
@@ -10,5 +10,5 @@ plot_deg_dist(gr, logx = T)
 \item{gr}{the network as an igraph object}
 }
 \description{
-Plot the digree distribution of a network on log scale
+Plot the degree distribution of a network on log scale
 }

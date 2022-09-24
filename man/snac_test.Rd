@@ -34,7 +34,7 @@ default is TRUE}
 \item{cluster_fct}{community detection function to estimate label vectors, by default using \link{spec_clust}.
 The first two arguments have to be \code{A} and \code{K}.}
 
-\item{nrep}{number of times the statisitcs are computed.}
+\item{nrep}{number of times the statistics are computed.}
 
 \item{...}{additional arguments for \code{cluster_fct}.}
 }

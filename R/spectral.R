@@ -6,7 +6,7 @@
 #' @param A Adjacency matrix (n x n)
 #' @param K Number of communities
 #' @param type ("lap" | "adj" | "adj2") Whether to use Laplacian or adjacency-based spectral clustering
-#' @param tau Regularization paramter for the Laplacian
+#' @param tau Regularization parameter for the Laplacian
 #' @return A label vector of size n x 1 with elements in {1,2,...,K}
 #' @keywords comm_detect
 #' @export
@@ -85,7 +85,7 @@ spec_clust <- function(A, K, type="lap",
 #' @param K Number of communities
 #' @param type ("lap" | "adj" | "adj2") Whether to use Laplacian or
 #'   adjacency-based spectral clustering
-#' @param tau Regularization paramter for the Laplacian
+#' @param tau Regularization parameter for the Laplacian
 #' @return The n x K matrix resulting from a spectral embedding of the network into
 #'   R^K
 #' @keywords net_repr

@@ -26,7 +26,7 @@ To install, you can use the following command
 devtools::install_github("aaamini/nett")
 </pre>
 
-To also build the vignettes when installing use the follwing:
+To also build the vignettes when installing use the following:
 
 <pre>
 devtools::install_github("aaamini/nett", build_vignettes = TRUE)

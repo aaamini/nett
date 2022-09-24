@@ -80,7 +80,7 @@ nac_test <- function(A, K, z = NULL, y = NULL, plus = T, cluster_fct = spec_clus
 #' @param plus whether or not use column label vector with (`K`+1) communities to compute the statistics, default is TRUE.
 #' @param cluster_fct community detection function to estimate label vectors, by default using [spec_clust].
 #' The first two arguments have to be `A` and `K`.
-#' @param nrep number of times the statisitcs are computed.
+#' @param nrep number of times the statistics are computed.
 #' @param ... additional arguments for `cluster_fct`.
 #' @return A list of result
 #' \item{stat}{SNAC or SNAC+ test statistic.}
@@ -138,7 +138,7 @@ snac_test <- function(A, K, z=NULL, ratio = 0.5,
 #' @param A adjacency matrix.
 #' @param Kmin minimum candidate community number.
 #' @param Kmax maximum candidate community number.
-#' @param alpha significance level for rejecting the null hypothsis.
+#' @param alpha significance level for rejecting the null hypothesis.
 #' @param labels a matrix with each column being a row label vector for a
 #' candidate community number. If not provided, will be computed by `cluster_fct`.
 #' @param cluster_fct community detection function to get label vectors to compute SNAC+ statistics

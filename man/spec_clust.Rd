@@ -21,7 +21,7 @@ spec_clust(
 
 \item{type}{("lap" | "adj" | "adj2") Whether to use Laplacian or adjacency-based spectral clustering}
 
-\item{tau}{Regularization paramter for the Laplacian}
+\item{tau}{Regularization parameter for the Laplacian}
 }
 \value{
 A label vector of size n x 1 with elements in {1,2,...,K}

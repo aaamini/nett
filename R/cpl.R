@@ -11,7 +11,7 @@
 #' Technically, `fast_cpl` fits a stochastic block model (SBM) conditional on
 #' the observed node degrees,to account for the degree heterogeneity within
 #' communities that is not modeled well in SBM. CPL can also be used to
-#' effectively estimate the parameters of the degree-corrected blcok model
+#' effectively estimate the parameters of the degree-corrected block model
 #' (DCSBM).
 #'
 #' The code is an adaptation of the original R code by Aiyou Chen with slight

@@ -88,7 +88,7 @@ legend(1, 1, legend = c("0.25 regularization","No regularization"),
 
 This shows that increasing $\lambda$ makes the community detection problem easier.
 
-### Randomly permuted connectivty matrix
+### Randomly permuted connectivity matrix
 
 Let us now generate the connectivity matrix randomly as follows
 \[B_2 \propto \gamma R + (1-\gamma) Q \] 
