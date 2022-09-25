@@ -27,16 +27,22 @@ Suggests:
     tidyr,
     tibble,
     mixtools,
-    EnvStats
+    EnvStats,
+    purrr,
+    RSpectra
 Depends: 
     R (>= 2.10)
 Imports: 
     magrittr,
     Rcpp,
-    RcppArmadillo,
     Matrix,
-    RSpectra,
-    foreach
+    foreach, 
+    doParallel, 
+    doRNG,
+    methods,
+    stats,
+    grDevices, 
+    graphics
 LinkingTo: 
     Rcpp,
     RcppArmadillo

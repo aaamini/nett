@@ -26,6 +26,29 @@ plot_net(
 
 \item{community}{community assignment; vector of node labels}
 
+\item{color_map}{color palette for clusters in 'gr'}
+
+\item{extract_lcc}{Extract largest connected component or not}
+
+\item{heavy_edge_deg_perc}{degree percentile threshold..}
+
+\item{coord}{Optional starting positions for the vertices.
+If this argument is not NULL then it should be an appropriate matrix of starting coordinates.}
+
+\item{vsize_func}{function to determine the size of node size}
+
+\item{vertex_border}{whether to show the border of vertex or not.}
+
+\item{niter}{number of iteration for FR layout computation}
+
+\item{vertex_alpha}{factor modifying the opacity alpha of vertex; typically in [0,1]}
+
+\item{remove_loops}{whether to remove loops in the network}
+
+\item{make_simple}{whether to simplify edge weight calculation}
+
+\item{show_legend}{whether to show plot legend}
+
 \item{...}{other settings}
 }
 \description{

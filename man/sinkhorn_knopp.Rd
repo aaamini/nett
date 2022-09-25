@@ -18,7 +18,13 @@ sinkhorn_knopp(
 
 \item{sums}{desired row/column sums}
 
+\item{niter}{number of iterations}
+
+\item{tol}{convergence tolerance}
+
 \item{sym}{whether to compute symmetric scaling D A D}
+
+\item{verb}{whether to print the current change}
 }
 \description{
 Implements the Sinkhorn--Knopp algorithm for transforming a square matrix

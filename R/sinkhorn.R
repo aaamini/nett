@@ -13,7 +13,10 @@ l2_norm = function(x) sqrt(sum(x^2))
 #'
 #' @param A input matrix
 #' @param sums desired row/column sums
+#' @param niter number of iterations
+#' @param tol convergence tolerance
 #' @param sym whether to compute symmetric scaling D A D
+#' @param verb whether to print the current change
 #' @export
 #' @keywords utils
 sinkhorn_knopp = function(A, sums = rep(1, nrow(A)),

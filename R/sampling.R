@@ -1,3 +1,4 @@
+#' @import stats
 customSampleFun <- function(m, n) {
   # sample n numbers from 1 : m
   # sample() is too slow when m is large

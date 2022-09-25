@@ -6,6 +6,9 @@
 \usage{
 printf(...)
 }
+\arguments{
+\item{...}{printing object}
+}
 \description{
 The usual "printf" function
 }

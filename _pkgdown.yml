@@ -43,6 +43,10 @@ reference:
 - contents:
   - has_keyword("utils")
 
+- title: Data
+- contents:
+  - has_keyword("datasets")
+
 repo:
   url:
     home: https://github.com/aaamini/nett/

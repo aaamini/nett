@@ -3,7 +3,21 @@
 #' Plot a network using degree-modulated node sizes, community colors and other enhancements
 #' @param gr the network as an igraph object
 #' @param community community assignment; vector of node labels
+#' @param color_map color palette for clusters in 'gr'
+#' @param extract_lcc Extract largest connected component or not
+#' @param heavy_edge_deg_perc degree percentile threshold..
+#' @param coord Optional starting positions for the vertices.
+#' If this argument is not NULL then it should be an appropriate matrix of starting coordinates.
+#' @param vsize_func function to determine the size of node size
+#' @param vertex_border whether to show the border of vertex or not.
+#' @param niter  number of iteration for FR layout computation
+#' @param vertex_alpha factor modifying the opacity alpha of vertex; typically in \[0,1\]
+#' @param remove_loops whether to remove loops in the network
+#' @param make_simple whether to simplify edge weight calculation
+#' @param show_legend whether to show plot legend
 #' @param ... other settings
+#' @import grDevices
+#' @import graphics
 #' @export
 plot_net = function(gr,
                     community = NULL,
@@ -82,6 +96,7 @@ plot_net = function(gr,
        vertex.frame.color = ifelse(vertex_border, "black", NA),
        edge.arrow.size = 0.2) #, ... )
 
+  #Q: what are 'N', 'idx' and 'colors' below?
   if (show_legend)
     legend('topleft', legend=paste(1:N, ":", igraph::V(gr)[idx]$name),
            pt.cex=0.5*(log(degs[idx])), cex = 0.6, col=colors, pch=20, bty="n")
@@ -95,6 +110,8 @@ plot_net = function(gr,
 #' Plot the degree distribution of a network on log scale
 #'
 #' @param gr the network as an igraph object
+#' @param logx whether the degree is in log scale.
+#' @return Histogram of the degree of 'gr'.
 #' @export
 plot_deg_dist = function(gr, logx = T) {
   check_pkg_and_stop("igraph", "plot_deg_dist")

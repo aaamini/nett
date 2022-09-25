@@ -113,7 +113,22 @@ gkern = function(x,y) exp(-sum((x-y)^2))
 
 #' Sample from a DCLVM
 #'
+#' #'A DCLVM with \eqn{K} clusters has edges generated as
+#' \deqn{
+#'  	\ex[\,A_{ij} \mid x, \theta\,] \;\propto\; \theta_i \theta_j e^{- \norm{x_i - x_j}^2}
+#'  	\quad  \text{and} \quad x_i = 2 e_{z_i} + w_i
+#' }
+#' where \eqn{e_k} is the \eqn{k}th basis vector of \eqn{\reals^d}, \eqn{w_i \sim N(0, I_d)},
+#' and \eqn{\{z_i\} \subset [K]^n}. The proportionality constant is chosen such
+#' that the overall network has expected average degree \eqn{\lambda}.
+#' To calculate the scaling constant, we approximate \eqn{E[e^{- \norm{x_i - x_j}^2]}}
+#' for \eqn{i \neq j} by generating random 'npairs' \eqn{\{z_i, z_j\}} and average over them.
+#'
 #' Sample form a degree-corrected latent variable model with Gaussian kernel
+#' @param z a vector of cluster labels
+#' @param lambda desired average degree of the network
+#' @param theta degree parameter
+#' @param npairs number of pairs of {'z_i', 'z_j'}
 #' @export
 sample_dclvm = function(z, lambda, theta, npairs = NULL) {
   n = nrow(z)
@@ -124,7 +139,7 @@ sample_dclvm = function(z, lambda, theta, npairs = NULL) {
   # Approximate computation of E[K(z_i,z_j)] for i \neq j assuming {z_i} are i.i.d.
   # Generate random npairs {z_i, z_j} and average over them
   pidx = unique(matrix(sample(n, 2*npairs, T), ncol=2))
-  pidx[apply(pidx, 1, function(x) x[1] != x[2]),]
+  # pidx[apply(pidx, 1, function(x) x[1] != x[2]),]
   ex_kern = mean( sapply(1:nrow(pidx), function(i) gkern(z[pidx[i,1],], z[pidx[i,2],])) )
 
   scale = lambda/((n-1)*(ex_theta)^2*ex_kern)
@@ -356,6 +371,7 @@ sample_tdcsbm.internal <- function(csizes, Pmat, theta) {
 #   return(as(A, "sparseMatrix"))
 # }
 
+#' @import stats
 Poi_DCSBM <- function(z, B, theta){
   n = length(z)
   csizes <- as.vector(table(z))
@@ -411,6 +427,7 @@ Poi_DCSBM <- function(z, B, theta){
   return(as(A, "sparseMatrix"))
 }
 
+#' @import stats
 Poi_SBM <- function(z, B){
   n = length(z)
   csizes <- as.vector(table(z))

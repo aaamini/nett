@@ -7,6 +7,9 @@
 #' @param K Number of communities
 #' @param type ("lap" | "adj" | "adj2") Whether to use Laplacian or adjacency-based spectral clustering
 #' @param tau Regularization parameter for the Laplacian
+#' @param nstart argument from function 'kmeans'
+#' @param niter argument from function 'kmeans'
+#' @param ignore_first_col whether to ignore the first eigen vector when doing spectral clustering
 #' @return A label vector of size n x 1 with elements in {1,2,...,K}
 #' @keywords comm_detect
 #' @export
@@ -86,6 +89,7 @@ spec_clust <- function(A, K, type="lap",
 #' @param type ("lap" | "adj" | "adj2") Whether to use Laplacian or
 #'   adjacency-based spectral clustering
 #' @param tau Regularization parameter for the Laplacian
+#' @param ignore_first_col whether to ignore the first eigen vector
 #' @return The n x K matrix resulting from a spectral embedding of the network into
 #'   R^K
 #' @keywords net_repr

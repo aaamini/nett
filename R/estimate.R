@@ -184,7 +184,7 @@ eval_dcsbm_loglr = function(A, labels, poi = T, eps = 1e-6) {
 #' @param z label vector
 #' @param K number of community in \code{z}
 #' @param poi whether to use Poisson version of likelihood
-#' @details the BIC score is calculated by log likelihood minus \eqn{K\times(K + 1)\times log(n)/2}
+#' @details the BIC score is calculated by -2*log likelihood minus \eqn{K\times(K + 1)\times log(n)}
 #' @section References:
 #' BIC score is originally proposed in
 #' [Likelihood-based model selection for stochastic block models](https://projecteuclid.org/euclid.aos/1494921948)
@@ -199,11 +199,9 @@ eval_dcsbm_loglr = function(A, labels, poi = T, eps = 1e-6) {
 #' @export
 eval_dcsbm_bic = function(A, z, K, poi) {
   n = length(labels)
-  eval_dcsbm_like(A, z = z, poi = poi) - K*(K + 1)*log(n)/2
+  # eval_dcsbm_like(A, z = z, poi = poi) - K*(K + 1)*log(n)/2
+  -2*eval_dcsbm_like(A, z = z, poi = poi) + K*(K + 1)*log(n)
 }
-
-
-
 
 # Old functions -----------------------------------------------------------
 # This is only for testing
@@ -247,6 +245,7 @@ estimSBM <- function(A, z) {
 }
 
 # estimate parameters of the degree-corrected block model
+#' @import stats
 estimDCSBM <- function(A, z) {
   B = estimSBM(A, z)
   nk = tabulate(z)

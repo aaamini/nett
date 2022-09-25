@@ -88,6 +88,7 @@ simulate_roc = function(apply_methods, gen_null_data, gen_alt_data,
 #'
 #' @param roc_results data frame `roc` from the output list of [simulate_roc]
 #' @param method_names a list of method names
+#' @param font_size font size of the plot
 #' @keywords plotting
 #' @export
 plot_roc <- function(roc_results, method_names=NULL, font_size = 16) {

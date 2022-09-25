@@ -20,6 +20,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -32,23 +34,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">nett</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9015</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -71,7 +67,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/aaamini/nett/">
+  <a href="https://github.com/aaamini/nett/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -88,80 +84,77 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="nett" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#nett" class="anchor"></a>nett</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="nett">nett<a class="anchor" aria-label="anchor" href="#nett"></a>
+</h1></div>
 <p><code>nett</code> is an R package for the analysis of network data with a focus on <strong>community detection</strong> and associated models.</p>
-<p>Check out the articles for some examples of how to use the package.</p>
+<p>Check out the <a href="https://aaamini.github.io/nett" class="external-link">articles</a> for some examples of how to use the package.</p>
 <p>The package is under development and hopefully more features will be added as time goes by.</p>
-<p>Some of the implemented functionality are follows:</p>
-<ul>
-<li>Spectral clustering with regularization</li>
-<li>Conditional pseudo-likelihood for community detection (<a href="https://projecteuclid.org/euclid.aos/1382547514">Amini, Chen, Bickel and Levina</a>).</li>
-<li>Spectral goodness-of-test for SBM and DCSBM (inspired by Bickel and Sarkar, and <a href="https://projecteuclid.org/euclid.aos/1452004791">Lei</a>’s work).</li>
-<li>Likelihood ratio tests and BIC selection for SBM and DCSBM (inspired by <a href="https://projecteuclid.org/euclid.aos/1494921948">Bickel and Wang</a>’s work among others.)</li>
-<li>Likelihood computations for SBM and DCSBM.</li>
-<li>Network Adjusted Chi-square test for SBM and DCSBM (<a href="https://arxiv.org/abs/2012.15047">Zhang and Amini</a>).</li>
-<li>Bethe-Hessian Selection for DCSBM (inspired by <a href="https://arxiv.org/abs/1507.00827">Le and Levina</a>’s work).</li>
-<li>…</li>
-</ul>
+<p>Some of the implemented functionality are follows: - Spectral clustering with regularization - Conditional pseudo-likelihood for community detection (<a href="https://projecteuclid.org/euclid.aos/1382547514" class="external-link">Amini, Chen, Bickel and Levina</a>). - Spectral goodness-of-test for SBM and DCSBM (inspired by Bickel and Sarkar, and <a href="https://projecteuclid.org/euclid.aos/1452004791" class="external-link">Lei</a>’s work). - Likelihood ratio tests and BIC selection for SBM and DCSBM (inspired by <a href="https://projecteuclid.org/euclid.aos/1494921948" class="external-link">Bickel and Wang</a>’s work among others.) - Likelihood computations for SBM and DCSBM. - Network Adjusted Chi-square test for SBM and DCSBM (<a href="https://arxiv.org/abs/2012.15047" class="external-link">Zhang and Amini</a>). - Bethe-Hessian Selection for DCSBM (inspired by <a href="https://arxiv.org/abs/1507.00827" class="external-link">Le and Levina</a>’s work). - …</p>
 <p>Most of the computations haven been adapted to Poisson models to make them fast and scalable.</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p>To install, you can use the following command</p>
 <pre>
 devtools::install_github("aaamini/nett")
 </pre>
-<p>To also build the vignettes when installing use the follwing:</p>
-<pre>
-devtools::install_github("aaamini/nett", build_vignettes = TRUE)
-</pre>
-<p>This will take some time. Alternatively, just refer to the articles on this website (which are the the built vignettes).</p>
-<div id="related" class="section level3">
-<h3 class="hasAnchor">
-<a href="#related" class="anchor"></a>Related</h3>
-<p>See the related repository <a href="https://github.com/linfanz/nac-test">linfanz/nac-test</a>, for some experiments comparing goodness-of-fit and model selection approaches.</p>
 </div>
+<div class="section level2">
+<h2 id="related-repo">Related repo<a class="anchor" aria-label="anchor" href="#related-repo"></a>
+</h2>
+<p>See the related repo <a href="https://github.com/linfanz/nac-test" class="external-link">linfanz/nac-test</a>, for some experiments comparing goodness-of-fit and model selection approaches.</p>
 </div>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/aaamini/nett/">https://​github.com/​aaamini/​nett/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/aaamini/nett/issues">https://​github.com/​aaamini/​nett/​issues</a>
-</li>
+<li><a href="https://github.com/aaamini/nett/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/aaamini/nett/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
-<div class="developers">
-<h2>Developers</h2>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li>Arash A. Amini <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-2808-8310" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li><a href="authors.html#citation">Citing nett</a></li>
+</ul>
+</div>
+
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
+<ul class="list-unstyled">
+<li>Arash A. Amini <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-2808-8310" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Linfan Zhang <br><small class="roles"> Author </small>  </li>
 </ul>
 </div>
+
+
 
   </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Arash A. Amini, Linfan Zhang.</p>
+  <p></p>
+<p>Developed by Arash A. Amini, Linfan Zhang.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
@@ -169,6 +162,8 @@ devtools::install_github("aaamini/nett", build_vignettes = TRUE)
 
   
 
+
+  
 
   </body>
 </html>

@@ -22,6 +22,12 @@ spec_clust(
 \item{type}{("lap" | "adj" | "adj2") Whether to use Laplacian or adjacency-based spectral clustering}
 
 \item{tau}{Regularization parameter for the Laplacian}
+
+\item{nstart}{argument from function 'kmeans'}
+
+\item{niter}{argument from function 'kmeans'}
+
+\item{ignore_first_col}{whether to ignore the first eigen vector when doing spectral clustering}
 }
 \value{
 A label vector of size n x 1 with elements in {1,2,...,K}

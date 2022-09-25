@@ -6,6 +6,27 @@
 \usage{
 sample_dclvm(z, lambda, theta, npairs = NULL)
 }
+\arguments{
+\item{z}{a vector of cluster labels}
+
+\item{lambda}{desired average degree of the network}
+
+\item{theta}{degree parameter}
+
+\item{npairs}{number of pairs of {'z_i', 'z_j'}}
+}
 \description{
+#'A DCLVM with \eqn{K} clusters has edges generated as
+\deqn{
+ 	\ex[\,A_{ij} \mid x, \theta\,] \;\propto\; \theta_i \theta_j e^{- \norm{x_i - x_j}^2}
+ 	\quad  \text{and} \quad x_i = 2 e_{z_i} + w_i
+}
+where \eqn{e_k} is the \eqn{k}th basis vector of \eqn{\reals^d}, \eqn{w_i \sim N(0, I_d)},
+and \eqn{\{z_i\} \subset [K]^n}. The proportionality constant is chosen such
+that the overall network has expected average degree \eqn{\lambda}.
+To calculate the scaling constant, we approximate \eqn{E[e^{- \norm{x_i - x_j}^2]}}
+for \eqn{i \neq j} by generating random 'npairs' \eqn{\{z_i, z_j\}} and average over them.
+}
+\details{
 Sample form a degree-corrected latent variable model with Gaussian kernel
 }

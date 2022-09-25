@@ -8,6 +8,11 @@ plot_deg_dist(gr, logx = T)
 }
 \arguments{
 \item{gr}{the network as an igraph object}
+
+\item{logx}{whether the degree is in log scale.}
+}
+\value{
+Histogram of the degree of 'gr'.
 }
 \description{
 Plot the degree distribution of a network on log scale

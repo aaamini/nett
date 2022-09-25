@@ -10,6 +10,8 @@ plot_roc(roc_results, method_names = NULL, font_size = 16)
 \item{roc_results}{data frame \code{roc} from the output list of \link{simulate_roc}}
 
 \item{method_names}{a list of method names}
+
+\item{font_size}{font size of the plot}
 }
 \description{
 Plot ROC curves given results from \link{simulate_roc}.

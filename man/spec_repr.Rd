@@ -15,6 +15,8 @@ spec_repr(A, K, type = "lap", tau = 0.25, ignore_first_col = F)
 adjacency-based spectral clustering}
 
 \item{tau}{Regularization parameter for the Laplacian}
+
+\item{ignore_first_col}{whether to ignore the first eigen vector}
 }
 \value{
 The n x K matrix resulting from a spectral embedding of the network into

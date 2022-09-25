@@ -79,7 +79,6 @@ compute_mutual_info  <- function(z,y) {
 
 
 ## Written by Aiyou Chen
-#' @export
 lin2sub <- function(index, nr, sym=F) {
   # traslate linear index to row and column indices
   # nr is the number of rows
@@ -97,13 +96,13 @@ lin2sub <- function(index, nr, sym=F) {
   }
   return(cbind(rr,cc))
 }
-#' @export
+###
 truncate_to_ab = function(x, a, b) {
   pmin(pmax(x, a), b)
 }
 
 #' The usual "printf" function
-#'
+#' @param ... printing object
 #' @keywords utils
 #' @export
 printf <- function(...) cat(sprintf(...))

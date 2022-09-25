@@ -19,7 +19,7 @@ eval_dcsbm_bic(A, z, K, poi)
 compute BIC score when fitting a DCSBM to network data
 }
 \details{
-the BIC score is calculated by log likelihood minus \eqn{K\times(K + 1)\times log(n)/2}
+the BIC score is calculated by -2*log likelihood minus \eqn{K\times(K + 1)\times log(n)}
 }
 \section{References}{
 

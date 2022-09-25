@@ -20,6 +20,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -32,7 +34,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">nett</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9012</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0</span>
       </span>
     </div>
 
@@ -42,7 +44,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -65,8 +67,8 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/aaamini/nett/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/aaamini/nett/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -80,12 +82,12 @@
 
       
 
-      </header><script src="hard_dcsbm_testing_files/header-attrs-2.5.2/header-attrs.js"></script><link href="hard_dcsbm_testing_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
-<script src="hard_dcsbm_testing_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>A hard DCSBM testing problem</h1>
-                        <h4 class="author">Arash A. Amini</h4>
+                        <h4 data-toc-skip class="author">Arash A.
+Amini</h4>
             
       
       
@@ -98,175 +100,272 @@
 <!-- ```{r setup} -->
 <!-- library(nett) -->
 <!-- ``` -->
-<p>We consider the testing problem introduced in <span class="citation"><a href="#ref-jin2019optimal" role="doc-biblioref">Jin, Ke, and Luo</a> (<a href="#ref-jin2019optimal" role="doc-biblioref">2019</a>)</span> where one tests a DCSBM with <span class="math inline">\(K=1\)</span> communities (model 1) and a DCSBM with <span class="math inline">\(K \ge 2\)</span> communities (model 2), both having the same expected degree for every node. Model 1 can be considered the <strong>degree-corrected Erdős–Rényi</strong> model.</p>
-<div id="setup-and-models" class="section level1">
-<h1 class="hasAnchor">
-<a href="#setup-and-models" class="anchor"></a>Setup and models</h1>
-<p>We mostly follow the notation of <span class="citation"><a href="#ref-jin2019optimal" role="doc-biblioref">Jin, Ke, and Luo</a> (<a href="#ref-jin2019optimal" role="doc-biblioref">2019</a>)</span> with some minor deviations (e.g., we use <span class="math inline">\(\lambda\)</span> to denote the expected average degree of the network). They consider the degree-corrected mixed membership model (DCMM) with the following expectation for the adjacency matrix <span class="math display">\[\begin{align*}
-\mathop{\mathrm{\mathbb E}}[A_{ij} \mid \theta, \pi] = \theta_i \theta_j \,\pi_i^T P \pi_j, \quad i &lt;j, \quad  \pi_i \sim F
-\end{align*}\]</span> where <span class="math inline">\(\pi_i\)</span> is a random element of <span class="math inline">\([0,1]^K\)</span>. In the special case of the DCSBM, we have <span class="math inline">\(\pi_i = e_{z_i}\)</span> where <span class="math inline">\(z_i\)</span> is a random label in <span class="math inline">\([K]\)</span> and <span class="math inline">\(e_k\)</span> is the <span class="math inline">\(k\)</span>th basis vector of <span class="math inline">\(\mathbb R^K\)</span>. This special case is what we consider here. For identifibaility, it is assumed that <span class="math inline">\(\|P \|_\infty = \max_{k\ell} |P_{k\ell}|= 1\)</span>. They also let <span class="math display">\[h = \mathop{\mathrm{\mathbb E}}[\pi_i]\]</span> denote the class prior.</p>
-<p>For <strong>model 1</strong>, we have a DCSBM with <span class="math inline">\(K=1\)</span> and node connection propensity parameter <span class="math inline">\(\theta_i\)</span>, that is, <span class="math display">\[
-\mathop{\mathrm{\mathbb E}}[A_{ij} \mid \theta] = \theta_i \theta_j, \quad i &lt; j.
-\]</span> Let us denote the degree of node <span class="math inline">\(i\)</span> as <span class="math inline">\(\mathop{\mathrm{deg}}(i)\)</span>. Under model 1 is <span class="math display">\[\mathop{\mathrm{\mathbb E}}[\mathop{\mathrm{deg}}(i)] = \theta_i \sum_{j \neq i} \theta_j = \theta_i (\|\theta\|_1 - \theta_i) .\]</span></p>
-<p>For <strong>model 2</strong>, <span class="citation"><a href="#ref-jin2019optimal" role="doc-biblioref">Jin, Ke, and Luo</a> (<a href="#ref-jin2019optimal" role="doc-biblioref">2019</a>)</span> propose to use random propensity parameters <span class="math inline">\(\widetilde \theta= (\widetilde \theta_j)\)</span>, with <span class="math display">\[
+<p>We consider the testing problem introduced in <span class="citation">Jin, Ke, and Luo (<a href="#ref-jin2019optimal" role="doc-biblioref">2019</a>)</span> where one tests a DCSBM with <span class="math inline">\(K=1\)</span> communities (model 1) and a DCSBM
+with <span class="math inline">\(K \ge 2\)</span> communities (model 2),
+both having the same expected degree for every node. Model 1 can be
+considered the <strong>degree-corrected Erdős–Rényi</strong> model.</p>
+<div class="section level2">
+<h2 id="setup-and-models">Setup and models<a class="anchor" aria-label="anchor" href="#setup-and-models"></a>
+</h2>
+<p>We mostly follow the notation of <span class="citation">Jin, Ke, and
+Luo (<a href="#ref-jin2019optimal" role="doc-biblioref">2019</a>)</span>
+with some minor deviations (e.g., we use <span class="math inline">\(\lambda\)</span> to denote the expected average
+degree of the network). They consider the degree-corrected mixed
+membership model (DCMM) with the following expectation for the adjacency
+matrix <span class="math display">\[\begin{align*}
+\mathop{\mathrm{\mathbb E}}[A_{ij} \mid \theta, \pi] = \theta_i \theta_j
+\,\pi_i^T P \pi_j, \quad i &lt;j, \quad  \pi_i \sim F
+\end{align*}\]</span> where <span class="math inline">\(\pi_i\)</span>
+is a random element of <span class="math inline">\([0,1]^K\)</span>. In
+the special case of the DCSBM, we have <span class="math inline">\(\pi_i
+= e_{z_i}\)</span> where <span class="math inline">\(z_i\)</span> is a
+random label in <span class="math inline">\([K]\)</span> and <span class="math inline">\(e_k\)</span> is the <span class="math inline">\(k\)</span>th basis vector of <span class="math inline">\(\mathbb R^K\)</span>. This special case is what we
+consider here. For identifiability, it is assumed that <span class="math inline">\(\|P \|_\infty = \max_{k\ell} |P_{k\ell}|=
+1\)</span>. They also let <span class="math display">\[h =
+\mathop{\mathrm{\mathbb E}}[\pi_i]\]</span> denote the class prior.</p>
+<p>For <strong>model 1</strong>, we have a DCSBM with <span class="math inline">\(K=1\)</span> and node connection propensity
+parameter <span class="math inline">\(\theta_i\)</span>, that is, <span class="math display">\[
+\mathop{\mathrm{\mathbb E}}[A_{ij} \mid \theta] = \theta_i \theta_j,
+\quad i &lt; j.
+\]</span> Let us denote the degree of node <span class="math inline">\(i\)</span> as <span class="math inline">\(\mathop{\mathrm{deg}}(i)\)</span>. Under model 1
+is <span class="math display">\[\mathop{\mathrm{\mathbb
+E}}[\mathop{\mathrm{deg}}(i)] = \theta_i \sum_{j \neq i} \theta_j =
+\theta_i (\|\theta\|_1 - \theta_i) .\]</span></p>
+<p>For <strong>model 2</strong>, <span class="citation">Jin, Ke, and Luo
+(<a href="#ref-jin2019optimal" role="doc-biblioref">2019</a>)</span>
+propose to use random propensity parameters <span class="math inline">\(\widetilde \theta= (\widetilde \theta_j)\)</span>,
+with <span class="math display">\[
 \widetilde \theta_i = d_{z_i} \theta_i
-\]</span> where <span class="math inline">\(\{d_k, k \in [K]\}\)</span> is to be determined. For model 2, we have <span class="math inline">\(\mathop{\mathrm{\mathbb E}}[A_{ij} \mid \widetilde \theta, z] = \widetilde \theta_i \widetilde \theta_j \,e_{z_i}^T P e_{z_j}\)</span> for <span class="math inline">\(i &lt; j\)</span>. The expected degree of node <span class="math inline">\(i\)</span> under model 2 is <span class="math display">\[
-\mathop{\mathrm{\mathbb E}}[\mathop{\mathrm{deg}}(i)] = \sum_{j\ne i}\mathop{\mathrm{\mathbb E}}[A_{ij}] = \mathop{\mathrm{\mathbb E}}[\widetilde \theta_i e_{z_i}^T]\, \sum_{j\neq i} P \mathop{\mathrm{\mathbb E}}[\widetilde \theta_j e_{z_j}]
+\]</span> where <span class="math inline">\(\{d_k, k \in [K]\}\)</span>
+is to be determined. For model 2, we have <span class="math inline">\(\mathop{\mathrm{\mathbb E}}[A_{ij} \mid \widetilde
+\theta, z] = \widetilde \theta_i \widetilde \theta_j \,e_{z_i}^T P
+e_{z_j}\)</span> for <span class="math inline">\(i &lt; j\)</span>. The
+expected degree of node <span class="math inline">\(i\)</span> under
+model 2 is <span class="math display">\[
+\mathop{\mathrm{\mathbb E}}[\mathop{\mathrm{deg}}(i)] = \sum_{j\ne
+i}\mathop{\mathrm{\mathbb E}}[A_{ij}] = \mathop{\mathrm{\mathbb
+E}}[\widetilde \theta_i e_{z_i}^T]\, \sum_{j\neq i} P
+\mathop{\mathrm{\mathbb E}}[\widetilde \theta_j e_{z_j}]
 \]</span> using implicit independence assumptions. We have <span class="math display">\[
-\mathop{\mathrm{\mathbb E}}[\widetilde \theta_i e_{z_i}] = \mathop{\mathrm{\mathbb E}}[ d_{z_i} \theta_i e_{z_i}] = \theta_i \mathop{\mathrm{\mathbb E}}[d_{z_i}  e_{z_i}] = \theta_i \sum_k h_k d_k e_k = \theta_i D h
-\]</span> where <span class="math inline">\(D = \mathop{\mathrm{diag}}(d_k)\)</span>. Plugging-in we have, under model 2, <span class="math display">\[
-\mathop{\mathrm{\mathbb E}}[\mathop{\mathrm{deg}}(i)] = \theta_i \Big(\sum_{j \neq i} \theta_j \Big) h^T D P D h.
-\]</span> Since <span class="math inline">\(h^T 1_K = 1_K\)</span>, if we choose <span class="math inline">\(D\)</span> such that <span class="math inline">\(D P D h = 1_K\)</span>, then model 2 will have the same expected degree for each node as model 1.</p>
-<div id="sinkhorn-construction" class="section level2">
-<h2 class="hasAnchor">
-<a href="#sinkhorn-construction" class="anchor"></a>Sinkhorn construction</h2>
-<p>Since <span class="math inline">\(P\)</span> is symmetric and has nonnegative entries, under mild conditions on <span class="math inline">\(P\)</span> and <span class="math inline">\(h\)</span>, the symmetric version of Sinkhorn theorem guarantees the existence of a diagonal matrix <span class="math inline">\(D = \mathop{\mathrm{diag}}(d_k)\)</span> with positive entries such that <span class="math inline">\(D P D 1_K = h\)</span> that is, <span class="math inline">\(D P D\)</span> has row sums <span class="math inline">\(h\)</span>. See <span class="citation"><a href="#ref-idel2016review" role="doc-biblioref">Idel</a> (<a href="#ref-idel2016review" role="doc-biblioref">2016</a>)</span> for a review.</p>
-<p>Let us use the elementwise notation <span class="math inline">\(h / d\)</span> and <span class="math inline">\(h d\)</span> to denote the vectors with entries <span class="math inline">\(h_k / d_k\)</span> and <span class="math inline">\(h_k d_k\)</span>. The Sinkhorn equation can be written as <span class="math display">\[
+\mathop{\mathrm{\mathbb E}}[\widetilde \theta_i e_{z_i}] =
+\mathop{\mathrm{\mathbb E}}[ d_{z_i} \theta_i e_{z_i}] = \theta_i
+\mathop{\mathrm{\mathbb E}}[d_{z_i}  e_{z_i}] = \theta_i \sum_k h_k d_k
+e_k = \theta_i D h
+\]</span> where <span class="math inline">\(D =
+\mathop{\mathrm{diag}}(d_k)\)</span>. Plugging-in we have, under model
+2, <span class="math display">\[
+\mathop{\mathrm{\mathbb E}}[\mathop{\mathrm{deg}}(i)] = \theta_i
+\Big(\sum_{j \neq i} \theta_j \Big) h^T D P D h.
+\]</span> Since <span class="math inline">\(h^T 1_K = 1_K\)</span>, if
+we choose <span class="math inline">\(D\)</span> such that <span class="math inline">\(D P D h = 1_K\)</span>, then model 2 will have the
+same expected degree for each node as model 1.</p>
+<div class="section level3">
+<h3 id="sinkhorn-construction">Sinkhorn construction<a class="anchor" aria-label="anchor" href="#sinkhorn-construction"></a>
+</h3>
+<p>Since <span class="math inline">\(P\)</span> is symmetric and has
+nonnegative entries, under mild conditions on <span class="math inline">\(P\)</span> and <span class="math inline">\(h\)</span>, the symmetric version of Sinkhorn
+theorem guarantees the existence of a diagonal matrix <span class="math inline">\(D = \mathop{\mathrm{diag}}(d_k)\)</span> with
+positive entries such that <span class="math inline">\(D P D 1_K =
+h\)</span> that is, <span class="math inline">\(D P D\)</span> has row
+sums <span class="math inline">\(h\)</span>. See <span class="citation">Idel (<a href="#ref-idel2016review" role="doc-biblioref">2016</a>)</span> for a review.</p>
+<p>Let us use the elementwise notation <span class="math inline">\(h /
+d\)</span> and <span class="math inline">\(h d\)</span> to denote the
+vectors with entries <span class="math inline">\(h_k / d_k\)</span> and
+<span class="math inline">\(h_k d_k\)</span>. The Sinkhorn equation can
+be written as <span class="math display">\[
 P d = h / d
-\]</span> or equivalently as the fixed point equation <span class="math inline">\(d = h / Pd\)</span> which can be solved by repeated application of the operator <span class="math inline">\(d \mapsto h/Pd\)</span> to an initial vector, say, <span class="math inline">\(1_K\)</span>. The iteration in fact oscillates between the the two solutions <span class="math inline">\(d_1\)</span> and <span class="math inline">\(d_2\)</span> of the nonsymmetric Sinkhorn equation <span class="math inline">\(P d_2 = h/ d_1\)</span> <span class="citation">(<a href="#ref-knight2008sinkhorn" role="doc-biblioref">Knight 2008</a>; <a href="#ref-bradley2010algorithms" role="doc-biblioref">Bradley 2010</a>)</span> and can be made to converge by averaging every two steps. This is implemented in <code>sinkhorn_knopp</code> function in the <code>nett</code> package.</p>
-<p>To get the version we need, that is, <span class="math inline">\(D P D h = 1_K\)</span>, let us write Sinkhorn equation with <span class="math inline">\(d\)</span> renamed to <span class="math inline">\(r\)</span>. Then, <span class="math display">\[
+\]</span> or equivalently as the fixed point equation <span class="math inline">\(d = h / Pd\)</span> which can be solved by
+repeated application of the operator <span class="math inline">\(d
+\mapsto h/Pd\)</span> to an initial vector, say, <span class="math inline">\(1_K\)</span>. The iteration in fact oscillates
+between the the two solutions <span class="math inline">\(d_1\)</span>
+and <span class="math inline">\(d_2\)</span> of the nonsymmetric
+Sinkhorn equation <span class="math inline">\(P d_2 = h/ d_1\)</span>
+<span class="citation">(<a href="#ref-knight2008sinkhorn" role="doc-biblioref">Knight 2008</a>; <a href="#ref-bradley2010algorithms" role="doc-biblioref">Bradley
+2010</a>)</span> and can be made to converge by averaging every two
+steps. This is implemented in <code>sinkhorn_knopp</code> function in
+the <code>nett</code> package.</p>
+<p>To get the version we need, that is, <span class="math inline">\(D P
+D h = 1_K\)</span>, let us write Sinkhorn equation with <span class="math inline">\(d\)</span> renamed to <span class="math inline">\(r\)</span>. Then, <span class="math display">\[
 P r = h / r \iff P ((r/h) h) = \frac{1_K}{r/h}
-\]</span> This shows that defining <span class="math inline">\(d = r/h\)</span>, that is, <span class="math inline">\(d_k = r_k / h_k\)</span> and letting <span class="math inline">\(D = \mathop{\mathrm{diag}}(d_k)\)</span> we have the desired scaling <span class="math inline">\(D P D h = 1_K\)</span>. That is, we solve the symmetric Sinkhorn problem with row sum data <span class="math inline">\(h\)</span>, and rescale the output <span class="math inline">\(r\)</span> to <span class="math inline">\(r/h\)</span> to get the desired <span class="math inline">\(d\)</span> for our problem.</p>
+\]</span> This shows that defining <span class="math inline">\(d =
+r/h\)</span>, that is, <span class="math inline">\(d_k = r_k /
+h_k\)</span> and letting <span class="math inline">\(D =
+\mathop{\mathrm{diag}}(d_k)\)</span> we have the desired scaling <span class="math inline">\(D P D h = 1_K\)</span>. That is, we solve the
+symmetric Sinkhorn problem with row sum data <span class="math inline">\(h\)</span>, and rescale the output <span class="math inline">\(r\)</span> to <span class="math inline">\(r/h\)</span> to get the desired <span class="math inline">\(d\)</span> for our problem.</p>
 <p>Let us verify these ideas:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="va">Ktru</span> <span class="op">=</span> <span class="fl">4</span>  <span class="co"># number of true communities</span>
-<span class="va">oir</span> <span class="op">=</span> <span class="fl">0.15</span> <span class="co"># out-in-ratio</span>
-<span class="va">h</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">Ktru</span> 
-<span class="va">h</span> <span class="op">=</span> <span class="va">h</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">h</span><span class="op">)</span> <span class="co"># class prior or `pri` in our notation</span>
-
-<span class="va">P_diag</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="va">Ktru</span><span class="op">)</span>
-<span class="va">P</span> <span class="op">=</span> <span class="va">oir</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="va">P_diag</span> <span class="op">-</span> <span class="va">oir</span><span class="op">)</span>
-
-<span class="va">r</span> <span class="op">=</span> <span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/sinkhorn_knopp.html">sinkhorn_knopp</a></span><span class="op">(</span><span class="va">P</span>, sums<span class="op">=</span><span class="va">h</span>, sym<span class="op">=</span><span class="cn">T</span><span class="op">)</span><span class="op">$</span><span class="va">r</span>
-<span class="va">d</span> <span class="op">=</span> <span class="va">r</span> <span class="op">/</span> <span class="va">h</span>
-<span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span> <span class="op">%*%</span> <span class="va">P</span> <span class="op">%*%</span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span> <span class="op">%*%</span> <span class="va">h</span> <span class="co"># verify Sinkhorn's scaling</span>
-<span class="co">#&gt;      [,1]</span>
-<span class="co">#&gt; [1,]    1</span>
-<span class="co">#&gt; [2,]    1</span>
-<span class="co">#&gt; [3,]    1</span>
-<span class="co">#&gt; [4,]    1</span></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Ktru</span> <span class="op">=</span> <span class="fl">4</span>  <span class="co"># number of true communities</span></span>
+<span><span class="va">oir</span> <span class="op">=</span> <span class="fl">0.15</span> <span class="co"># out-in-ratio</span></span>
+<span><span class="va">h</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">Ktru</span> </span>
+<span><span class="va">h</span> <span class="op">=</span> <span class="va">h</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">h</span><span class="op">)</span> <span class="co"># class prior or `pri` in our notation</span></span>
+<span></span>
+<span><span class="va">P_diag</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="va">Ktru</span><span class="op">)</span></span>
+<span><span class="va">P</span> <span class="op">=</span> <span class="va">oir</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="va">P_diag</span> <span class="op">-</span> <span class="va">oir</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">r</span> <span class="op">=</span> <span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/sinkhorn_knopp.html">sinkhorn_knopp</a></span><span class="op">(</span><span class="va">P</span>, sums<span class="op">=</span><span class="va">h</span>, sym<span class="op">=</span><span class="cn">T</span><span class="op">)</span><span class="op">$</span><span class="va">r</span></span>
+<span><span class="va">d</span> <span class="op">=</span> <span class="va">r</span> <span class="op">/</span> <span class="va">h</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">P</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">h</span> <span class="co"># verify Sinkhorn's scaling</span></span>
+<span><span class="co">#&gt;      [,1]</span></span>
+<span><span class="co">#&gt; [1,]    1</span></span>
+<span><span class="co">#&gt; [2,]    1</span></span>
+<span><span class="co">#&gt; [3,]    1</span></span>
+<span><span class="co">#&gt; [4,]    1</span></span></code></pre></div>
 </div>
-<div id="generating-from-the-models" class="section level2">
-<h2 class="hasAnchor">
-<a href="#generating-from-the-models" class="anchor"></a>Generating from the models</h2>
-<p>The expected average degree of model 1 is <span class="math inline">\(\alpha^2 := \frac1n(\|\theta\|_1^2 - \|\theta\|_2^2)\)</span>. We can rescale <span class="math inline">\(\theta\)</span> to <span class="math inline">\(\sqrt{\lambda} \theta / \alpha\)</span> to get a desired expected average degree <span class="math inline">\(\lambda\)</span>:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="va">n</span> <span class="op">=</span> <span class="fl">2000</span> <span class="co"># number of nodes</span>
-<span class="va">lambda</span> <span class="op">=</span> <span class="fl">5</span> <span class="co"># expected average degree</span>
-
-<span class="co"># Generate from the degree-corrected Erdős–Rényi model</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span>
-<span class="va">theta</span> <span class="op">&lt;-</span> <span class="fu">EnvStats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/EnvStats/man/Pareto.html">rpareto</a></span><span class="op">(</span><span class="va">n</span>, <span class="fl">2</span><span class="op">/</span><span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span>
-<span class="va">alpha2</span> <span class="op">=</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">theta</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="va">n</span>
-<span class="va">theta</span> <span class="op">=</span>  <span class="va">theta</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">lambda</span><span class="op">/</span><span class="va">alpha2</span><span class="op">)</span>
-
-<span class="va">A</span> <span class="op">=</span> <span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/sample_dcer.html">sample_dcer</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span>  <span class="co"># sample the adjacency matrix matrix </span>
-<span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu">Matrix</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/colSums.html">rowSums</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; [1] 4.931</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="fu">Matrix</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/colSums.html">rowSums</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span>, <span class="fl">15</span>, main  <span class="op">=</span> <span class="st">"Degree distribution"</span>, xlab <span class="op">=</span> <span class="st">"degree"</span><span class="op">)</span></pre></div>
+<div class="section level3">
+<h3 id="generating-from-the-models">Generating from the models<a class="anchor" aria-label="anchor" href="#generating-from-the-models"></a>
+</h3>
+<p>The expected average degree of model 1 is <span class="math inline">\(\alpha^2 := \frac1n(\|\theta\|_1^2 -
+\|\theta\|_2^2)\)</span>. We can rescale <span class="math inline">\(\theta\)</span> to <span class="math inline">\(\sqrt{\lambda} \theta / \alpha\)</span> to get a
+desired expected average degree <span class="math inline">\(\lambda\)</span>:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">n</span> <span class="op">=</span> <span class="fl">2000</span> <span class="co"># number of nodes</span></span>
+<span><span class="va">lambda</span> <span class="op">=</span> <span class="fl">5</span> <span class="co"># expected average degree</span></span>
+<span></span>
+<span><span class="co"># Generate from the degree-corrected Erdős–Rényi model</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<span><span class="va">theta</span> <span class="op">&lt;-</span> <span class="fu">EnvStats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/EnvStats/man/Pareto.html" class="external-link">rpareto</a></span><span class="op">(</span><span class="va">n</span>, <span class="fl">2</span><span class="op">/</span><span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">alpha2</span> <span class="op">=</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">theta</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="va">n</span></span>
+<span><span class="va">theta</span> <span class="op">=</span>  <span class="va">theta</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">lambda</span><span class="op">/</span><span class="va">alpha2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">A</span> <span class="op">=</span> <span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/sample_dcer.html">sample_dcer</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span>  <span class="co"># sample the adjacency matrix matrix </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu">Matrix</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/colSums.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 4.931</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="fu">Matrix</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/colSums.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span>, <span class="fl">15</span>, main  <span class="op">=</span> <span class="st">"Degree distribution"</span>, xlab <span class="op">=</span> <span class="st">"degree"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="hard_dcsbm_testing_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="va">z</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">Ktru</span>, <span class="va">n</span>, replace<span class="op">=</span><span class="cn">T</span>, prob<span class="op">=</span><span class="va">h</span><span class="op">)</span> <span class="co"># randomly smaple "true community labels" </span>
-<span class="va">tht</span> <span class="op">=</span> <span class="va">d</span><span class="op">[</span><span class="va">z</span><span class="op">]</span> <span class="op">*</span> <span class="va">theta</span>
-<span class="va">A</span> <span class="op">=</span> <span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/sample_dcsbm.html">sample_dcsbm</a></span><span class="op">(</span><span class="va">z</span>, <span class="va">P</span>, <span class="va">tht</span><span class="op">)</span> <span class="co"># sample the adjacency matrix</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="fu">Matrix</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/colSums.html">rowSums</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span>, <span class="fl">15</span>, main <span class="op">=</span> <span class="st">"Degree distribution"</span>, xlab <span class="op">=</span> <span class="st">"degree"</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">z</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">Ktru</span>, <span class="va">n</span>, replace<span class="op">=</span><span class="cn">T</span>, prob<span class="op">=</span><span class="va">h</span><span class="op">)</span> <span class="co"># randomly smaple "true community labels" </span></span>
+<span><span class="va">tht</span> <span class="op">=</span> <span class="va">d</span><span class="op">[</span><span class="va">z</span><span class="op">]</span> <span class="op">*</span> <span class="va">theta</span></span>
+<span><span class="va">A</span> <span class="op">=</span> <span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/sample_dcsbm.html">sample_dcsbm</a></span><span class="op">(</span><span class="va">z</span>, <span class="va">P</span>, <span class="va">tht</span><span class="op">)</span> <span class="co"># sample the adjacency matrix</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="fu">Matrix</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/colSums.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span>, <span class="fl">15</span>, main <span class="op">=</span> <span class="st">"Degree distribution"</span>, xlab <span class="op">=</span> <span class="st">"degree"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="hard_dcsbm_testing_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
-<div id="verifying-equality-of-expected-degrees" class="section level3">
-<h3 class="hasAnchor">
-<a href="#verifying-equality-of-expected-degrees" class="anchor"></a>Verifying equality of expected degrees</h3>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="va">nrep</span> <span class="op">=</span> <span class="fl">10</span>
-<span class="va">degs1</span> <span class="op">=</span> <span class="va">degs2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">n</span><span class="op">)</span>
-<span class="kw">for</span> <span class="op">(</span><span class="va">r</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">nrep</span><span class="op">)</span> <span class="op">{</span>
-  <span class="va">degs1</span> <span class="op">=</span> <span class="va">degs1</span> <span class="op">+</span> <span class="fu">Matrix</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/colSums.html">rowSums</a></span><span class="op">(</span><span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/sample_dcer.html">sample_dcer</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span><span class="op">)</span>
-  <span class="va">z</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">Ktru</span>, <span class="va">n</span>, replace<span class="op">=</span><span class="cn">T</span>, prob<span class="op">=</span><span class="va">h</span><span class="op">)</span> <span class="co"># randomly smaple "true community labels" </span>
-  <span class="va">degs2</span> <span class="op">=</span> <span class="va">degs2</span> <span class="op">+</span> <span class="fu">Matrix</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/colSums.html">rowSums</a></span><span class="op">(</span><span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/sample_dcsbm.html">sample_dcsbm</a></span><span class="op">(</span><span class="va">z</span>, <span class="va">P</span>,  <span class="va">d</span><span class="op">[</span><span class="va">z</span><span class="op">]</span> <span class="op">*</span> <span class="va">theta</span><span class="op">)</span><span class="op">)</span>
-<span class="op">}</span>
-<span class="va">degs1</span> <span class="op">=</span> <span class="va">degs1</span> <span class="op">/</span> <span class="va">nrep</span>
-<span class="va">degs2</span> <span class="op">=</span> <span class="va">degs2</span> <span class="op">/</span> <span class="va">nrep</span>
-<span class="co"># cbind(degs1, degs2)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">degs1</span> <span class="op">-</span> <span class="va">degs2</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="va">degs1</span> <span class="op">+</span> <span class="va">degs2</span><span class="op">)</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span>
-<span class="co">#&gt; [1] 0.04304521</span></pre></div>
+<div class="section level4">
+<h4 id="verifying-equality-of-expected-degrees">Verifying equality of expected degrees<a class="anchor" aria-label="anchor" href="#verifying-equality-of-expected-degrees"></a>
+</h4>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">nrep</span> <span class="op">=</span> <span class="fl">10</span></span>
+<span><span class="va">degs1</span> <span class="op">=</span> <span class="va">degs2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">n</span><span class="op">)</span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">r</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">nrep</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">degs1</span> <span class="op">=</span> <span class="va">degs1</span> <span class="op">+</span> <span class="fu">Matrix</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/colSums.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/sample_dcer.html">sample_dcer</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">z</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">Ktru</span>, <span class="va">n</span>, replace<span class="op">=</span><span class="cn">T</span>, prob<span class="op">=</span><span class="va">h</span><span class="op">)</span> <span class="co"># randomly smaple "true community labels" </span></span>
+<span>  <span class="va">degs2</span> <span class="op">=</span> <span class="va">degs2</span> <span class="op">+</span> <span class="fu">Matrix</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/colSums.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/sample_dcsbm.html">sample_dcsbm</a></span><span class="op">(</span><span class="va">z</span>, <span class="va">P</span>,  <span class="va">d</span><span class="op">[</span><span class="va">z</span><span class="op">]</span> <span class="op">*</span> <span class="va">theta</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="va">degs1</span> <span class="op">=</span> <span class="va">degs1</span> <span class="op">/</span> <span class="va">nrep</span></span>
+<span><span class="va">degs2</span> <span class="op">=</span> <span class="va">degs2</span> <span class="op">/</span> <span class="va">nrep</span></span>
+<span><span class="co"># cbind(degs1, degs2)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">degs1</span> <span class="op">-</span> <span class="va">degs2</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="va">degs1</span> <span class="op">+</span> <span class="va">degs2</span><span class="op">)</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 0.04304521</span></span></code></pre></div>
 </div>
 </div>
 </div>
-<div id="performance-of-nac-tests" class="section level1">
-<h1 class="hasAnchor">
-<a href="#performance-of-nac-tests" class="anchor"></a>Performance of NAC tests</h1>
-<p>Let us now see how the NAC tests perform for separating these two models. We also compare with the likelihood ratio (LR) and adjusted spectral (AS) tests. Let us define the methods</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="va">K_H0</span> <span class="op">=</span> <span class="fl">1</span>
-<span class="va">K_H1</span> <span class="op">=</span> <span class="va">Ktru</span>
-<span class="va">apply_methods</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">A</span><span class="op">)</span> <span class="op">{</span>
-  <span class="va">z0</span> <span class="op">=</span> <span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/spec_clust.html">spec_clust</a></span><span class="op">(</span><span class="va">A</span>, <span class="va">K_H0</span><span class="op">)</span>
-  <span class="va">z0p</span> <span class="op">=</span> <span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/spec_clust.html">spec_clust</a></span><span class="op">(</span><span class="va">A</span>, <span class="va">K_H0</span><span class="op">+</span><span class="fl">1</span><span class="op">)</span>
-  <span class="va">z1</span> <span class="op">=</span> <span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/spec_clust.html">spec_clust</a></span><span class="op">(</span><span class="va">A</span>, <span class="va">K_H1</span><span class="op">)</span>
-  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span>
-    <span class="op">~</span><span class="va">method</span>, <span class="op">~</span><span class="va">tstat</span>, <span class="op">~</span><span class="va">twosided</span>,
-    <span class="st">"NAC+"</span>, <span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/nac_test.html">nac_test</a></span><span class="op">(</span><span class="va">A</span>, <span class="va">K_H0</span>, z<span class="op">=</span><span class="va">z0</span>, y<span class="op">=</span><span class="va">z0p</span><span class="op">)</span><span class="op">$</span><span class="va">stat</span>, <span class="cn">F</span>,
-    <span class="st">"SNAC+"</span>, <span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/snac_test.html">snac_test</a></span><span class="op">(</span><span class="va">A</span>, <span class="va">K_H0</span>, z<span class="op">=</span><span class="va">z0</span><span class="op">)</span><span class="op">$</span><span class="va">stat</span>, <span class="cn">F</span>,
-    <span class="st">"AS"</span>, <span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/adj_spec_test.html">adj_spec_test</a></span><span class="op">(</span><span class="va">A</span>, <span class="va">K_H0</span>, z<span class="op">=</span><span class="va">z0</span><span class="op">)</span>, <span class="cn">F</span>,
-    <span class="st">"LR"</span>, <span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/eval_dcsbm_loglr.html">eval_dcsbm_loglr</a></span><span class="op">(</span><span class="va">A</span>, <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">z0</span>, <span class="va">z1</span><span class="op">)</span>, poi<span class="op">=</span><span class="cn">T</span><span class="op">)</span>, <span class="cn">F</span>
-  <span class="op">)</span>
-<span class="op">}</span></pre></div>
-<p>as well as the data generation functions for the null and alternative hypotheses:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="va">gen_null_data</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/sample_dcer.html">sample_dcer</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="va">gen_alt_data</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span>
-  <span class="va">z</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">Ktru</span>, <span class="va">n</span>, replace<span class="op">=</span><span class="cn">T</span>, prob<span class="op">=</span><span class="va">h</span><span class="op">)</span>
-  <span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/sample_dcsbm.html">sample_dcsbm</a></span><span class="op">(</span><span class="va">z</span>, <span class="va">P</span>,  <span class="va">d</span><span class="op">[</span><span class="va">z</span><span class="op">]</span> <span class="op">*</span> <span class="va">theta</span><span class="op">)</span>
-<span class="op">}</span></pre></div>
+<div class="section level2">
+<h2 id="performance-of-nac-tests">Performance of NAC tests<a class="anchor" aria-label="anchor" href="#performance-of-nac-tests"></a>
+</h2>
+<p>Let us now see how the NAC tests perform for separating these two
+models. We also compare with the likelihood ratio (LR) and adjusted
+spectral (AS) tests. Let us define the methods</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">K_H0</span> <span class="op">=</span> <span class="fl">1</span></span>
+<span><span class="va">K_H1</span> <span class="op">=</span> <span class="va">Ktru</span></span>
+<span><span class="va">apply_methods</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">A</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">z0</span> <span class="op">=</span> <span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/spec_clust.html">spec_clust</a></span><span class="op">(</span><span class="va">A</span>, <span class="va">K_H0</span><span class="op">)</span></span>
+<span>  <span class="va">z0p</span> <span class="op">=</span> <span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/spec_clust.html">spec_clust</a></span><span class="op">(</span><span class="va">A</span>, <span class="va">K_H0</span><span class="op">+</span><span class="fl">1</span><span class="op">)</span></span>
+<span>  <span class="va">z1</span> <span class="op">=</span> <span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/spec_clust.html">spec_clust</a></span><span class="op">(</span><span class="va">A</span>, <span class="va">K_H1</span><span class="op">)</span></span>
+<span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
+<span>    <span class="op">~</span><span class="va">method</span>, <span class="op">~</span><span class="va">tstat</span>, <span class="op">~</span><span class="va">twosided</span>,</span>
+<span>    <span class="st">"NAC+"</span>, <span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/nac_test.html">nac_test</a></span><span class="op">(</span><span class="va">A</span>, <span class="va">K_H0</span>, z<span class="op">=</span><span class="va">z0</span>, y<span class="op">=</span><span class="va">z0p</span><span class="op">)</span><span class="op">$</span><span class="va">stat</span>, <span class="cn">F</span>,</span>
+<span>    <span class="st">"SNAC+"</span>, <span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/snac_test.html">snac_test</a></span><span class="op">(</span><span class="va">A</span>, <span class="va">K_H0</span>, z<span class="op">=</span><span class="va">z0</span><span class="op">)</span><span class="op">$</span><span class="va">stat</span>, <span class="cn">F</span>,</span>
+<span>    <span class="st">"AS"</span>, <span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/adj_spec_test.html">adj_spec_test</a></span><span class="op">(</span><span class="va">A</span>, <span class="va">K_H0</span>, z<span class="op">=</span><span class="va">z0</span><span class="op">)</span>, <span class="cn">F</span>,</span>
+<span>    <span class="st">"LR"</span>, <span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/eval_dcsbm_loglr.html">eval_dcsbm_loglr</a></span><span class="op">(</span><span class="va">A</span>, <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">z0</span>, <span class="va">z1</span><span class="op">)</span>, poi<span class="op">=</span><span class="cn">T</span><span class="op">)</span>, <span class="cn">F</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<p>as well as the data generation functions for the null and alternative
+hypotheses:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">gen_null_data</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/sample_dcer.html">sample_dcer</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">gen_alt_data</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">z</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">Ktru</span>, <span class="va">n</span>, replace<span class="op">=</span><span class="cn">T</span>, prob<span class="op">=</span><span class="va">h</span><span class="op">)</span></span>
+<span>  <span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/sample_dcsbm.html">sample_dcsbm</a></span><span class="op">(</span><span class="va">z</span>, <span class="va">P</span>,  <span class="va">d</span><span class="op">[</span><span class="va">z</span><span class="op">]</span> <span class="op">*</span> <span class="va">theta</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
 <p>We can now simulate the ROC:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="co"># try reducing nruns for faster bu cruder estimation of the ROC curves</span>
-<span class="va">roc_res</span> <span class="op">=</span> <span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/simulate_roc.html">simulate_roc</a></span><span class="op">(</span><span class="va">apply_methods</span>,
-                       gen_null_data <span class="op">=</span> <span class="va">gen_null_data</span>,
-                       gen_alt_data <span class="op">=</span> <span class="va">gen_alt_data</span>,
-                       nruns <span class="op">=</span> <span class="fl">100</span>, core_count <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> 
-<span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/printf.html">printf</a></span><span class="op">(</span><span class="st">'time = %3.3f'</span>, <span class="va">roc_res</span><span class="op">$</span><span class="va">elapsed_time</span><span class="op">)</span>
-<span class="co">#&gt; time = 24.403</span></pre></div>
-<div id="results" class="section level2">
-<h2 class="hasAnchor">
-<a href="#results" class="anchor"></a>Results</h2>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># try reducing nruns for faster bu cruder estimation of the ROC curves</span></span>
+<span><span class="va">roc_res</span> <span class="op">=</span> <span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/simulate_roc.html">simulate_roc</a></span><span class="op">(</span><span class="va">apply_methods</span>,</span>
+<span>                       gen_null_data <span class="op">=</span> <span class="va">gen_null_data</span>,</span>
+<span>                       gen_alt_data <span class="op">=</span> <span class="va">gen_alt_data</span>,</span>
+<span>                       nruns <span class="op">=</span> <span class="fl">100</span>, core_count <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> </span>
+<span><span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/printf.html">printf</a></span><span class="op">(</span><span class="st">'time = %3.3f'</span>, <span class="va">roc_res</span><span class="op">$</span><span class="va">elapsed_time</span><span class="op">)</span></span>
+<span><span class="co">#&gt; time = 44.867</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="results">Results<a class="anchor" aria-label="anchor" href="#results"></a>
+</h3>
 <p>Here are the resulting ROCs:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="va">plot_res</span> <span class="op">&lt;-</span> <span class="va">roc_res</span><span class="op">$</span><span class="va">roc</span>
-<span class="va">plot_res</span><span class="op">$</span><span class="va">method</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">plot_res</span><span class="op">$</span><span class="va">method</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"NAC+"</span>,<span class="st">"SNAC+"</span>,<span class="st">"AS"</span>, <span class="st">"LR"</span><span class="op">)</span><span class="op">)</span>
-<span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/plot_roc.html">plot_roc</a></span><span class="op">(</span><span class="va">plot_res</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">plot_res</span> <span class="op">&lt;-</span> <span class="va">roc_res</span><span class="op">$</span><span class="va">roc</span></span>
+<span><span class="va">plot_res</span><span class="op">$</span><span class="va">method</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">plot_res</span><span class="op">$</span><span class="va">method</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NAC+"</span>,<span class="st">"SNAC+"</span>,<span class="st">"AS"</span>, <span class="st">"LR"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/plot_roc.html">plot_roc</a></span><span class="op">(</span><span class="va">plot_res</span><span class="op">)</span></span></code></pre></div>
 <p><img src="hard_dcsbm_testing_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
-<p>The setup we have considered is quite difficult with oir = <span class="math inline">\(0.15\)</span> and <span class="math inline">\(\lambda = 5\)</span>. You can try to change oir and <span class="math inline">\(\lambda\)</span> rerun this experiment. They following is observed:</p>
+<p>The setup we have considered is quite difficult with oir = <span class="math inline">\(0.15\)</span> and <span class="math inline">\(\lambda = 5\)</span>. You can try to change oir
+and <span class="math inline">\(\lambda\)</span> rerun this experiment.
+They following is observed:</p>
 <ul>
-<li>For oir = 0.1 and <span class="math inline">\(\lambda = 5\)</span>, NAC+ and LR are perfect, SNAC+ is almost perfect and AS is close to random guessing.</li>
-<li>For oir = 0.2 and <span class="math inline">\(\lambda = 5\)</span>, NAC+ is perfect, LR deteriorates to some extent. SNAC+ and AS are almost like random guessing.</li>
-<li>For oir = 0.1 and <span class="math inline">\(\lambda = 10\)</span>, all are perfect.</li>
+<li>For oir = 0.1 and <span class="math inline">\(\lambda = 5\)</span>,
+NAC+ and LR are perfect, SNAC+ is almost perfect and AS is close to
+random guessing.</li>
+<li>For oir = 0.2 and <span class="math inline">\(\lambda = 5\)</span>,
+NAC+ is perfect, LR deteriorates to some extent. SNAC+ and AS are almost
+like random guessing.</li>
+<li>For oir = 0.1 and <span class="math inline">\(\lambda = 10\)</span>,
+all are perfect.</li>
 </ul>
 </div>
-<div id="comments" class="section level2">
-<h2 class="hasAnchor">
-<a href="#comments" class="anchor"></a>Comments</h2>
-<p>Theorem 3.2 of <span class="citation"><a href="#ref-jin2019optimal" role="doc-biblioref">Jin, Ke, and Luo</a> (<a href="#ref-jin2019optimal" role="doc-biblioref">2019</a>)</span> states that under the condition that <span class="math inline">\(\|\theta\|_\infty \lesssim 1\)</span> and <span class="math inline">\(\min_k h_k \gtrsim 1\)</span> if <span class="math display">\[\|\theta\|\cdot |\mu_2(P)| \to 0, \]</span> the two hypotheses are indistinguisiable (in the sense that their <span class="math inline">\(\chi^2\)</span>-distance goes to zero). Here <span class="math inline">\(\mu_2(P)\)</span> is the 2nd largest eigenvalue of <span class="math inline">\(P\)</span> in magnitude. In our seteup, <span class="math inline">\(\mu_2(P) \asymp 1\)</span>. So the condition is essentially <span class="math inline">\(\|\theta\| \to 0\)</span>.</p>
-<p>Note that the expected average degree of the null model is <span class="math display">\[\lambda \sim \frac{\|\theta\|_1^2}{n}.\]</span> We have <span class="math inline">\(\|\theta\|_2 \ge \frac{\|\theta\|_1}{\sqrt n}\)</span>, hence, in the wrost case <span class="math inline">\(\|\theta\|_2 = \frac{\|\theta\|_1}{\sqrt n} \asymp \sqrt{\lambda}\)</span> and the condition is equivalent to <span class="math inline">\(\sqrt{\lambda} \to 0\)</span>, that is, the expected average degree <span class="math inline">\(\lambda\)</span> vanishes asympototically. It is quite reasolable that most methods would fail when <span class="math inline">\(\lambda \to 0\)</span>.</p>
-<p>In all other cases, the situation is better. In particular, the above experiment shows that even for a sufficiently small <span class="math inline">\(\lambda = 5\)</span> and a fairly large <span class="math inline">\(n = 2000\)</span>, NAC tests can still be perfect for this problem.</p>
+<div class="section level3">
+<h3 id="comments">Comments<a class="anchor" aria-label="anchor" href="#comments"></a>
+</h3>
+<p>Theorem 3.2 of <span class="citation">Jin, Ke, and Luo (<a href="#ref-jin2019optimal" role="doc-biblioref">2019</a>)</span> states
+that under the condition that <span class="math inline">\(\|\theta\|_\infty \lesssim 1\)</span> and <span class="math inline">\(\min_k h_k \gtrsim 1\)</span> if <span class="math display">\[\|\theta\|\cdot |\mu_2(P)| \to 0, \]</span> the
+two hypotheses are indistinguishable (in the sense that their <span class="math inline">\(\chi^2\)</span>-distance goes to zero). Here <span class="math inline">\(\mu_2(P)\)</span> is the 2nd largest eigenvalue of
+<span class="math inline">\(P\)</span> in magnitude. In our seteup,
+<span class="math inline">\(\mu_2(P) \asymp 1\)</span>. So the condition
+is essentially <span class="math inline">\(\|\theta\| \to
+0\)</span>.</p>
+<p>Note that the expected average degree of the null model is <span class="math display">\[\lambda \sim \frac{\|\theta\|_1^2}{n}.\]</span>
+We have <span class="math inline">\(\|\theta\|_2 \ge
+\frac{\|\theta\|_1}{\sqrt n}\)</span>, hence, in the worst case <span class="math inline">\(\|\theta\|_2 = \frac{\|\theta\|_1}{\sqrt n} \asymp
+\sqrt{\lambda}\)</span> and the condition is equivalent to <span class="math inline">\(\sqrt{\lambda} \to 0\)</span>, that is, the
+expected average degree <span class="math inline">\(\lambda\)</span>
+vanishes asympototically. It is quite reasonable that most methods would
+fail when <span class="math inline">\(\lambda \to 0\)</span>.</p>
+<p>In all other cases, the situation is better. In particular, the above
+experiment shows that even for a sufficiently small <span class="math inline">\(\lambda = 5\)</span> and a fairly large <span class="math inline">\(n = 2000\)</span>, NAC tests can still be perfect
+for this problem.</p>
 </div>
 </div>
-<div id="references" class="section level1 unnumbered">
-<h1 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h1>
+<div class="section level2">
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-bradley2010algorithms" class="csl-entry">
-Bradley, Andrew M. 2010. <span>“Algorithms for the Equilibration of Matrices and Their Application to Limited-Memory Quasi-Newton Methods.”</span> Stanford University, CA.
+Bradley, Andrew M. 2010. <span>“Algorithms for the Equilibration of
+Matrices and Their Application to Limited-Memory Quasi-Newton
+Methods.”</span> Stanford University, CA.
 </div>
 <div id="ref-idel2016review" class="csl-entry">
-Idel, Martin. 2016. <span>“A Review of Matrix Scaling and Sinkhorn’s Normal Form for Matrices and Positive Maps.”</span> <em>arXiv Preprint arXiv:1609.06349</em>.
+Idel, Martin. 2016. <span>“A Review of Matrix Scaling and Sinkhorn’s
+Normal Form for Matrices and Positive Maps.”</span> <em>arXiv Preprint
+arXiv:1609.06349</em>.
 </div>
 <div id="ref-jin2019optimal" class="csl-entry">
-Jin, Jiashun, Zheng Tracy Ke, and Shengming Luo. 2019. <span>“Optimal Adaptivity of Signed-Polygon Statistics for Network Testing.”</span> <em>arXiv Preprint</em>. <a href="https://arxiv.org/abs/1904.09532v2">https://arxiv.org/abs/1904.09532v2</a>.
+Jin, Jiashun, Zheng Tracy Ke, and Shengming Luo. 2019. <span>“Optimal
+Adaptivity of Signed-Polygon Statistics for Network Testing.”</span>
+<em>arXiv Preprint</em>. <a href="https://arxiv.org/abs/1904.09532v2" class="external-link">https://arxiv.org/abs/1904.09532v2</a>.
 </div>
 <div id="ref-knight2008sinkhorn" class="csl-entry">
-Knight, Philip A. 2008. <span>“The Sinkhorn–Knopp Algorithm: Convergence and Applications.”</span> <em>SIAM Journal on Matrix Analysis and Applications</em> 30 (1): 261–75.
+Knight, Philip A. 2008. <span>“The Sinkhorn–Knopp Algorithm: Convergence
+and Applications.”</span> <em>SIAM Journal on Matrix Analysis and
+Applications</em> 30 (1): 261–75.
 </div>
 </div>
 </div>
@@ -283,11 +382,13 @@ Knight, Philip A. 2008. <span>“The Sinkhorn–Knopp Algorithm: Convergence and
 
 
       <footer><div class="copyright">
-  <p>Developed by Arash A. Amini, Linfan Zhang.</p>
+  <p></p>
+<p>Developed by Arash A. Amini, Linfan Zhang.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
@@ -295,6 +396,8 @@ Knight, Philip A. 2008. <span>“The Sinkhorn–Knopp Algorithm: Convergence and
 
   
 
+
+  
 
   </body>
 </html>
