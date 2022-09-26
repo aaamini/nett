@@ -1,3 +1,8 @@
+### declare global variable
+globalVariables(c("method", "FPR", "TPR",
+                  "H", "tstat", "tstat_all", "H0", "H1", "res"))
+
+
 # function to compute the rejection rates
 get_reject_freq <- function(Tstat, th_vec, twosided = T) {
   # if (twosided) cat('twosided\n') else cat('onesided\n')

@@ -5,11 +5,11 @@
 #' @param community community assignment; vector of node labels
 #' @param color_map color palette for clusters in 'gr'
 #' @param extract_lcc Extract largest connected component or not
-#' @param heavy_edge_deg_perc degree percentile threshold..
+#' @param heavy_edge_deg_perc Degree percentile threshold
 #' @param coord Optional starting positions for the vertices.
 #' If this argument is not NULL then it should be an appropriate matrix of starting coordinates.
 #' @param vsize_func function to determine the size of node size
-#' @param vertex_border whether to show the border of vertex or not.
+#' @param vertex_border whether to show the border of vertex or not
 #' @param niter  number of iteration for FR layout computation
 #' @param vertex_alpha factor modifying the opacity alpha of vertex; typically in \[0,1\]
 #' @param remove_loops whether to remove loops in the network

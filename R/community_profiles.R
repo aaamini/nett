@@ -1,3 +1,7 @@
+### declare global variable
+globalVariables(c("K", "value", "fxx"))
+
+
 #' Resampled SNAC+
 #'
 #' Compute SNAC+ with resampling
