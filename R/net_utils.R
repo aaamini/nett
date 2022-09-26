@@ -20,8 +20,8 @@ extract_low_deg_comp = function(g, deg_prec = 0.75, verb =F) {
 reduction in # of nodes = %2.1fx
 reduction in max deg. = %dx
 reduction in mean deg. = %dx',
-           vcount(g2),
-           vcount(g)/vcount(g2),
+           igraph::vcount(g2),
+           igraph::vcount(g)/igraph::vcount(g2),
            round(max(degs) / max(degs2)),
            round(mean(degs) / mean(degs2)))
   }
