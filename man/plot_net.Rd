@@ -30,14 +30,14 @@ plot_net(
 
 \item{extract_lcc}{Extract largest connected component or not}
 
-\item{heavy_edge_deg_perc}{degree percentile threshold..}
+\item{heavy_edge_deg_perc}{Degree percentile threshold}
 
 \item{coord}{Optional starting positions for the vertices.
 If this argument is not NULL then it should be an appropriate matrix of starting coordinates.}
 
 \item{vsize_func}{function to determine the size of node size}
 
-\item{vertex_border}{whether to show the border of vertex or not.}
+\item{vertex_border}{whether to show the border of vertex or not}
 
 \item{niter}{number of iteration for FR layout computation}
 
