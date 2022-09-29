@@ -36,7 +36,7 @@ We mostly follow the notation of  @jin2019optimal with some minor deviations (e.
 \begin{align*}
 \ex[A_{ij} \mid \theta, \pi] = \theta_i \theta_j \,\pi_i^T P \pi_j, \quad i <j, \quad  \pi_i \sim F
 \end{align*}
-where $\pi_i$ is a random element of $[0,1]^K$. In the special case of the DCSBM, we have $\pi_i = e_{z_i}$ where $z_i$ is a random label in $[K]$ and $e_k$ is the $k$th basis vector of $\reals^K$. This special case is what we consider here. For identifiability, it is assumed that $\|P \|_\infty = \max_{k\ell} |P_{k\ell}|= 1$. They also let 
+where $\pi_i$ is a random element of $[0,1]^K$. In the special case of the DCSBM, we have $\pi_i = e_{z_i}$ where $z_i$ is a random label in $[K]$ and $e_k$ is the $k$th basis vector of $\reals^K$. This special case is what we consider here. For identifibaility, it is assumed that $\|P \|_\infty = \max_{k\ell} |P_{k\ell}|= 1$. They also let 
 $$h = \ex[\pi_i]$$
 denote the class prior.
 
@@ -176,7 +176,7 @@ We can now simulate the ROC:
 roc_res = nett::simulate_roc(apply_methods,
                        gen_null_data = gen_null_data,
                        gen_alt_data = gen_alt_data,
-                       nruns = 100, core_count = 2) 
+                       nruns = 100, core_count = 3) 
 nett::printf('time = %3.3f', roc_res$elapsed_time)
 
 
@@ -202,11 +202,11 @@ The setup we have considered is quite difficult with oir = $0.15$ and $\lambda =
 ## Comments
 
 Theorem 3.2 of @jin2019optimal states that under the condition that $\norm{\theta}_\infty \lesssim 1$ and $\min_k h_k \gtrsim 1$ if 
-$$\norm{\theta}\cdot |\mu_2(P)| \to 0, $$ the two hypotheses are indistinguishable (in the sense that their $\chi^2$-distance goes to zero). Here $\mu_2(P)$ is the 2nd largest eigenvalue of $P$ in magnitude. In our seteup, $\mu_2(P) \asymp 1$. So the condition is essentially $\norm{\theta} \to 0$.
+$$\norm{\theta}\cdot |\mu_2(P)| \to 0, $$ the two hypotheses are indistinguisiable (in the sense that their $\chi^2$-distance goes to zero). Here $\mu_2(P)$ is the 2nd largest eigenvalue of $P$ in magnitude. In our seteup, $\mu_2(P) \asymp 1$. So the condition is essentially $\norm{\theta} \to 0$.
 
 Note that the expected average degree of the null model is 
-$$\lambda \sim \frac{\norm{\theta}_1^2}{n}.$$
-We have $\norm{\theta}_2 \ge \frac{\norm{\theta}_1}{\sqrt n}$, hence, in the worst case $\norm{\theta}_2 = \frac{\norm{\theta}_1}{\sqrt n} \asymp \sqrt{\lambda}$ and the condition is equivalent to $\sqrt{\lambda} \to 0$, that is, the expected average degree $\lambda$ vanishes asympototically. It is quite reasonable that most methods would fail when $\lambda \to 0$. 
+  $$\lambda \sim \frac{\norm{\theta}_1^2}{n}.$$
+We have $\norm{\theta}_2 \ge \frac{\norm{\theta}_1}{\sqrt n}$, hence, in the wrost case $\norm{\theta}_2 = \frac{\norm{\theta}_1}{\sqrt n} \asymp \sqrt{\lambda}$ and the condition is equivalent to $\sqrt{\lambda} \to 0$, that is, the expected average degree $\lambda$ vanishes asympototically. It is quite reasolable that most methods would fail when $\lambda \to 0$. 
 
 In all other cases, the situation is better. In particular, the above experiment shows that even for a sufficiently small $\lambda = 5$ and a fairly large $n = 2000$, NAC tests can still be perfect for this problem.
 

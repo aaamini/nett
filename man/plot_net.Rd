@@ -17,7 +17,6 @@ plot_net(
   vertex_alpha = 0.4,
   remove_loops = T,
   make_simple = F,
-  show_legend = F,
   ...
 )
 }
@@ -30,7 +29,7 @@ plot_net(
 
 \item{extract_lcc}{Extract largest connected component or not}
 
-\item{heavy_edge_deg_perc}{Degree percentile threshold}
+\item{heavy_edge_deg_perc}{Degree percentile threshold for determining heavy edges}
 
 \item{coord}{Optional starting positions for the vertices.
 If this argument is not NULL then it should be an appropriate matrix of starting coordinates.}
@@ -47,9 +46,9 @@ If this argument is not NULL then it should be an appropriate matrix of starting
 
 \item{make_simple}{whether to simplify edge weight calculation}
 
-\item{show_legend}{whether to show plot legend}
-
 \item{...}{other settings}
+
+\item{show_legend}{whether to show plot legend}
 }
 \description{
 Plot a network using degree-modulated node sizes, community colors and other enhancements

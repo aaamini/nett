@@ -5,7 +5,7 @@
 #' @param community community assignment; vector of node labels
 #' @param color_map color palette for clusters in 'gr'
 #' @param extract_lcc Extract largest connected component or not
-#' @param heavy_edge_deg_perc Degree percentile threshold
+#' @param heavy_edge_deg_perc Degree percentile threshold for determining heavy edges
 #' @param coord Optional starting positions for the vertices.
 #' If this argument is not NULL then it should be an appropriate matrix of starting coordinates.
 #' @param vsize_func function to determine the size of node size
@@ -14,7 +14,6 @@
 #' @param vertex_alpha factor modifying the opacity alpha of vertex; typically in \[0,1\]
 #' @param remove_loops whether to remove loops in the network
 #' @param make_simple whether to simplify edge weight calculation
-#' @param show_legend whether to show plot legend
 #' @param ... other settings
 #' @import grDevices
 #' @import graphics
@@ -30,8 +29,7 @@ plot_net = function(gr,
                     niter = 1000, # number of iteration for FR layout computation
                     vertex_alpha = 0.4,
                     remove_loops = T,
-                    make_simple = F,
-                    show_legend = F, ...) {
+                    make_simple = F, ...) {
 
   check_pkg_and_stop("igraph", "plot_net")
 
@@ -79,8 +77,6 @@ plot_net = function(gr,
     }
   }
 
-
-
   if (is.null(coord)) {
     coord <- igraph::layout_with_fr(gr, niter = niter)
   }
@@ -95,11 +91,6 @@ plot_net = function(gr,
        vertex.label.color = "black",
        vertex.frame.color = ifelse(vertex_border, "black", NA),
        edge.arrow.size = 0.2) #, ... )
-
-  #Q: what are 'N', 'idx' and 'colors' below?
-  if (show_legend)
-    legend('topleft', legend=paste(1:N, ":", igraph::V(gr)[idx]$name),
-           pt.cex=0.5*(log(degs[idx])), cex = 0.6, col=colors, pch=20, bty="n")
 
   list(gr = gr, coord = coord)
 }
