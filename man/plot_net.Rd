@@ -47,8 +47,6 @@ If this argument is not NULL then it should be an appropriate matrix of starting
 \item{make_simple}{whether to simplify edge weight calculation}
 
 \item{...}{other settings}
-
-\item{show_legend}{whether to show plot legend}
 }
 \description{
 Plot a network using degree-modulated node sizes, community colors and other enhancements
