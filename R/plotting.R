@@ -21,7 +21,6 @@
 plot_net = function(gr,
                     community = NULL,
                     color_map = NULL,
-                    #deg_perc = 0.997,
                     extract_lcc = TRUE,
                     heavy_edge_deg_perc = 0.97,
                     coord = NULL,
@@ -83,8 +82,6 @@ plot_net = function(gr,
 
   plot(gr,
        layout = coord,
-       #vertex.color = vcolors,
-       #vertex.label = NA,
        vertex.size = vsize_func(degs),
        vertex.label.font = 1,
        vertex.label.cex = .7,
@@ -129,25 +126,6 @@ plot_deg_dist = function(gr, logx = T) {
     ggplot2::labs(x=xlabel, y="Density", title="Degree Distribution") +
     ggplot2::theme_bw() +
     ggplot2::theme(panel.border = ggplot2::element_blank())
-    # ggplot2::scale_y_continuous(expand=c(0,0), trans="sqrt") +
-    # ggplot2::scale_x_continuous(trans='log10') +
-    # ggplot2::labs(x="Degree (log scale)", y="Density (sqrt scale)", title="Degree Distribution") +
 }
-
-# hist(theta)
-# lambda = 20
-# b =  lambda / (n*(mean(theta)^2))
-# dd = rpois(n, b*theta*sum(theta))
-# summary(dd)
-# max(dd)
-# (hcount = hist(dd, seq(-0.5, max(dd)+0.5, by=1))$counts)
-# ggplot2::ggplot(data.frame(x = 0:max(dd), y = hcount)) +
-#   ggplot2::geom_segment(ggplot2::aes(x, y, xend=x, yend=0), color="slateblue") +
-#   ggplot2::scale_x_continuous(trans="identity") +
-#   ggplot2::labs(x="Degree", y="Density", title="Degree Distribution") +
-#   ggplot2::theme_bw() +
-#   ggplot2::theme(panel.border = ggplot2::element_blank())
-#
-# summary(dd)
 
 
