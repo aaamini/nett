@@ -29,7 +29,7 @@ snac_resample = function(A, nrep = 20, Kmin = 1, Kmax = 13,
             data.frame(
                 itr = rep(t, length(Ks)),
                 K = Ks,
-                value = sapply(Ks, function(k) snac_test(A, k, labels[ , k-Kmin+1])$stat)
+                value = sapply(Ks, function(k) nett::snac_test(A, k, labels[ , k-Kmin+1])$stat)
             )
         })
 
