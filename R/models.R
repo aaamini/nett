@@ -113,22 +113,21 @@ gkern = function(x,y) exp(-sum((x-y)^2))
 
 #' Sample from a DCLVM
 #'
-#' #'A DCLVM with \eqn{K} clusters has edges generated as
+#' A DCLVM with \eqn{K} clusters has edges generated as
 #' \deqn{
-#'  	\ex[\,A_{ij} \mid x, \theta\,] \;\propto\; \theta_i \theta_j e^{- \norm{x_i - x_j}^2}
-#'  	\quad  \text{and} \quad x_i = 2 e_{z_i} + w_i
+#'  	 E[\,A_{ij} \mid x, \theta\,] \;\propto\; \theta_i \theta_j e^{- \|x_i - x_j\|^2}
 #' }
-#' where \eqn{e_k} is the \eqn{k}th basis vector of \eqn{\reals^d}, \eqn{w_i \sim N(0, I_d)},
+#' where \eqn{x_i = 2 e_{z_i} + w_i}, \eqn{e_k} is the \eqn{k}th basis vector of \eqn{R^d}, \eqn{w_i \sim N(0, I_d)},
 #' and \eqn{\{z_i\} \subset [K]^n}. The proportionality constant is chosen such
 #' that the overall network has expected average degree \eqn{\lambda}.
-#' To calculate the scaling constant, we approximate \eqn{E[e^{- \norm{x_i - x_j}^2]}}
-#' for \eqn{i \neq j} by generating random 'npairs' \eqn{\{z_i, z_j\}} and average over them.
+#' To calculate the scaling constant, we approximate \eqn{E[e^{- \|x_i - x_j\|^2}]}
+#' for \eqn{i \neq j} by generating random `npairs` \eqn{\{z_i, z_j\}} and average over them.
 #'
 #' Sample form a degree-corrected latent variable model with Gaussian kernel
 #' @param z a vector of cluster labels
 #' @param lambda desired average degree of the network
 #' @param theta degree parameter
-#' @param npairs number of pairs of {'z_i', 'z_j'}
+#' @param npairs number of pairs of \eqn{\{z_i, z_j\}}
 #' @export
 sample_dclvm = function(z, lambda, theta, npairs = NULL) {
   n = nrow(z)

@@ -14,10 +14,12 @@ globalVariables(c("K", "value", "fxx"))
 #' @return A data frame with columns specifying repetition cycles,
 #' number of community numbers and the value of SNAC+ statistics
 #' @export
-snac_resample = function(A, nrep = 20, Kmin = 1, Kmax = 13, ncores = 10, seed = 1234) {
+snac_resample = function(A, nrep = 20, Kmin = 1, Kmax = 13,
+                         ncores =  1, seed = 1234) {
     Ks = Kmin:Kmax
 
-    cl <- parallel::makeForkCluster(ncores)
+    # cl <- parallel::makeForkCluster(ncores)
+    cl <- parallel::makeCluster(ncores)
     doParallel::registerDoParallel(cl)
     doRNG::registerDoRNG(seed)
 

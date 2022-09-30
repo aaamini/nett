@@ -12,6 +12,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
 ```{r setup}
@@ -39,7 +40,7 @@ mean(rowSums(A))
 ```
 Compute and plot the community profile based on SNAC+ test statistic:
 ```{r}
-tstat = snac_resample(A, nrep = 10, ncores = 2)
+tstat = snac_resample(A, nrep = 10, ncores = 1)
 plot_smooth_profile(tstat, "A DCPP network")
 ```
 

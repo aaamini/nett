@@ -120,7 +120,7 @@ is a random element of <span class="math inline">\([0,1]^K\)</span>. In
 the special case of the DCSBM, we have <span class="math inline">\(\pi_i
 = e_{z_i}\)</span> where <span class="math inline">\(z_i\)</span> is a
 random label in <span class="math inline">\([K]\)</span> and <span class="math inline">\(e_k\)</span> is the <span class="math inline">\(k\)</span>th basis vector of <span class="math inline">\(\mathbb R^K\)</span>. This special case is what we
-consider here. For identifiability, it is assumed that <span class="math inline">\(\|P \|_\infty = \max_{k\ell} |P_{k\ell}|=
+consider here. For identifibaility, it is assumed that <span class="math inline">\(\|P \|_\infty = \max_{k\ell} |P_{k\ell}|=
 1\)</span>. They also let <span class="math display">\[h =
 \mathop{\mathrm{\mathbb E}}[\pi_i]\]</span> denote the class prior.</p>
 <p>For <strong>model 1</strong>, we have a DCSBM with <span class="math inline">\(K=1\)</span> and node connection propensity
@@ -295,9 +295,9 @@ hypotheses:</p>
 <span><span class="va">roc_res</span> <span class="op">=</span> <span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/simulate_roc.html">simulate_roc</a></span><span class="op">(</span><span class="va">apply_methods</span>,</span>
 <span>                       gen_null_data <span class="op">=</span> <span class="va">gen_null_data</span>,</span>
 <span>                       gen_alt_data <span class="op">=</span> <span class="va">gen_alt_data</span>,</span>
-<span>                       nruns <span class="op">=</span> <span class="fl">100</span>, core_count <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> </span>
+<span>                       nruns <span class="op">=</span> <span class="fl">100</span>, core_count <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </span>
 <span><span class="fu">nett</span><span class="fu">::</span><span class="fu"><a href="../reference/printf.html">printf</a></span><span class="op">(</span><span class="st">'time = %3.3f'</span>, <span class="va">roc_res</span><span class="op">$</span><span class="va">elapsed_time</span><span class="op">)</span></span>
-<span><span class="co">#&gt; time = 44.867</span></span></code></pre></div>
+<span><span class="co">#&gt; time = 85.269</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="results">Results<a class="anchor" aria-label="anchor" href="#results"></a>
 </h3>
@@ -326,17 +326,17 @@ all are perfect.</li>
 </h3>
 <p>Theorem 3.2 of <span class="citation">Jin, Ke, and Luo (<a href="#ref-jin2019optimal" role="doc-biblioref">2019</a>)</span> states
 that under the condition that <span class="math inline">\(\|\theta\|_\infty \lesssim 1\)</span> and <span class="math inline">\(\min_k h_k \gtrsim 1\)</span> if <span class="math display">\[\|\theta\|\cdot |\mu_2(P)| \to 0, \]</span> the
-two hypotheses are indistinguishable (in the sense that their <span class="math inline">\(\chi^2\)</span>-distance goes to zero). Here <span class="math inline">\(\mu_2(P)\)</span> is the 2nd largest eigenvalue of
+two hypotheses are indistinguisiable (in the sense that their <span class="math inline">\(\chi^2\)</span>-distance goes to zero). Here <span class="math inline">\(\mu_2(P)\)</span> is the 2nd largest eigenvalue of
 <span class="math inline">\(P\)</span> in magnitude. In our seteup,
 <span class="math inline">\(\mu_2(P) \asymp 1\)</span>. So the condition
 is essentially <span class="math inline">\(\|\theta\| \to
 0\)</span>.</p>
 <p>Note that the expected average degree of the null model is <span class="math display">\[\lambda \sim \frac{\|\theta\|_1^2}{n}.\]</span>
 We have <span class="math inline">\(\|\theta\|_2 \ge
-\frac{\|\theta\|_1}{\sqrt n}\)</span>, hence, in the worst case <span class="math inline">\(\|\theta\|_2 = \frac{\|\theta\|_1}{\sqrt n} \asymp
+\frac{\|\theta\|_1}{\sqrt n}\)</span>, hence, in the wrost case <span class="math inline">\(\|\theta\|_2 = \frac{\|\theta\|_1}{\sqrt n} \asymp
 \sqrt{\lambda}\)</span> and the condition is equivalent to <span class="math inline">\(\sqrt{\lambda} \to 0\)</span>, that is, the
 expected average degree <span class="math inline">\(\lambda\)</span>
-vanishes asympototically. It is quite reasonable that most methods would
+vanishes asympototically. It is quite reasolable that most methods would
 fail when <span class="math inline">\(\lambda \to 0\)</span>.</p>
 <p>In all other cases, the situation is better. In particular, the above
 experiment shows that even for a sufficiently small <span class="math inline">\(\lambda = 5\)</span> and a fairly large <span class="math inline">\(n = 2000\)</span>, NAC tests can still be perfect

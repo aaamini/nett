@@ -15,6 +15,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
 <!-- ```{r setup} -->
@@ -176,7 +177,7 @@ We can now simulate the ROC:
 roc_res = nett::simulate_roc(apply_methods,
                        gen_null_data = gen_null_data,
                        gen_alt_data = gen_alt_data,
-                       nruns = 100, core_count = 2) 
+                       nruns = 100, core_count = 1) 
 nett::printf('time = %3.3f', roc_res$elapsed_time)
 
 
