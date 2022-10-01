@@ -23,13 +23,13 @@ snac_resample = function(A, nrep = 20, Kmin = 1, Kmax = 13,
     doParallel::registerDoParallel(cl)
     doRNG::registerDoRNG(seed)
 
-    labels = sapply(Kmin:(Kmax+1), function(k) nett::spec_clust(A, k))
+    labels = sapply(Kmin:(Kmax+1), function(k) spec_clust(A, k))
     Tstat = do.call(rbind,
         foreach::foreach(t = 1:nrep) %dopar% {
             data.frame(
                 itr = rep(t, length(Ks)),
                 K = Ks,
-                value = sapply(Ks, function(k) nett::snac_test(A, k, labels[ , k-Kmin+1])$stat)
+                value = sapply(Ks, function(k) snac_test(A, k, labels[ , k-Kmin+1])$stat)
             )
         })
 
