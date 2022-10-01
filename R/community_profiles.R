@@ -15,26 +15,45 @@ globalVariables(c("K", "value", "fxx"))
 #' number of community numbers and the value of SNAC+ statistics
 #' @export
 snac_resample = function(A, nrep = 20, Kmin = 1, Kmax = 13,
-                         ncores =  1, seed = 1234) {
+                         ncores =  parallel::detectCores()-1,
+                         seed = 1234) {
     Ks = Kmin:Kmax
 
+    # parallel version does not work under windows
     # cl <- parallel::makeForkCluster(ncores)
-    cl <- parallel::makeCluster(ncores)
-    doParallel::registerDoParallel(cl)
-    doRNG::registerDoRNG(seed)
+    # cl <- parallel::makeCluster(ncores)
+    # doParallel::registerDoParallel(cl)
+    # doRNG::registerDoRNG(seed)
+    # labels = sapply(Kmin:(Kmax+1), function(k) spec_clust(A, k))
+    # Tstat = do.call(rbind,
+    #     foreach::foreach(t = 1:nrep) %dopar% {
+    #         data.frame(
+    #             itr = rep(t, length(Ks)),
+    #             K = Ks,
+    #             value = sapply(Ks, function(k) snac_test(A, k, labels[ , k-Kmin+1])$stat)
+    #         )
+    #     })
+    #
+    # # Tstat = bind_rows(Tstat)
+    # parallel::stopCluster(cl)
 
     labels = sapply(Kmin:(Kmax+1), function(k) spec_clust(A, k))
-    Tstat = do.call(rbind,
-        foreach::foreach(t = 1:nrep) %dopar% {
-            data.frame(
-                itr = rep(t, length(Ks)),
-                K = Ks,
-                value = sapply(Ks, function(k) snac_test(A, k, labels[ , k-Kmin+1])$stat)
-            )
-        })
+    Tstat = do.call(rbind, parallel::mclapply(1:nrep,
+                                              function(t){
+                                                data.frame(
+                                                  itr = rep(t, length(Ks)),
+                                                  K = Ks,
+                                                  value = sapply(Ks, function(k) snac_test(A, k, labels[ , k-Kmin+1])$stat)
+                                                )
+                                              },
+                                              mc.cores = ncores
+                                              )
+                      )
 
     # Tstat = bind_rows(Tstat)
-    parallel::stopCluster(cl)
+    # parallel::stopCluster(cl)
+
+
     Tstat
 }
 

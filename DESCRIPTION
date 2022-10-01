@@ -37,8 +37,6 @@ Imports:
     Rcpp,
     Matrix,
     foreach, 
-    doParallel, 
-    doRNG,
     methods,
     stats,
     grDevices, 

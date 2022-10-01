@@ -4,7 +4,14 @@
 \alias{snac_resample}
 \title{Resampled SNAC+}
 \usage{
-snac_resample(A, nrep = 20, Kmin = 1, Kmax = 13, ncores = 1, seed = 1234)
+snac_resample(
+  A,
+  nrep = 20,
+  Kmin = 1,
+  Kmax = 13,
+  ncores = parallel::detectCores() - 1,
+  seed = 1234
+)
 }
 \arguments{
 \item{A}{adjacency matrix}
