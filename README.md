@@ -1,12 +1,6 @@
 # nett 
 
-`nett` is an R package for the analysis of network data with a focus on **community detection** and associated models.
-
-Check out the [articles](https://aaamini.github.io/nett) for some examples of how to use the package.
-
-The package is under development and hopefully more features will be added as time goes by.
-
-Some of the implemented functionality are follows:
+`nett` is an R package for the analysis of network data with a focus on **community detection** and implements multiple methods for hypothesis testing. It includes model selection and goodness-of-fit tests of SBM/DCSBM to network data, which are useful in network statistical analysis. Some of the implemented functionality are follows:
 - Spectral clustering with regularization
 - Conditional pseudo-likelihood for community detection ([Amini, Chen, Bickel and Levina](https://projecteuclid.org/euclid.aos/1382547514)).
 - Spectral goodness-of-test for SBM and DCSBM (inspired by Bickel and Sarkar, and [Lei](https://projecteuclid.org/euclid.aos/1452004791)'s work). 
@@ -14,10 +8,10 @@ Some of the implemented functionality are follows:
 - Likelihood computations for SBM and DCSBM.
 - Network Adjusted Chi-square test for SBM and DCSBM ([Zhang and Amini](https://arxiv.org/abs/2012.15047)).
 - Bethe-Hessian Selection for DCSBM (inspired by [Le and Levina](https://arxiv.org/abs/1507.00827)'s work).
-- ...
 
 Most of the computations haven been adapted to Poisson models to make them fast and scalable. 
 
+Check out the [articles](https://aaamini.github.io/nett/) for some examples of how to use the package.
 
 ## Installation
 To install, you can use the following command
