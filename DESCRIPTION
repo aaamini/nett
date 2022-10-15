@@ -11,7 +11,16 @@ Authors@R:
       person(given = "Linfan",
            family = "Zhang",
            role = c("aut")))
-Description: Functions for community detection, random network generation, etc.
+Description: Features tools for the network data analysis and community detection. 
+    Provides multiple methods for fitting, model selection and goodness-of-fit testing in degree-corrected stochastic blocks models. 
+    Most of the computations are fast and scalable for sparse networks, esp. for Poisson versions of the models.
+    Implements the following: 
+    Amini, Chen, Bickel and Levina (2013) <doi:10.1214/13-AOS1138>
+    Bickel and Sarkar (2015) <doi:10.1111/rssb.12117>
+    Lei (2016) <doi:10.1214/15-AOS1370>
+    Wang and Bickel (2017) <doi:10.1214/16-AOS1457>
+    Zhang and Amini (2020) <arXiv:2012.15047>
+    Le and Levina (2022) <doi:10.1214/21-EJS1971>
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
