@@ -15,7 +15,7 @@
 #' @export
 spec_clust <- function(A, K, type="lap",
                        tau = 0.25, nstart = 20, niter = 10,
-                       ignore_first_col = F) {
+                       ignore_first_col = FALSE) {
   # # A should be a sparse matrix
   #
   # if (ignore_first_col && K > 1) {
@@ -60,9 +60,9 @@ spec_clust <- function(A, K, type="lap",
   #   }
   #   # eig_res <- arpack(function(x, extra=NULL) {as.vector(as.matrix(L) %*% x)},
   #   #                   options=list(n=dim(A)[1], nev=K, ncv=K+3, which="LM", maxiter=10000),
-  #   #                   sym=T, complex=F)
+  #   #                   sym=TRUE, complex=FALSE)
   #   # require(RSpectra)
-  #   # eig_res <- igraph::arpack(Ax_fun, sym = T, options = list(n=dim(A)[1], nev=K, ncv=K+3, which="LM", maxiter=10000))
+  #   # eig_res <- igraph::arpack(Ax_fun, sym = TRUE, options = list(n=dim(A)[1], nev=K, ncv=K+3, which="LM", maxiter=10000))
   #   eig_res <- RSpectra::eigs_sym(Ax_fun, K, n = n)
   #   U <- as.matrix(eig_res$vectors[ , Uidx])
   #   # U <- as.matrix(eig_res$vectors)
@@ -95,7 +95,7 @@ spec_clust <- function(A, K, type="lap",
 #' @keywords net_repr
 #' @export
 spec_repr = function(A, K, type="lap",
-                     tau = 0.25,  ignore_first_col = F) {
+                     tau = 0.25,  ignore_first_col = FALSE) {
   # A should be a sparse matrix
 
   if (ignore_first_col && K > 1) {
@@ -175,7 +175,7 @@ spec_repr = function(A, K, type="lap",
 #' Lei, Jing, Ann. Statist. 44 (2016), no. 1, 401--424. doi:10.1214/15-AOS1370.
 #'
 #' @export
-adj_spec_test <- function(A, K, z = NULL, DC = T, theta = NULL, B = NULL,
+adj_spec_test <- function(A, K, z = NULL, DC = TRUE, theta = NULL, B = NULL,
                           cluster_fct = spec_clust, ...) {
   if (is.null(z)) {
     z <- cluster_fct(A, K, ...)
@@ -216,7 +216,7 @@ adj_spec_test <- function(A, K, z = NULL, DC = T, theta = NULL, B = NULL,
   A_over_stdA <- Matrix::sparseMatrix(c(ii, n), c(jj, n), x = c(xxnew, 0))
 
   # compute Lx = (A/sqrt(P))*x - sqrt(P)*x
-  # note that sqrt(P) = sqrt(\Theta) Z sqrt(B) Z^T sqrt(\Theta)
+  # note that sqrt(P) = sqrt(\Theta) Z sqrt(B) Z^TRUE sqrt(\Theta)
   # if (version == 1) {
   Z <- label_vec2mat(z)
   Bstd <- sqrt(B)

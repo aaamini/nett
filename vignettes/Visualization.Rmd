@@ -42,9 +42,13 @@ A = sample_dcsbm(z, B, theta)
 
 We can plot the network using community labels $z$ to color the nodes:
 ```{r}
+original = par("mar")
+
 gr = igraph::graph_from_adjacency_matrix(A, "undirected") # convert to igraph object 
 par(mar = c(0,0,0,0))
 out = nett::plot_net(gr, community = z)
+
+par(mar = original)
 ```
 
 We can also plot the degree distribution:
@@ -73,9 +77,13 @@ A = sample_dclvm(x, lambda, theta)
 
 Visualizing the network and its degree distribution goes as before:
 ```{r}
+original = par("mar")
+
 gr = igraph::graph_from_adjacency_matrix(A, "undirected") # convert to igraph object 
 par(mar = c(0,0,0,0))
 out = nett::plot_net(gr, community = labels)
+
+par(mar = original)
 ```
 
 ```{r}
@@ -88,8 +96,12 @@ summary(igraph::degree(out$gr))
 Let us compare with *Political Blogs* network accessible via `polblogs`.
 
 ```{r}
+original = par("mar")
+
 par(mar = c(0,0,0,0))
 out = nett::plot_net(polblogs, community = igraph::V(polblogs)$community)
+
+par(mar = original)
 ```
 
 ```{r}

@@ -4,7 +4,7 @@ globalVariables(c("method", "FPR", "TPR",
 
 
 # function to compute the rejection rates
-get_reject_freq <- function(Tstat, th_vec, twosided = T) {
+get_reject_freq <- function(Tstat, th_vec, twosided = TRUE) {
   # if (twosided) cat('twosided\n') else cat('onesided\n')
   # Tstat is a vector, th could be a vector of thresholds threshold
   if (twosided) Tstat <- abs(Tstat)
@@ -12,8 +12,8 @@ get_reject_freq <- function(Tstat, th_vec, twosided = T) {
 }
 
 # function to compute the ROC
-get_roc <- function(T0, T1, twosided = T) {
-  T0_sorted <- sort(unique(T0), decreasing = T)
+get_roc <- function(T0, T1, twosided = TRUE) {
+  T0_sorted <- sort(unique(T0), decreasing = TRUE)
   data.frame(FPR = get_reject_freq(T0, T0_sorted, twosided = twosided),
              TPR = get_reject_freq(T1, T0_sorted, twosided = twosided))
 }
@@ -94,6 +94,7 @@ simulate_roc = function(apply_methods, gen_null_data, gen_alt_data,
 #' @param roc_results data frame `roc` from the output list of [simulate_roc]
 #' @param method_names a list of method names
 #' @param font_size font size of the plot
+#' @return Roc plot based on results from [simulate_roc]
 #' @keywords plotting
 #' @export
 plot_roc <- function(roc_results, method_names=NULL, font_size = 16) {

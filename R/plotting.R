@@ -15,6 +15,7 @@
 #' @param remove_loops whether to remove loops in the network
 #' @param make_simple whether to simplify edge weight calculation
 #' @param ... other settings
+#' @return A network plot
 #' @import grDevices
 #' @import graphics
 #' @export
@@ -24,15 +25,15 @@ plot_net = function(gr,
                     extract_lcc = TRUE,
                     heavy_edge_deg_perc = 0.97,
                     coord = NULL,
-                    vsize_func = function(deg) log(deg+3)*1, vertex_border = F,
+                    vsize_func = function(deg) log(deg+3)*1, vertex_border = FALSE,
                     niter = 1000, # number of iteration for FR layout computation
                     vertex_alpha = 0.4,
-                    remove_loops = T,
-                    make_simple = F, ...) {
+                    remove_loops = TRUE,
+                    make_simple = FALSE, ...) {
 
   check_pkg_and_stop("igraph", "plot_net")
 
-  gr = igraph::simplify(gr, remove.multiple = F, remove.loops = TRUE)
+  gr = igraph::simplify(gr, remove.multiple = FALSE, remove.loops = TRUE)
   igraph::V(gr)$label = NA
 
   if (is.null(community)) {
@@ -55,7 +56,7 @@ plot_net = function(gr,
   degs = igraph::degree(gr)
 
   heavy_edge_thresh = quantile(degs, heavy_edge_deg_perc)
-  e_wei = apply(igraph::as_edgelist(gr, names=F), 1, function(x) min(degs[x[1]], degs[x[2]]))
+  e_wei = apply(igraph::as_edgelist(gr, names=FALSE), 1, function(x) min(degs[x[1]], degs[x[2]]))
   eidx = e_wei > heavy_edge_thresh
 
   #arrow_size = rep(0.1, ecount(gr))
@@ -101,7 +102,7 @@ plot_net = function(gr,
 #' @param logx whether the degree is in log scale.
 #' @return Histogram of the degree of 'gr'.
 #' @export
-plot_deg_dist = function(gr, logx = T) {
+plot_deg_dist = function(gr, logx = TRUE) {
   check_pkg_and_stop("igraph", "plot_deg_dist")
 
   deg_dist = igraph::degree_distribution(gr) # first element is the density of 0-degree nodes

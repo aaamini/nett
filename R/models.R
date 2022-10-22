@@ -32,7 +32,7 @@ get_dcsbm_exav_deg <- function(n, pri, B, ex_theta = 1) {
 #' @return The connectivity matrix B of the desired DCSBM.
 #' @keywords models
 #' @export
-pp_conn <- function(n, oir, lambda, pri, theta = rep(1,n), normalize_theta = F, d = rep(1, length(pri))) {
+pp_conn <- function(n, oir, lambda, pri, theta = rep(1,n), normalize_theta = FALSE, d = rep(1, length(pri))) {
   K = length(pri)
   if (sum(pri) != 1)  pri = pri/sum(pri)
   #if (length(theta) == 1) theta = rep(theta,n)
@@ -101,10 +101,10 @@ gen_rand_conn = function(n, K, lambda, gamma = 0.3, pri = rep(1,K)/K, theta = re
 #' @seealso [sample_dcsbm], [sample_tdcsbm]
 #' @export
 sample_dcpp <- function(n, lambda, K, oir, theta = NULL,
-                       pri = rep(1,K)/K, normalize_theta = F) {
+                       pri = rep(1,K)/K, normalize_theta = FALSE) {
   if (is.null(theta)) theta = EnvStats::rpareto(n, 2/3, 3)
   out = pp_conn(n, oir, lambda, pri, theta, normalize_theta = normalize_theta)
-  z = sample(K, n, replace=T, prob=pri)
+  z = sample(K, n, replace=TRUE, prob=pri)
 
   list(adj = sample_dcsbm(z, out$B, theta = out$theta), labels = z, B = out$B, theta=out$theta)
 }
@@ -128,6 +128,7 @@ gkern = function(x,y) exp(-sum((x-y)^2))
 #' @param lambda desired average degree of the network
 #' @param theta degree parameter
 #' @param npairs number of pairs of \eqn{\{z_i, z_j\}}
+#' @return Adjacency matrix of DCLVM
 #' @export
 sample_dclvm = function(z, lambda, theta, npairs = NULL) {
   n = nrow(z)
@@ -137,7 +138,7 @@ sample_dclvm = function(z, lambda, theta, npairs = NULL) {
 
   # Approximate computation of E[K(z_i,z_j)] for i \neq j assuming {z_i} are i.i.d.
   # Generate random npairs {z_i, z_j} and average over them
-  pidx = unique(matrix(sample(n, 2*npairs, T), ncol=2))
+  pidx = unique(matrix(sample(n, 2*npairs, TRUE), ncol=2))
   # pidx[apply(pidx, 1, function(x) x[1] != x[2]),]
   ex_kern = mean( sapply(1:nrow(pidx), function(i) gkern(z[pidx[i,1],], z[pidx[i,2],])) )
 
@@ -210,7 +211,7 @@ fast_sbm.internal <- function(csizes, Pmat) {
   # store the graph on a sparse matrix
   # generate each block
 
-  sample_block <- function(nr, p, nc = nr, sym=T) {
+  sample_block <- function(nr, p, nc = nr, sym=TRUE) {
     # nr is number of rows
     # nc is number of columns
     if (p == 0) return(cbind(NULL,NULL))
@@ -233,7 +234,7 @@ fast_sbm.internal <- function(csizes, Pmat) {
   K = length(csizes)
   if (K == 1) {
     if (length(Pmat) != 1) stop("Pmat should be scalar for ER graphs.")
-    subs = sample_block(csizes, Pmat, sym=T)
+    subs = sample_block(csizes, Pmat, sym=TRUE)
     n = csizes
   } else {
     if (nrow(Pmat) != K) stop("number of elements of csizes should be the same as nrow of Pmat.")
@@ -241,9 +242,9 @@ fast_sbm.internal <- function(csizes, Pmat) {
     for (i in 1 : K)
       for (j in i : K) {
         if (i == j) {
-          tmp = sample_block(csizes[i], Pmat[i, i], sym=T)
+          tmp = sample_block(csizes[i], Pmat[i, i], sym=TRUE)
         } else {
-          tmp = sample_block(csizes[i], Pmat[i, j], csizes[j], sym=F)
+          tmp = sample_block(csizes[i], Pmat[i, j], csizes[j], sym=FALSE)
         }
         if (i > 1) {
           tmp[, 1] = tmp[, 1] + cumcsizes[i - 1]
@@ -276,7 +277,7 @@ fast_sbm.internal <- function(csizes, Pmat) {
 
 
 quickDCSBM <- function(n, lambda, K, oir, theta = NULL,
-                       pri = rep(1,K)/K, normalize_theta = F) {
+                       pri = rep(1,K)/K, normalize_theta = FALSE) {
   # pri <- (1:K)/K
   # B0 = oir + diag(rep(1 - oir, K))
   # # B <- pp_conn(n, oir, lambda, pr)
@@ -291,7 +292,7 @@ quickDCSBM <- function(n, lambda, K, oir, theta = NULL,
   #   warning("Probabilities truncated at 1.")
   #   B = pmin(B,1)
   # }
-  z <- sample(K, n, replace=T, prob=pri)
+  z <- sample(K, n, replace=TRUE, prob=pri)
 
   list(adj=sample_tdcsbm(z, out$B, theta = out$theta), labels = z, B = out$B, theta=out$theta)
 }
@@ -412,10 +413,10 @@ Poi_DCSBM <- function(z, B, theta){
     for (j in i : K) {
       if (i == j) {
         A[indices[i,1]:indices[i,2], indices[i,1]:indices[i,2]] =
-          sample_block(B[i, i], theta[indices[i,1]:indices[i,2]], sym=T)
+          sample_block(B[i, i], theta[indices[i,1]:indices[i,2]], sym=TRUE)
       } else {
         A[indices[i,1]:indices[i,2], indices[j,1]:indices[j,2]] =
-          sample_block(B[i, j], theta[indices[i,1]:indices[i,2]], theta[indices[j,1]:indices[j,2]], sym=F)
+          sample_block(B[i, j], theta[indices[i,1]:indices[i,2]], theta[indices[j,1]:indices[j,2]], sym=FALSE)
       }
     }
   }
@@ -465,10 +466,10 @@ Poi_SBM <- function(z, B){
     for (j in i : K) {
       if (i == j) {
         A[indices[i,1]:indices[i,2], indices[i,1]:indices[i,2]] =
-          sample_block(B[i, i], nr = csizes[i], sym=T)
+          sample_block(B[i, i], nr = csizes[i], sym=TRUE)
       } else {
         A[indices[i,1]:indices[i,2], indices[j,1]:indices[j,2]] =
-          sample_block(B[i, j], nr = csizes[i], nc = csizes[j], sym=F)
+          sample_block(B[i, j], nr = csizes[i], nc = csizes[j], sym=FALSE)
       }
     }
   }

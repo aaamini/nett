@@ -8,7 +8,7 @@ l2_norm = function(x) sqrt(sum(x^2))
 #' sums (e.g., a doubly stochastic matrix).
 #'
 #' Computes diagonal matrices D1 and D2 to make D1*A*D2 into a matrix with
-#' given row/column sums. For a symmetric matrix `A`, one can set `sym = T` to
+#' given row/column sums. For a symmetric matrix `A`, one can set `sym = TRUE` to
 #' compute a symmetric scaling D*A*D.
 #'
 #' @param A input matrix
@@ -17,15 +17,17 @@ l2_norm = function(x) sqrt(sum(x^2))
 #' @param tol convergence tolerance
 #' @param sym whether to compute symmetric scaling D A D
 #' @param verb whether to print the current change
+#' @return Diagonal matrices D1 and D2 to make D1*A*D2 into a matrix with
+#' given row/column sums.
 #' @export
 #' @keywords utils
 sinkhorn_knopp = function(A, sums = rep(1, nrow(A)),
-                          niter = 100, tol = 1e-8, sym = F, verb = F) {
+                          niter = 100, tol = 1e-8, sym = FALSE, verb = FALSE) {
 
 
   delta = Inf
   r = c = rep(1, nrow(A))
-  converged = F
+  converged = FALSE
   t = 1
   while( t <= niter && !converged) {
     r = sums / (A %*% c)
@@ -38,7 +40,7 @@ sinkhorn_knopp = function(A, sums = rep(1, nrow(A)),
     if (sym) cnew = (cnew + r)/2
 
     delta = l2_norm(cnew-c)
-    if (delta < tol) converged = T
+    if (delta < tol) converged = TRUE
     if (verb) nett::printf("err = %3.5e\n", delta)
     c = cnew
     t = t+1
@@ -64,7 +66,7 @@ n = 5
 B = matrix(runif(n^2), nrow=n)
 A = (B + t(B))/2
 h = c(2,5,4,1,1.4)
-out = sinkhorn_knopp( A , sums=h, sym=T)
+out = sinkhorn_knopp( A , sums=h, sym=TRUE)
 out
 r = out$r
 c = out$c

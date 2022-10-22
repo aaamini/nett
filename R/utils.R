@@ -7,17 +7,19 @@
 # }
 
 #' Convert label matrix to vector
-#' @param z  a label vector with elements as integers from 1 to K
+#' @param Z  a cluster assignment matrix
+#' @return A label vector that follows the assignment matrix
 #' @export
 #' @keywords utils
-label_mat2vec <- function(z){
-  max.col(z)
+label_mat2vec <- function(Z){
+  max.col(Z)
 }
 
 #' Compute confusion matrix
 #' @param z a label vector
 #' @param y a label vector
 #' @param K number of labels in both \code{z} and \code{y}
+#' @return A `K`x`K` confusion matrix between `z` and `y`
 #' @export
 #' @keywords evaluation
 compute_confusion_matrix <- function (z, y, K=NULL) {
@@ -35,9 +37,10 @@ compute_confusion_matrix <- function (z, y, K=NULL) {
 #' @param z a label vector
 #' @param K number of labels in \code{z}
 #' @param sparse whether the output should be sparse matrix
+#' @return A cluster assignment matrix that follows from the label vector `z`
 #' @export
 #' @keywords utils
-label_vec2mat <- function(z, K=NULL, sparse=F) {
+label_vec2mat <- function(z, K=NULL, sparse=FALSE) {
   if (is.null(K)) K <- max(z)
 
   if (K==1)
@@ -52,8 +55,11 @@ label_vec2mat <- function(z, K=NULL, sparse=F) {
 }
 
 #' Compute normalized mutual information (NMI)
+#'
+#' Compute the NMI between two label vectors with the same cluster number
 #' @param z a label vector
 #' @param y a label vector
+#' @return NMI between `z` and `y`
 #' @export
 #' @keywords evaluation
 compute_mutual_info  <- function(z,y) {
@@ -79,7 +85,7 @@ compute_mutual_info  <- function(z,y) {
 
 
 ## Written by Aiyou Chen
-lin2sub <- function(index, nr, sym=F) {
+lin2sub <- function(index, nr, sym=FALSE) {
   # traslate linear index to row and column indices
   # nr is the number of rows
   # index is the linear index assuming columns are concatenated into a vector
@@ -103,6 +109,7 @@ truncate_to_ab = function(x, a, b) {
 
 #' The usual "printf" function
 #' @param ... printing object
+#' @return the value of the printing object
 #' @keywords utils
 #' @export
 printf <- function(...) cat(sprintf(...))
@@ -147,7 +154,7 @@ check_pkg_and_stop = function(pkg, func_name = NULL) {
 #' Generate a random symmetric permutation matrix (recursively)
 #'
 #' @param K size of the matrix
-#' @returns A random K x K symmetric permutation matrix
+#' @returns A random `K` x `K` symmetric permutation matrix
 #' @keywords utils
 #' @export
 rsymperm = function(K) {

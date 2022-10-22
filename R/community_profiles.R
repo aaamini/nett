@@ -100,7 +100,7 @@ fit_ss = function(x, y, xx, spar = NULL, trunc_type = "none") {
 #' @export
 plot_smooth_profile = function(
     tstat, net_name = "", trunc_type = "none",
-    spar=0.3, plot_null_spar = T,
+    spar=0.3, plot_null_spar = TRUE,
     alpha = 0.3, # transparency
     base_font_size = 12
 ) {
@@ -129,7 +129,7 @@ plot_smooth_profile = function(
         optK_label =c(optK_label, bquote(K %~~% .(ss_res2$elbow1) ~","~.(ss_res2$dip)))
     }
     p + ggplot2::annotate("text", x=Kmax-1.75, y=max(tstat$value)*c(0.95,0.9,0.85),
-                 label = optK_label, size = 5, parse =T, color = c("black", "black", color2))
+                 label = optK_label, size = 5, parse =TRUE, color = c("black", "black", color2))
 }
 
 

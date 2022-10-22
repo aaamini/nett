@@ -7,7 +7,7 @@
 #' @return An igraph object
 #' @keywords utils
 #' @export
-extract_low_deg_comp = function(g, deg_prec = 0.75, verb =F) {
+extract_low_deg_comp = function(g, deg_prec = 0.75, verb =FALSE) {
   g = extract_largest_cc(g)
   degs = igraph::degree(g)
   g2 = g %>%

@@ -80,7 +80,7 @@ estim_dcsbm <- function(A,z) {
 # TODO: extend to non-consequential labels, and automatically detect max. label
 # Likelihood computations -------------------------------------------------
 
-#' Log likelihood of a DCSBM (fast with poi = T)
+#' Log likelihood of a DCSBM (fast with poi = TRUE)
 #'
 #' Compute the log likelihood of a DCSBM, using estimated parameters
 #' B, theta based on the given label vector
@@ -100,7 +100,7 @@ estim_dcsbm <- function(A,z) {
 #' @seealso [eval_dcsbm_loglr], [eval_dcsbm_bic]
 #' @keywords estimation
 #' @export
-eval_dcsbm_like <- function(A, z, poi = T, eps = 1e-6) {
+eval_dcsbm_like <- function(A, z, poi = TRUE, eps = 1e-6) {
   Bsum = compute_block_sums(A,z)
   degs = Matrix::rowSums(A)
   total_clust_degs = Matrix::rowSums(Bsum)
@@ -123,7 +123,7 @@ eval_dcsbm_like <- function(A, z, poi = T, eps = 1e-6) {
   pp =  truncate_to_ab(theta[ix] * theta[jx] * Bsum[(zi-1)*ncol(Bsum)+zj], eps, 1-eps)
 
   if (!poi) { # Bernoulli, slow computation, high mem
-    warning('Bernoulli likelihood computation is slow. Try "poi = T" option.')
+    warning('Bernoulli likelihood computation is slow. Try "poi = TRUE" option.')
     term1 = sum(aa * log(pp/(1-pp)))
     mm = truncate_to_ab(Zth %*% Bsum %*% t(Zth), eps, 1-eps) # mean matrix
     term2 = sum( log(1-mm[which(upper.tri(mm))]) )
@@ -151,7 +151,7 @@ eval_dcsbm_like <- function(A, z, poi = T, eps = 1e-6) {
 }
 
 
-#' Log-likelihood ratio of two DCSBMs (fast with poi = T)
+#' Log-likelihood ratio of two DCSBMs (fast with poi = TRUE)
 #'
 #' Computes the log-likelihood ratio of one DCSBM relative to another, using
 #' estimated parameters `B` and `theta` based on the given label vectors.
@@ -174,7 +174,7 @@ eval_dcsbm_like <- function(A, z, poi = T, eps = 1e-6) {
 #' @seealso [eval_dcsbm_like], [eval_dcsbm_bic]
 #' @keywords mod_sel
 #' @export
-eval_dcsbm_loglr = function(A, labels, poi = T, eps = 1e-6) {
+eval_dcsbm_loglr = function(A, labels, poi = TRUE, eps = 1e-6) {
   eval_dcsbm_like(A, labels[ , 2], poi = poi, eps = eps) - eval_dcsbm_like(A, labels[ , 1], poi = poi, eps = eps)
 }
 
@@ -184,6 +184,7 @@ eval_dcsbm_loglr = function(A, labels, poi = T, eps = 1e-6) {
 #' @param z label vector
 #' @param K number of community in \code{z}
 #' @param poi whether to use Poisson version of likelihood
+#' @return BIC score
 #' @details the BIC score is calculated by -2*log likelihood minus \eqn{K\times(K + 1)\times log(n)}
 #' @section References:
 #' BIC score is originally proposed in

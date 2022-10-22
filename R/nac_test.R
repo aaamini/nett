@@ -32,12 +32,12 @@
 #' nac_test(A, K = 4)$stat
 #' nac_test(A, K = 4, cluster_fct = fast_cpl)$stat
 #' @export
-nac_test <- function(A, K, z = NULL, y = NULL, plus = T, cluster_fct = spec_clust, ...) {
+nac_test <- function(A, K, z = NULL, y = NULL, plus = TRUE, cluster_fct = spec_clust, ...) {
   if (is.null(cluster_fct)) cluster_fct <- spec_clust
 
   if (is.null(z)) z <- cluster_fct(A, K, ...)
 
-  if (!is.null(y)) plus <- T
+  if (!is.null(y)) plus <- TRUE
 
   if (plus){
     if (is.null(y)) y <- cluster_fct(A, K+1, ...)
