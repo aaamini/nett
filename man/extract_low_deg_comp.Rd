@@ -4,7 +4,7 @@
 \alias{extract_low_deg_comp}
 \title{Extract low-degree component}
 \usage{
-extract_low_deg_comp(g, deg_prec = 0.75, verb = F)
+extract_low_deg_comp(g, deg_prec = 0.75, verb = FALSE)
 }
 \arguments{
 \item{g}{The network as an igraph object}

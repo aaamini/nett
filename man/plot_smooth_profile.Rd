@@ -9,7 +9,7 @@ plot_smooth_profile(
   net_name = "",
   trunc_type = "none",
   spar = 0.3,
-  plot_null_spar = T,
+  plot_null_spar = TRUE,
   alpha = 0.3,
   base_font_size = 12
 )

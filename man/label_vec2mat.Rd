@@ -4,7 +4,7 @@
 \alias{label_vec2mat}
 \title{Convert label vector to matrix}
 \usage{
-label_vec2mat(z, K = NULL, sparse = F)
+label_vec2mat(z, K = NULL, sparse = FALSE)
 }
 \arguments{
 \item{z}{a label vector}
@@ -12,6 +12,9 @@ label_vec2mat(z, K = NULL, sparse = F)
 \item{K}{number of labels in \code{z}}
 
 \item{sparse}{whether the output should be sparse matrix}
+}
+\value{
+A cluster assignment matrix that follows from the label vector \code{z}
 }
 \description{
 Convert label vector to matrix

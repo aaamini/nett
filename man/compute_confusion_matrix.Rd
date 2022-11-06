@@ -13,6 +13,9 @@ compute_confusion_matrix(z, y, K = NULL)
 
 \item{K}{number of labels in both \code{z} and \code{y}}
 }
+\value{
+A \code{K}x\code{K} confusion matrix between \code{z} and \code{y}
+}
 \description{
 Compute confusion matrix
 }

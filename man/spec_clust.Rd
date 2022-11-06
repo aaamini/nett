@@ -11,7 +11,7 @@ spec_clust(
   tau = 0.25,
   nstart = 20,
   niter = 10,
-  ignore_first_col = F
+  ignore_first_col = FALSE
 )
 }
 \arguments{

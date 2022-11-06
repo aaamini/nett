@@ -9,6 +9,9 @@ printf(...)
 \arguments{
 \item{...}{printing object}
 }
+\value{
+the value of the printing object
+}
 \description{
 The usual "printf" function
 }

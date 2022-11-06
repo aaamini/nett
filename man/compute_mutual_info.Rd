@@ -11,7 +11,10 @@ compute_mutual_info(z, y)
 
 \item{y}{a label vector}
 }
+\value{
+NMI between \code{z} and \code{y}
+}
 \description{
-Compute normalized mutual information (NMI)
+Compute the NMI between two label vectors with the same cluster number
 }
 \keyword{evaluation}

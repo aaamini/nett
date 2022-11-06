@@ -4,10 +4,13 @@
 \alias{label_mat2vec}
 \title{Convert label matrix to vector}
 \usage{
-label_mat2vec(z)
+label_mat2vec(Z)
 }
 \arguments{
-\item{z}{a label vector with elements as integers from 1 to K}
+\item{Z}{a cluster assignment matrix}
+}
+\value{
+A label vector that follows the assignment matrix
 }
 \description{
 Convert label matrix to vector

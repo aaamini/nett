@@ -4,7 +4,7 @@
 \alias{plot_deg_dist}
 \title{Plot degree distribution}
 \usage{
-plot_deg_dist(gr, logx = T)
+plot_deg_dist(gr, logx = TRUE)
 }
 \arguments{
 \item{gr}{the network as an igraph object}

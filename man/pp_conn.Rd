@@ -10,7 +10,7 @@ pp_conn(
   lambda,
   pri,
   theta = rep(1, n),
-  normalize_theta = F,
+  normalize_theta = FALSE,
   d = rep(1, length(pri))
 )
 }

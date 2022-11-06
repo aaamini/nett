@@ -15,6 +15,9 @@ eval_dcsbm_bic(A, z, K, poi)
 
 \item{poi}{whether to use Poisson version of likelihood}
 }
+\value{
+BIC score
+}
 \description{
 compute BIC score when fitting a DCSBM to network data
 }

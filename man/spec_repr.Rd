@@ -4,7 +4,7 @@
 \alias{spec_repr}
 \title{Spectral Representation}
 \usage{
-spec_repr(A, K, type = "lap", tau = 0.25, ignore_first_col = F)
+spec_repr(A, K, type = "lap", tau = 0.25, ignore_first_col = FALSE)
 }
 \arguments{
 \item{A}{Adjacency matrix (n x n)}

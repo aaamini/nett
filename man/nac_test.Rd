@@ -4,7 +4,7 @@
 \alias{nac_test}
 \title{NAC test}
 \usage{
-nac_test(A, K, z = NULL, y = NULL, plus = T, cluster_fct = spec_clust, ...)
+nac_test(A, K, z = NULL, y = NULL, plus = TRUE, cluster_fct = spec_clust, ...)
 }
 \arguments{
 \item{A}{adjacency matrix.}

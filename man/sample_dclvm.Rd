@@ -15,6 +15,9 @@ sample_dclvm(z, lambda, theta, npairs = NULL)
 
 \item{npairs}{number of pairs of \eqn{\{z_i, z_j\}}}
 }
+\value{
+Adjacency matrix of DCLVM
+}
 \description{
 A DCLVM with \eqn{K} clusters has edges generated as
 \deqn{

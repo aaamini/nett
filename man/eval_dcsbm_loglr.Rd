@@ -2,9 +2,9 @@
 % Please edit documentation in R/estimate.R
 \name{eval_dcsbm_loglr}
 \alias{eval_dcsbm_loglr}
-\title{Log-likelihood ratio of two DCSBMs (fast with poi = T)}
+\title{Log-likelihood ratio of two DCSBMs (fast with poi = TRUE)}
 \usage{
-eval_dcsbm_loglr(A, labels, poi = T, eps = 1e-06)
+eval_dcsbm_loglr(A, labels, poi = TRUE, eps = 1e-06)
 }
 \arguments{
 \item{A}{adjacency matrix}

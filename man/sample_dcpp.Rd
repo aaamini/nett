@@ -11,7 +11,7 @@ sample_dcpp(
   oir,
   theta = NULL,
   pri = rep(1, K)/K,
-  normalize_theta = F
+  normalize_theta = FALSE
 )
 }
 \arguments{

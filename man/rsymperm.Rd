@@ -10,7 +10,7 @@ rsymperm(K)
 \item{K}{size of the matrix}
 }
 \value{
-A random K x K symmetric permutation matrix
+A random \code{K} x \code{K} symmetric permutation matrix
 }
 \description{
 Generate a random symmetric permutation matrix (recursively)

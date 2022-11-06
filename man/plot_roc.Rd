@@ -13,6 +13,9 @@ plot_roc(roc_results, method_names = NULL, font_size = 16)
 
 \item{font_size}{font size of the plot}
 }
+\value{
+Roc plot based on results from \link{simulate_roc}
+}
 \description{
 Plot ROC curves given results from \link{simulate_roc}.
 }

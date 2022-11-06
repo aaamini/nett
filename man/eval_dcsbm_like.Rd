@@ -2,9 +2,9 @@
 % Please edit documentation in R/estimate.R
 \name{eval_dcsbm_like}
 \alias{eval_dcsbm_like}
-\title{Log likelihood of a DCSBM (fast with poi = T)}
+\title{Log likelihood of a DCSBM (fast with poi = TRUE)}
 \usage{
-eval_dcsbm_like(A, z, poi = T, eps = 1e-06)
+eval_dcsbm_like(A, z, poi = TRUE, eps = 1e-06)
 }
 \arguments{
 \item{A}{adjacency matrix}

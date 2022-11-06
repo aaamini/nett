@@ -9,8 +9,8 @@ sinkhorn_knopp(
   sums = rep(1, nrow(A)),
   niter = 100,
   tol = 1e-08,
-  sym = F,
-  verb = F
+  sym = FALSE,
+  verb = FALSE
 )
 }
 \arguments{
@@ -26,6 +26,10 @@ sinkhorn_knopp(
 
 \item{verb}{whether to print the current change}
 }
+\value{
+Diagonal matrices D1 and D2 to make D1\emph{A}D2 into a matrix with
+given row/column sums.
+}
 \description{
 Implements the Sinkhorn--Knopp algorithm for transforming a square matrix
 with positive entries to a stochastic matrix with given common row and column
@@ -33,7 +37,7 @@ sums (e.g., a doubly stochastic matrix).
 }
 \details{
 Computes diagonal matrices D1 and D2 to make D1\emph{A}D2 into a matrix with
-given row/column sums. For a symmetric matrix \code{A}, one can set \code{sym = T} to
+given row/column sums. For a symmetric matrix \code{A}, one can set \code{sym = TRUE} to
 compute a symmetric scaling D\emph{A}D.
 }
 \keyword{utils}

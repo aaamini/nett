@@ -12,11 +12,11 @@ plot_net(
   heavy_edge_deg_perc = 0.97,
   coord = NULL,
   vsize_func = function(deg) log(deg + 3) * 1,
-  vertex_border = F,
+  vertex_border = FALSE,
   niter = 1000,
   vertex_alpha = 0.4,
-  remove_loops = T,
-  make_simple = F,
+  remove_loops = TRUE,
+  make_simple = FALSE,
   ...
 )
 }
@@ -47,6 +47,9 @@ If this argument is not NULL then it should be an appropriate matrix of starting
 \item{make_simple}{whether to simplify edge weight calculation}
 
 \item{...}{other settings}
+}
+\value{
+A network plot
 }
 \description{
 Plot a network using degree-modulated node sizes, community colors and other enhancements

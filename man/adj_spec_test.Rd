@@ -8,7 +8,7 @@ adj_spec_test(
   A,
   K,
   z = NULL,
-  DC = T,
+  DC = TRUE,
   theta = NULL,
   B = NULL,
   cluster_fct = spec_clust,
