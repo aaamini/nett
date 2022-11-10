@@ -15,7 +15,9 @@ Most of the computations haven been adapted to Poisson models to make them fast 
 Check out the [articles](https://aaamini.github.io/nett/) for some examples of how to use the package.
 
 ## Installation
-To install, you can use the following command
+The package is available on [CRAN](https://cran.r-project.org/web/packages/nett/index.html).
+
+To install the development version, you can use the following command
 
 <pre>
 devtools::install_github("aaamini/nett")
